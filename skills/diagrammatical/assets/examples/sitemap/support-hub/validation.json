@@ -1,0 +1,49 @@
+{
+  "directory": "skills/diagrammatical/assets/examples/sitemap/support-hub",
+  "diagram_id": "support-hub",
+  "files": {
+    "source": "diagram.yaml",
+    "html": "support-hub.html",
+    "svg": "support-hub.svg",
+    "validation": "validation.json"
+  },
+  "checks": {
+    "schema": {
+      "schema": "diagram",
+      "source": "skills/diagrammatical/assets/examples/sitemap/support-hub/diagram.yaml",
+      "errors": [],
+      "warnings": [],
+      "valid": true
+    },
+    "htmlSafety": {
+      "kind": "html",
+      "source": "skills/diagrammatical/assets/examples/sitemap/support-hub/support-hub.html",
+      "errors": [],
+      "warnings": [],
+      "valid": true
+    },
+    "svg": {
+      "kind": "svg",
+      "source": "skills/diagrammatical/assets/examples/sitemap/support-hub/support-hub.svg",
+      "errors": [],
+      "warnings": [],
+      "valid": true
+    },
+    "extraction": {
+      "valid": true,
+      "errors": [],
+      "warnings": []
+    }
+  },
+  "errors": [],
+  "warnings": [],
+  "valid": true,
+  "visualReview": {
+    "status": "completed",
+    "findings": [
+      "Rendered, revised, rerendered at 1200×820, and inspected at full resolution.",
+      "The first render made child destinations look like peer spokes; the final composition explicitly shows root, section, then destination.",
+      "The dashed escalation from diagnostics to ticket is separate from hierarchy; final spacing and labels are clear with no overlap."
+    ]
+  }
+}

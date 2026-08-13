@@ -1,0 +1,49 @@
+{
+  "directory": "skills/diagrammatical/assets/examples/gantt/release-gates",
+  "diagram_id": "release-gates",
+  "files": {
+    "source": "diagram.yaml",
+    "html": "release-gates.html",
+    "svg": "release-gates.svg",
+    "validation": "validation.json"
+  },
+  "checks": {
+    "schema": {
+      "schema": "diagram",
+      "source": "skills/diagrammatical/assets/examples/gantt/release-gates/diagram.yaml",
+      "errors": [],
+      "warnings": [],
+      "valid": true
+    },
+    "htmlSafety": {
+      "kind": "html",
+      "source": "skills/diagrammatical/assets/examples/gantt/release-gates/release-gates.html",
+      "errors": [],
+      "warnings": [],
+      "valid": true
+    },
+    "svg": {
+      "kind": "svg",
+      "source": "skills/diagrammatical/assets/examples/gantt/release-gates/release-gates.svg",
+      "errors": [],
+      "warnings": [],
+      "valid": true
+    },
+    "extraction": {
+      "valid": true,
+      "errors": [],
+      "warnings": []
+    }
+  },
+  "errors": [],
+  "warnings": [],
+  "valid": true,
+  "visualReview": {
+    "status": "completed",
+    "findings": [
+      "Rendered at 1200×820 in Chromium and inspected at full resolution.",
+      "Three exact milestone diamonds lead the composition while supporting bars retain accurate month-scale positions.",
+      "The dependency chain is traceable, labels remain readable, and critical emphasis is limited to the evidence task."
+    ]
+  }
+}

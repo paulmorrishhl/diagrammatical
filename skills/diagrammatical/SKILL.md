@@ -22,6 +22,8 @@ Read [references/workflow.md](references/workflow.md) before creating or revisin
 
 For an architecture request—including “Generate an architecture diagram of this repository”—read and follow [references/types/architecture.md](references/types/architecture.md) completely.
 
-For a flowchart request—including “Create a flowchart for this process”—read and follow [references/types/flowchart.md](references/types/flowchart.md) completely. Architecture and flowchart are the only diagram types with complete generation workflows in the current milestone; do not improvise sequence, site-map, or Gantt workflows from their rules.
+For a flowchart request—including “Create a flowchart for this process”—read and follow [references/types/flowchart.md](references/types/flowchart.md) completely.
+
+For “Show the login and token-refresh flow as a sequence diagram,” read [references/types/sequence.md](references/types/sequence.md). For “Create a site map from the routes in this project,” read [references/types/sitemap.md](references/types/sitemap.md). For “Create a Gantt diagram from this delivery plan,” read [references/types/gantt.md](references/types/gantt.md). All five v1 types now have complete workflows; never combine incompatible visual grammars in one diagram.
 
 Built-in defaults live under `assets/`: `brands/editorial-blueprint.yaml` supplies semantic roles, `styles/` supplies independent art directions, and `templates/` supplies static light, dark, and calibration HTML/SVG. User-owned brands and configuration always remain under `.diagrammatical/` in the user's project.

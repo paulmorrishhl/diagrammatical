@@ -1,0 +1,49 @@
+{
+  "directory": "skills/diagrammatical/assets/examples/sitemap/marketing-site",
+  "diagram_id": "marketing-site",
+  "files": {
+    "source": "diagram.yaml",
+    "html": "marketing-site.html",
+    "svg": "marketing-site.svg",
+    "validation": "validation.json"
+  },
+  "checks": {
+    "schema": {
+      "schema": "diagram",
+      "source": "skills/diagrammatical/assets/examples/sitemap/marketing-site/diagram.yaml",
+      "errors": [],
+      "warnings": [],
+      "valid": true
+    },
+    "htmlSafety": {
+      "kind": "html",
+      "source": "skills/diagrammatical/assets/examples/sitemap/marketing-site/marketing-site.html",
+      "errors": [],
+      "warnings": [],
+      "valid": true
+    },
+    "svg": {
+      "kind": "svg",
+      "source": "skills/diagrammatical/assets/examples/sitemap/marketing-site/marketing-site.svg",
+      "errors": [],
+      "warnings": [],
+      "valid": true
+    },
+    "extraction": {
+      "valid": true,
+      "errors": [],
+      "warnings": []
+    }
+  },
+  "errors": [],
+  "warnings": [],
+  "valid": true,
+  "visualReview": {
+    "status": "completed",
+    "findings": [
+      "Rendered at 1200×820 in Chromium and inspected at full resolution.",
+      "The root and three hierarchy levels read top-to-bottom with consistent sibling order.",
+      "The Customer stories to Contact sales cross-link is routed outside the tree with a dashed labelled cue; no branch tangles or clipping were observed."
+    ]
+  }
+}

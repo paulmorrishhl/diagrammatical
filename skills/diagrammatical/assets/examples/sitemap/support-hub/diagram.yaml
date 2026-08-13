@@ -1,0 +1,29 @@
+schemaVersion: 1
+diagram: {id: support-hub, title: Support navigation hub, type: sitemap, audience: executive, purpose: Show how customers navigate from one support hub to answers or assistance, primaryMessage: The support hub offers three clear routes with escalation from guidance to contact}
+nodes:
+  - {id: support, label: Support hub, kind: page, route: /support, pageKind: global-navigation, visibility: public, lifecycle: existing, emphasis: primary}
+  - {id: learn, label: Learn, kind: section, route: /support/learn, pageKind: section, visibility: public, lifecycle: existing}
+  - {id: documentation, label: Documentation, kind: page, route: /docs, pageKind: external-destination, visibility: public, lifecycle: existing}
+  - {id: troubleshoot, label: Troubleshoot, kind: section, route: /support/troubleshoot, pageKind: section, visibility: public, lifecycle: existing}
+  - {id: diagnostics, label: Run diagnostics, kind: page, route: /support/diagnostics, pageKind: screen, visibility: public, lifecycle: existing}
+  - {id: contact, label: Contact support, kind: section, route: /support/contact, pageKind: section, visibility: authenticated, lifecycle: existing}
+  - {id: ticket, label: Submit ticket, kind: page, route: /support/contact/ticket, pageKind: screen, visibility: authenticated, lifecycle: existing}
+edges: []
+groups: []
+sitemap:
+  root: support
+  hierarchy:
+    - {parent: support, child: learn, order: 1}
+    - {parent: learn, child: documentation, order: 1}
+    - {parent: support, child: troubleshoot, order: 2}
+    - {parent: troubleshoot, child: diagnostics, order: 1}
+    - {parent: support, child: contact, order: 3}
+    - {parent: contact, child: ticket, order: 1}
+  crossLinks:
+    - {id: diagnostics-to-ticket, from: diagnostics, to: ticket, label: Escalate unresolved issue, treatment: dashed}
+presentation: {composition: hub-navigation, direction: left-to-right, brand: editorial-blueprint, style: executive, mode: light, detail: minimal, outputPreset: document-wide, focalNodes: [support, ticket]}
+fidelity:
+  source: Representative support navigation and escalation policy
+  collapsed: [Article categories are collapsed into Documentation.]
+  omitted: [Community navigation is omitted from the primary assistance routes.]
+  assumptions: [Submitting a ticket requires authentication.]

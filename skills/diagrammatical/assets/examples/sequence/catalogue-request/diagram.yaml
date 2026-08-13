@@ -1,0 +1,27 @@
+schemaVersion: 1
+diagram: {id: catalogue-request, title: Catalogue request, type: sequence, audience: engineer, purpose: Explain how a product request resolves through cache and catalogue, primaryMessage: The API returns cached product data after one catalogue lookup}
+nodes:
+  - {id: browser, label: Browser, kind: actor}
+  - {id: api, label: Storefront API, kind: service, emphasis: primary}
+  - {id: cache, label: Product cache, kind: component}
+  - {id: catalogue, label: Catalogue service, kind: external-service}
+edges: []
+groups: []
+sequence:
+  focalMessages: [fetch-product]
+  messages:
+    - {id: request-product, from: browser, to: api, label: GET product, order: 1, kind: sync}
+    - {id: check-cache, from: api, to: cache, label: Read cache, order: 2, kind: sync}
+    - {id: cache-miss, from: cache, to: api, label: Cache miss, order: 3, kind: return}
+    - {id: fetch-product, from: api, to: catalogue, label: Fetch product, order: 4, kind: sync, focal: true}
+    - {id: product-record, from: catalogue, to: api, label: Product record, order: 5, kind: return}
+    - {id: store-cache, from: api, to: cache, label: Store result, order: 6, kind: sync}
+    - {id: product-response, from: api, to: browser, label: 200 product, order: 7, kind: return}
+  activations:
+    - {id: api-request-span, participant: api, startOrder: 1, endOrder: 7}
+presentation: {composition: request-response, direction: top-to-bottom, brand: editorial-blueprint, style: technical, mode: light, detail: detailed, outputPreset: document-wide, focalNodes: [api]}
+fidelity:
+  source: Representative storefront request trace
+  collapsed: [Serialization and cache-key construction are collapsed into the API messages.]
+  omitted: [Observability calls are omitted from the primary request path.]
+  assumptions: [A cache miss is shown because it exposes the catalogue dependency.]

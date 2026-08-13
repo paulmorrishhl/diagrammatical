@@ -1,0 +1,35 @@
+schemaVersion: 1
+diagram: {id: product-areas, title: Signed-in product areas, type: sitemap, audience: mixed, purpose: Clarify authenticated product navigation and grouped responsibilities, primaryMessage: "The workspace shell organises work, insights and administration into three stable areas"}
+nodes:
+  - {id: workspace, label: Workspace, kind: page, route: /app, pageKind: global-navigation, visibility: authenticated, lifecycle: existing, emphasis: primary}
+  - {id: work, label: Work, kind: section, route: /app/work, pageKind: section, visibility: authenticated, lifecycle: existing}
+  - {id: queue, label: My queue, kind: page, route: /app/work/queue, pageKind: screen, visibility: authenticated, lifecycle: existing}
+  - {id: projects, label: Projects, kind: page, route: /app/work/projects, pageKind: screen, visibility: authenticated, lifecycle: existing}
+  - {id: insights, label: Insights, kind: section, route: /app/insights, pageKind: section, visibility: authenticated, lifecycle: existing}
+  - {id: dashboard, label: Dashboard, kind: page, route: /app/insights/dashboard, pageKind: screen, visibility: authenticated, lifecycle: existing}
+  - {id: reports, label: Reports, kind: page, route: /app/insights/reports, pageKind: screen, visibility: authenticated, lifecycle: planned}
+  - {id: admin, label: Administration, kind: section, route: /app/admin, pageKind: section, visibility: authenticated, lifecycle: existing}
+  - {id: people, label: People, kind: page, route: /app/admin/people, pageKind: screen, visibility: authenticated, lifecycle: existing}
+  - {id: settings, label: Settings, kind: page, route: /app/admin/settings, pageKind: screen, visibility: authenticated, lifecycle: existing}
+edges: []
+groups: []
+sitemap:
+  root: workspace
+  hierarchy:
+    - {parent: workspace, child: work, order: 1}
+    - {parent: work, child: queue, order: 1}
+    - {parent: work, child: projects, order: 2}
+    - {parent: workspace, child: insights, order: 2}
+    - {parent: insights, child: dashboard, order: 1}
+    - {parent: insights, child: reports, order: 2}
+    - {parent: workspace, child: admin, order: 3}
+    - {parent: admin, child: people, order: 1}
+    - {parent: admin, child: settings, order: 2}
+  crossLinks:
+    - {id: dashboard-to-projects, from: dashboard, to: projects, label: Open project, treatment: dotted}
+presentation: {composition: product-sections, direction: top-to-bottom, brand: editorial-blueprint, style: technical, mode: dark, detail: detailed, outputPreset: document-wide, focalNodes: [workspace]}
+fidelity:
+  source: Representative React Router configuration and signed-in navigation
+  collapsed: [Dynamic project identifiers are collapsed into Projects.]
+  omitted: [Modal-only routes and API endpoints are omitted.]
+  assumptions: [Reports is planned and visible only to authenticated users.]

@@ -247,6 +247,22 @@ def validate_svg_text(
                 f"{path_role} path requires both data-path-label and data-path-cue so its "
                 "meaning is explicit and does not rely on colour"
             )
+        message_kind = element.attrib.get("data-message-kind")
+        if message_kind in {"async", "return"} and not element.attrib.get(
+            "data-message-cue"
+        ):
+            result.errors.append(
+                f"sequence {message_kind} message requires data-message-cue so line or "
+                "arrow treatment, not colour alone, carries meaning"
+            )
+        if element.attrib.get("data-link") == "cross" and not (
+            element.attrib.get("data-link-label")
+            and element.attrib.get("data-link-cue")
+        ):
+            result.errors.append(
+                "site-map cross-link requires data-link-label and data-link-cue so it is "
+                "distinguishable from hierarchy links"
+            )
 
     if labelled_by:
         missing = [reference for reference in labelled_by if reference not in ids]

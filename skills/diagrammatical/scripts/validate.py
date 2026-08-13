@@ -15,6 +15,11 @@ from typing import Any
 import yaml
 from jsonschema import Draft202012Validator, FormatChecker
 
+try:
+    from .gantt_dates import inclusive_duration, parse_iso_date, resolve_end, select_scale
+except ImportError:
+    from gantt_dates import inclusive_duration, parse_iso_date, resolve_end, select_scale
+
 SKILL_ROOT = Path(__file__).resolve().parents[1]
 SCHEMA_ROOT = SKILL_ROOT / "schemas"
 SCHEMA_FILES = {
@@ -26,9 +31,7 @@ MAX_SOURCE_BYTES = 1_000_000
 COMPLEXITY_CAPS = {
     "architecture": {"nodes": 9, "edges": 12, "groups": 4},
     "flowchart": {"nodes": 10, "edges": 14},
-    "sequence": {"nodes": 5, "edges": 12, "groups": 1},
-    "sitemap": {"nodes": 16, "edges": 20, "groups": 4},
-    "gantt": {"nodes": 12, "edges": 20, "groups": 4},
+    "sitemap": {"nodes": 16},
 }
 ARCHITECTURE_NODE_KINDS = {
     "actor",
@@ -52,6 +55,16 @@ FLOWCHART_NODE_KINDS = {
     "input",
 }
 FLOWCHART_TERMINAL_KINDS = {"end", "outcome"}
+
+
+class _StringDateSafeLoader(yaml.SafeLoader):
+    """Safe YAML loader that leaves ISO-looking dates as source strings."""
+
+
+for first_character, resolvers in list(_StringDateSafeLoader.yaml_implicit_resolvers.items()):
+    _StringDateSafeLoader.yaml_implicit_resolvers[first_character] = [
+        resolver for resolver in resolvers if resolver[0] != "tag:yaml.org,2002:timestamp"
+    ]
 
 
 class SourceLoadError(ValueError):
@@ -87,7 +100,7 @@ def load_structured_file(path: Path) -> dict[str, Any]:
             f"source exceeds the {MAX_SOURCE_BYTES:,}-byte validation limit: {path}"
         )
     try:
-        value = yaml.safe_load(path.read_text(encoding="utf-8"))
+        value = yaml.load(path.read_text(encoding="utf-8"), Loader=_StringDateSafeLoader)
     except (OSError, UnicodeError, yaml.YAMLError) as exc:
         raise SourceLoadError(f"could not safely parse {path}: {exc}") from exc
     if not isinstance(value, dict):
@@ -130,6 +143,9 @@ def _duplicate_id_errors(document: Mapping[str, Any]) -> list[str]:
         ("edge", document.get("edges", [])),
         ("group", document.get("groups", [])),
         ("sequence message", document.get("sequence", {}).get("messages", [])),
+        ("sequence fragment", document.get("sequence", {}).get("fragments", [])),
+        ("sequence activation", document.get("sequence", {}).get("activations", [])),
+        ("site-map cross-link", document.get("sitemap", {}).get("crossLinks", [])),
         ("Gantt task", document.get("gantt", {}).get("tasks", [])),
     )
     for kind, items in collections:
@@ -144,6 +160,330 @@ def _duplicate_id_errors(document: Mapping[str, Any]) -> list[str]:
             else:
                 seen[item_id] = kind
     return errors
+
+
+def _focal_ids(document: Mapping[str, Any]) -> set[str]:
+    nodes = [node for node in document.get("nodes", []) if isinstance(node, dict)]
+    focal = {
+        node["id"]
+        for node in nodes
+        if node.get("emphasis") == "primary" and isinstance(node.get("id"), str)
+    }
+    presentation = document.get("presentation", {})
+    if isinstance(presentation, dict):
+        focal.update(
+            value for value in presentation.get("focalNodes", []) if isinstance(value, str)
+        )
+    return focal
+
+
+def _sequence_checks(document: Mapping[str, Any]) -> tuple[list[str], list[str]]:
+    metadata = document.get("diagram", {})
+    if not isinstance(metadata, dict) or metadata.get("type") != "sequence":
+        return [], []
+    errors: list[str] = []
+    warnings: list[str] = []
+    participants = {
+        node.get("id")
+        for node in document.get("nodes", [])
+        if isinstance(node, dict) and isinstance(node.get("id"), str)
+    }
+    sequence = document.get("sequence", {})
+    messages = sequence.get("messages", []) if isinstance(sequence, dict) else []
+    if not participants:
+        errors.append("sequence diagram needs at least one participant or lifeline")
+    orders: list[int] = []
+    message_ids: set[str] = set()
+    for message in messages:
+        if not isinstance(message, dict):
+            continue
+        message_id = message.get("id")
+        if isinstance(message_id, str):
+            message_ids.add(message_id)
+        for endpoint in ("from", "to"):
+            value = message.get(endpoint)
+            if isinstance(value, str) and value not in participants:
+                errors.append(
+                    f"sequence message '{message_id}' references unknown {endpoint} "
+                    f"participant '{value}'"
+                )
+        order = message.get("order")
+        if isinstance(order, int):
+            orders.append(order)
+    if len(orders) != len(set(orders)):
+        errors.append("sequence message order values must be unique")
+    if orders and sorted(orders) != list(range(1, len(orders) + 1)):
+        errors.append("sequence message order must be contiguous from 1 without gaps")
+    max_order = max(orders, default=0)
+    fragments = sequence.get("fragments", []) if isinstance(sequence, dict) else []
+    major_fragments = 0
+    for fragment in fragments:
+        if not isinstance(fragment, dict):
+            continue
+        start = fragment.get("startOrder")
+        end = fragment.get("endOrder")
+        fragment_id = fragment.get("id")
+        if isinstance(start, int) and isinstance(end, int):
+            if start > end:
+                errors.append(f"sequence fragment '{fragment_id}' starts after it ends")
+            if start < 1 or end > max_order:
+                errors.append(
+                    f"sequence fragment '{fragment_id}' references an invalid message range"
+                )
+        if fragment.get("kind") == "loop" and not str(fragment.get("guard", "")).strip():
+            errors.append(
+                f"sequence loop fragment '{fragment_id}' needs a guard or termination description"
+            )
+        if fragment.get("kind") in {"alternative", "exception"}:
+            major_fragments += 1
+    for activation in sequence.get("activations", []) if isinstance(sequence, dict) else []:
+        if not isinstance(activation, dict):
+            continue
+        if activation.get("participant") not in participants:
+            errors.append(
+                f"sequence activation '{activation.get('id')}' references an unknown participant"
+            )
+        if activation.get("startOrder", 0) > activation.get("endOrder", 0):
+            errors.append(f"sequence activation '{activation.get('id')}' starts after it ends")
+    for note in sequence.get("notes", []) if isinstance(sequence, dict) else []:
+        if isinstance(note, dict) and note.get("participant") not in participants:
+            errors.append(f"sequence note '{note.get('id')}' references an unknown participant")
+    focal_messages = {
+        message.get("id")
+        for message in messages
+        if isinstance(message, dict) and message.get("focal") is True
+    }
+    if isinstance(sequence, dict):
+        focal_messages.update(sequence.get("focalMessages", []))
+    unknown_focal = focal_messages - message_ids
+    if unknown_focal:
+        errors.append(
+            "sequence focalMessages references unknown message(s): "
+            + ", ".join(sorted(unknown_focal))
+        )
+    if len(focal_messages) > 2:
+        errors.append(
+            f"sequence diagrams allow at most 2 focal messages; found {len(focal_messages)}"
+        )
+    if len(participants) > 5:
+        warnings.append(
+            f"sequence lifeline count {len(participants)} exceeds the budget of 5; "
+            "split overview and detail sequences"
+        )
+    if len(messages) > 12:
+        warnings.append(
+            f"sequence message count {len(messages)} exceeds the budget of 12; preserve "
+            "chronological order and collapse only repeated low-value calls"
+        )
+    if major_fragments > 1:
+        warnings.append(
+            "sequence major alternative/exception fragment count "
+            f"{major_fragments} exceeds the budget of 1"
+        )
+    return errors, warnings
+
+
+def _sitemap_checks(document: Mapping[str, Any]) -> tuple[list[str], list[str]]:
+    metadata = document.get("diagram", {})
+    if not isinstance(metadata, dict) or metadata.get("type") != "sitemap":
+        return [], []
+    errors: list[str] = []
+    warnings: list[str] = []
+    node_ids = {
+        node.get("id")
+        for node in document.get("nodes", [])
+        if isinstance(node, dict) and isinstance(node.get("id"), str)
+    }
+    sitemap = document.get("sitemap", {})
+    root = sitemap.get("root") if isinstance(sitemap, dict) else None
+    if root not in node_ids:
+        errors.append(f"site map root '{root}' does not reference a declared node")
+    parent_of: dict[str, str] = {}
+    children: dict[str, list[str]] = {node_id: [] for node_id in node_ids}
+    for relation in sitemap.get("hierarchy", []) if isinstance(sitemap, dict) else []:
+        if not isinstance(relation, dict):
+            continue
+        parent, child = relation.get("parent"), relation.get("child")
+        if parent not in node_ids:
+            errors.append(f"site map hierarchy references unknown parent '{parent}'")
+        if child not in node_ids:
+            errors.append(f"site map hierarchy references unknown child '{child}'")
+        if isinstance(child, str) and child in parent_of:
+            errors.append(f"site map node '{child}' has multiple parents")
+        elif isinstance(parent, str) and isinstance(child, str):
+            parent_of[child] = parent
+            if parent in children:
+                children[parent].append(child)
+    undeclared_roots = sorted(
+        node_ids - set(parent_of) - ({root} if isinstance(root, str) else set())
+    )
+    if undeclared_roots:
+        errors.append("site map has multiple undeclared roots: " + ", ".join(undeclared_roots))
+    for node_id in node_ids:
+        seen: set[str] = set()
+        current = node_id
+        while current in parent_of:
+            if current in seen:
+                errors.append(f"site map hierarchy contains a cycle involving '{node_id}'")
+                break
+            seen.add(current)
+            current = parent_of[current]
+    depths: dict[str, int] = {}
+    for node_id in node_ids:
+        depth = 1
+        current = node_id
+        seen: set[str] = set()
+        while current in parent_of and current not in seen:
+            seen.add(current)
+            current = parent_of[current]
+            depth += 1
+        depths[node_id] = depth
+    if depths and max(depths.values()) > 4:
+        warnings.append(
+            f"site map hierarchy depth {max(depths.values())} exceeds the budget of 4; "
+            "create top-level and section maps"
+        )
+    for parent, values in sorted(children.items()):
+        if len(values) > 5:
+            warnings.append(
+                f"site map parent '{parent}' has {len(values)} siblings, exceeding the "
+                "regrouping threshold of 5"
+            )
+    for link in sitemap.get("crossLinks", []) if isinstance(sitemap, dict) else []:
+        if not isinstance(link, dict):
+            continue
+        if link.get("from") not in node_ids or link.get("to") not in node_ids:
+            errors.append(f"site map cross-link '{link.get('id')}' references an unknown node")
+        if link.get("treatment") not in {"dashed", "dotted"}:
+            errors.append(
+                f"site map cross-link '{link.get('id')}' must be visually distinct from "
+                "hierarchy links"
+            )
+    if len(_focal_ids(document)) > 2:
+        errors.append("site maps allow at most 2 focal elements")
+    return errors, warnings
+
+
+def _gantt_checks(document: Mapping[str, Any]) -> tuple[list[str], list[str]]:
+    metadata = document.get("diagram", {})
+    if not isinstance(metadata, dict) or metadata.get("type") != "gantt":
+        return [], []
+    errors: list[str] = []
+    warnings: list[str] = []
+    gantt = document.get("gantt", {})
+    if not isinstance(gantt, dict):
+        return ["gantt data must be an object"], []
+    try:
+        plan_start = parse_iso_date(gantt.get("planStart"))
+        plan_end = parse_iso_date(gantt.get("planEnd"))
+        inclusive_duration(plan_start, plan_end)
+    except ValueError as exc:
+        return [f"gantt plan range: {exc}"], []
+    if gantt.get("scale") != select_scale(plan_start, plan_end):
+        warnings.append(
+            f"gantt scale '{gantt.get('scale')}' differs from deterministic recommendation "
+            f"'{select_scale(plan_start, plan_end)}'"
+        )
+    tasks = [task for task in gantt.get("tasks", []) if isinstance(task, dict)]
+    task_ids = {task.get("id") for task in tasks if isinstance(task.get("id"), str)}
+    phase_ranges: dict[str, tuple[Any, Any]] = {}
+    for phase in gantt.get("phases", []):
+        if not isinstance(phase, dict):
+            continue
+        try:
+            phase_start = parse_iso_date(phase.get("start"))
+            phase_end = parse_iso_date(phase.get("end"))
+            inclusive_duration(phase_start, phase_end)
+        except ValueError as exc:
+            errors.append(f"Gantt phase '{phase.get('id')}': {exc}")
+            continue
+        if phase_start < plan_start or phase_end > plan_end:
+            errors.append(f"Gantt phase '{phase.get('id')}' falls outside the plan range")
+        phase_ranges[str(phase.get("id"))] = (phase_start, phase_end)
+    phase_items = list(phase_ranges.items())
+    for index, (left_id, (left_start, left_end)) in enumerate(phase_items):
+        for right_id, (right_start, right_end) in phase_items[index + 1 :]:
+            if max(left_start, right_start) <= min(left_end, right_end):
+                warnings.append(
+                    f"Gantt phases '{left_id}' and '{right_id}' overlap; confirm that the "
+                    "overlap is intentional"
+                )
+    dependencies: dict[str, list[str]] = {}
+    milestone_count = 0
+    critical_count = 0
+    for task in tasks:
+        task_id = task.get("id")
+        try:
+            start = parse_iso_date(task.get("start"))
+            end = (
+                parse_iso_date(task["end"])
+                if "end" in task
+                else resolve_end(start, task.get("durationDays"))
+            )
+            inclusive_duration(start, end)
+        except (KeyError, ValueError) as exc:
+            errors.append(f"Gantt task '{task_id}': {exc}")
+            continue
+        if start < plan_start or end > plan_end:
+            errors.append(f"Gantt task '{task_id}' falls outside the declared plan range")
+        phase_id = task.get("phase")
+        if isinstance(phase_id, str):
+            if phase_id not in phase_ranges:
+                errors.append(f"Gantt task '{task_id}' references unknown phase '{phase_id}'")
+            else:
+                phase_start, phase_end = phase_ranges[phase_id]
+                if start < phase_start or end > phase_end:
+                    warnings.append(
+                        f"Gantt task '{task_id}' extends outside its declared phase '{phase_id}'"
+                    )
+        if task.get("milestone") is True:
+            milestone_count += 1
+            if start != end:
+                errors.append(
+                    f"Gantt milestone '{task_id}' must have zero elapsed duration "
+                    "(same start and end date)"
+                )
+        if task.get("critical") is True:
+            critical_count += 1
+        values = [value for value in task.get("dependencies", []) if isinstance(value, str)]
+        dependencies[str(task_id)] = values
+        for dependency in values:
+            if dependency not in task_ids:
+                errors.append(
+                    f"Gantt task '{task_id}' references unknown dependency '{dependency}'"
+                )
+
+    def visit(task_id: str, visiting: set[str], visited: set[str]) -> None:
+        if task_id in visiting:
+            errors.append(f"Gantt dependency cycle includes '{task_id}'")
+            return
+        if task_id in visited:
+            return
+        visiting.add(task_id)
+        for dependency in dependencies.get(task_id, []):
+            if dependency in task_ids:
+                visit(dependency, visiting, visited)
+        visiting.remove(task_id)
+        visited.add(task_id)
+
+    visited: set[str] = set()
+    for task_id in dependencies:
+        visit(task_id, set(), visited)
+    if len(tasks) > 12:
+        warnings.append(
+            f"Gantt task count {len(tasks)} exceeds the budget of 12; group truthful "
+            "phases and preserve material milestones"
+        )
+    workstreams = gantt.get("workstreams", [])
+    if len(workstreams) > 4:
+        warnings.append(f"Gantt workstream count {len(workstreams)} exceeds the budget of 4")
+    if milestone_count > 8:
+        warnings.append(f"Gantt milestone count {milestone_count} exceeds the budget of 8")
+    if critical_count > 1:
+        errors.append(
+            f"Gantt diagrams allow at most 1 primary critical-path emphasis; found {critical_count}"
+        )
+    return errors, warnings
 
 
 def _reference_errors(document: Mapping[str, Any]) -> list[str]:
@@ -272,9 +612,7 @@ def _architecture_errors(document: Mapping[str, Any]) -> list[str]:
         node_id = node.get("id")
         node_kind = node.get("kind")
         if isinstance(node_kind, str) and node_kind not in ARCHITECTURE_NODE_KINDS:
-            errors.append(
-                f"architecture node '{node_id}' uses unsupported kind '{node_kind}'"
-            )
+            errors.append(f"architecture node '{node_id}' uses unsupported kind '{node_kind}'")
         direct_groups = memberships.get(node_id, [])
         if len(direct_groups) > 1:
             errors.append(
@@ -339,9 +677,7 @@ def _flowchart_checks(document: Mapping[str, Any]) -> tuple[list[str], list[str]
     warnings: list[str] = []
     nodes = [node for node in document.get("nodes", []) if isinstance(node, dict)]
     edges = [edge for edge in document.get("edges", []) if isinstance(edge, dict)]
-    node_by_id = {
-        node["id"]: node for node in nodes if isinstance(node.get("id"), str)
-    }
+    node_by_id = {node["id"]: node for node in nodes if isinstance(node.get("id"), str)}
     starts = [node_id for node_id, node in node_by_id.items() if node.get("kind") == "start"]
     terminals = {
         node_id
@@ -350,9 +686,7 @@ def _flowchart_checks(document: Mapping[str, Any]) -> tuple[list[str], list[str]
     }
     adjacency: dict[str, list[str]] = {node_id: [] for node_id in node_by_id}
     incoming: dict[str, int] = {node_id: 0 for node_id in node_by_id}
-    outgoing_edges: dict[str, list[dict[str, Any]]] = {
-        node_id: [] for node_id in node_by_id
-    }
+    outgoing_edges: dict[str, list[dict[str, Any]]] = {node_id: [] for node_id in node_by_id}
     for edge in edges:
         source = edge.get("from")
         target = edge.get("to")
@@ -407,14 +741,10 @@ def _flowchart_checks(document: Mapping[str, Any]) -> tuple[list[str], list[str]
         reached = reachable_from(start)
         reached_from_starts.update(reached)
         if terminals and not reached.intersection(terminals):
-            errors.append(
-                f"flowchart start '{start}' has no reachable end or outcome node"
-            )
+            errors.append(f"flowchart start '{start}' has no reachable end or outcome node")
 
     for node_id in sorted(node_by_id.keys() - reached_from_starts):
-        warnings.append(
-            f"flowchart node '{node_id}' is unreachable from every declared start"
-        )
+        warnings.append(f"flowchart node '{node_id}' is unreachable from every declared start")
     for node_id in sorted(node_by_id):
         if node_id not in starts and incoming[node_id] == 0:
             warnings.append(
@@ -442,9 +772,7 @@ def _flowchart_checks(document: Mapping[str, Any]) -> tuple[list[str], list[str]
     for node_id in node_by_id:
         find_cycles(node_id, [])
     no_exit = sorted(
-        node_id
-        for node_id in cycle_nodes
-        if not reachable_from(node_id).intersection(terminals)
+        node_id for node_id in cycle_nodes if not reachable_from(node_id).intersection(terminals)
     )
     if no_exit:
         warnings.append(
@@ -468,9 +796,7 @@ def _flowchart_checks(document: Mapping[str, Any]) -> tuple[list[str], list[str]
     }
     if isinstance(presentation, dict):
         focal_ids.update(
-            node_id
-            for node_id in presentation.get("focalNodes", [])
-            if isinstance(node_id, str)
+            node_id for node_id in presentation.get("focalNodes", []) if isinstance(node_id, str)
         )
     if len(focal_ids) > 2:
         errors.append(
@@ -540,6 +866,10 @@ def validate_document(
         flowchart_errors, flowchart_warnings = _flowchart_checks(document)
         result.errors.extend(flowchart_errors)
         result.warnings.extend(flowchart_warnings)
+        for checker in (_sequence_checks, _sitemap_checks, _gantt_checks):
+            type_errors, type_warnings = checker(document)
+            result.errors.extend(type_errors)
+            result.warnings.extend(type_warnings)
         result.warnings.extend(_complexity_warnings(document))
     elif kind == "config":
         result.warnings.extend(_unknown_config_warnings(document, load_schema("config")))

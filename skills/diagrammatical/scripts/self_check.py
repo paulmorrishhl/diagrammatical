@@ -83,9 +83,11 @@ def run_self_check(directory: Path, *, require_validation: bool = True) -> SelfC
 
     source_check = validate_document(document, "diagram", source=str(source_path))
     _record(result, "schema", source_check)
-    if metadata.get("type") not in {"architecture", "flowchart"}:
+    if metadata.get("type") not in {
+        "architecture", "flowchart", "sequence", "sitemap", "gantt"
+    }:
         result.errors.append(
-            "self-check currently accepts architecture and flowchart diagrams only"
+            "self-check accepts architecture, flowchart, sequence, sitemap, and Gantt diagrams"
         )
 
     if html_path.is_file():

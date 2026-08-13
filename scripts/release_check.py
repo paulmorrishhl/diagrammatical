@@ -15,7 +15,7 @@ def main() -> int:
         [sys.executable, "scripts/verify_package.py"],
         [sys.executable, "-m", "pytest"],
     ]
-    for example_type in ("architecture", "flowchart"):
+    for example_type in ("architecture", "flowchart", "sequence", "sitemap", "gantt"):
         examples = ROOT / "skills/diagrammatical/assets/examples" / example_type
         commands.extend(
             [sys.executable, "skills/diagrammatical/scripts/self_check.py", str(path)]

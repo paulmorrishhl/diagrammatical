@@ -7,11 +7,15 @@ from pathlib import Path
 from scripts.verify_package import (
     ARCHITECTURE_EXAMPLES,
     FLOWCHART_EXAMPLES,
+    GANTT_EXAMPLES,
     MILESTONE_2_RESOURCES,
     MILESTONE_3_RESOURCES,
     MILESTONE_4_RESOURCES,
+    MILESTONE_5_RESOURCES,
     PUBLIC_COMMANDS,
     ROOT,
+    SEQUENCE_EXAMPLES,
+    SITEMAP_EXAMPLES,
     verify_repository,
 )
 
@@ -30,9 +34,7 @@ class PackageTests(unittest.TestCase):
         self.assertIn("communication purpose and audience", create_command)
 
     def test_manifest_versions_are_consistent(self) -> None:
-        plugin = json.loads(
-            (ROOT / ".claude-plugin/plugin.json").read_text(encoding="utf-8")
-        )
+        plugin = json.loads((ROOT / ".claude-plugin/plugin.json").read_text(encoding="utf-8"))
         marketplace = json.loads(
             (ROOT / ".claude-plugin/marketplace.json").read_text(encoding="utf-8")
         )
@@ -64,6 +66,17 @@ class PackageTests(unittest.TestCase):
             {path.name for path in examples.iterdir() if path.is_dir()},
             set(FLOWCHART_EXAMPLES),
         )
+
+    def test_milestone_5_resources_and_examples_ship_inside_the_plugin(self) -> None:
+        for resource in MILESTONE_5_RESOURCES:
+            self.assertTrue((ROOT / resource).is_file(), resource)
+        for kind, expected in (
+            ("sequence", SEQUENCE_EXAMPLES),
+            ("sitemap", SITEMAP_EXAMPLES),
+            ("gantt", GANTT_EXAMPLES),
+        ):
+            root = ROOT / "skills/diagrammatical/assets/examples" / kind
+            self.assertEqual({path.name for path in root.iterdir() if path.is_dir()}, set(expected))
 
 
 if __name__ == "__main__":

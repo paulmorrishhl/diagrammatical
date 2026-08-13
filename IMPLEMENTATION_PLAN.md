@@ -26,9 +26,11 @@ Add the complete flowchart reference, five compositions, decision and exception 
 
 Verification: validate flowchart semantics and graph integrity; test all five compositions, decision branches, starts/outcomes, retry cycles, complexity and focal budgets, and exception non-colour cues; render and inspect three materially different examples; rerun every architecture self-check; verify the exact four-file deliverable set and absence of PNG; install from an isolated local marketplace; and invoke the shared create command against a representative process fixture. Live invocation requires an authenticated Claude Code session.
 
-## Milestone 5 — Sequence, site map, and Gantt (planned)
+## Milestone 5 — Sequence, site map, and Gantt (implemented; live Claude invocation verification pending)
 
 Add full references and reviewed examples for the remaining types, type-specific semantic validation, chronological sequence rules, rooted hierarchy checks, and deterministic Gantt date/duration calculations.
+
+Verification: validate sequence chronology, participants and fragments; validate site-map roots, hierarchy, routes and cross-links; validate Gantt ranges, dependencies, milestones, budgets and inclusive-date geometry; prove exact date-to-coordinate mappings for every checked-in Gantt bar; render and inspect nine materially different examples; rerun all architecture and flowchart self-checks; verify packaging and absence of PNG; install from an isolated local marketplace; and invoke each diagram type through the shared create command. Live invocation requires an authenticated Claude Code session.
 
 ## Milestone 6 — Branding workflow (planned)
 

@@ -1,0 +1,49 @@
+{
+  "directory": "skills/diagrammatical/assets/examples/sequence/token-refresh",
+  "diagram_id": "token-refresh",
+  "files": {
+    "source": "diagram.yaml",
+    "html": "token-refresh.html",
+    "svg": "token-refresh.svg",
+    "validation": "validation.json"
+  },
+  "checks": {
+    "schema": {
+      "schema": "diagram",
+      "source": "skills/diagrammatical/assets/examples/sequence/token-refresh/diagram.yaml",
+      "errors": [],
+      "warnings": [],
+      "valid": true
+    },
+    "htmlSafety": {
+      "kind": "html",
+      "source": "skills/diagrammatical/assets/examples/sequence/token-refresh/token-refresh.html",
+      "errors": [],
+      "warnings": [],
+      "valid": true
+    },
+    "svg": {
+      "kind": "svg",
+      "source": "skills/diagrammatical/assets/examples/sequence/token-refresh/token-refresh.svg",
+      "errors": [],
+      "warnings": [],
+      "valid": true
+    },
+    "extraction": {
+      "valid": true,
+      "errors": [],
+      "warnings": []
+    }
+  },
+  "errors": [],
+  "warnings": [],
+  "valid": true,
+  "visualReview": {
+    "status": "completed",
+    "findings": [
+      "Rendered at 1200×820 in Chromium and inspected at full resolution.",
+      "The expired-token fragment is visibly bounded and guarded, with refresh and retry as the two focal messages.",
+      "Dark-mode labels, lifelines, returns and exception treatment are legible with no overlap or colour-only failure meaning."
+    ]
+  }
+}

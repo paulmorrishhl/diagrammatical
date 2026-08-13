@@ -1,0 +1,49 @@
+{
+  "directory": "skills/diagrammatical/assets/examples/gantt/mobile-launch",
+  "diagram_id": "mobile-launch",
+  "files": {
+    "source": "diagram.yaml",
+    "html": "mobile-launch.html",
+    "svg": "mobile-launch.svg",
+    "validation": "validation.json"
+  },
+  "checks": {
+    "schema": {
+      "schema": "diagram",
+      "source": "skills/diagrammatical/assets/examples/gantt/mobile-launch/diagram.yaml",
+      "errors": [],
+      "warnings": [],
+      "valid": true
+    },
+    "htmlSafety": {
+      "kind": "html",
+      "source": "skills/diagrammatical/assets/examples/gantt/mobile-launch/mobile-launch.html",
+      "errors": [],
+      "warnings": [],
+      "valid": true
+    },
+    "svg": {
+      "kind": "svg",
+      "source": "skills/diagrammatical/assets/examples/gantt/mobile-launch/mobile-launch.svg",
+      "errors": [],
+      "warnings": [],
+      "valid": true
+    },
+    "extraction": {
+      "valid": true,
+      "errors": [],
+      "warnings": []
+    }
+  },
+  "errors": [],
+  "warnings": [],
+  "valid": true,
+  "visualReview": {
+    "status": "completed",
+    "findings": [
+      "Rendered at 1200×820 in Chromium and inspected at full resolution.",
+      "Phased bands, weekly grid, dependency path and exact 30 October milestone form an obvious delivery narrative.",
+      "Bar starts and widths match deterministic inclusive-date calculations; labels and milestone remain unclipped."
+    ]
+  }
+}

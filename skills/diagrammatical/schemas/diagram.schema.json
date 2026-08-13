@@ -40,6 +40,7 @@
     "presentation": { "$ref": "#/$defs/presentation" },
     "fidelity": { "$ref": "#/$defs/fidelity" },
     "sequence": { "$ref": "#/$defs/sequenceData" },
+    "sitemap": { "$ref": "#/$defs/sitemapData" },
     "gantt": { "$ref": "#/$defs/ganttData" }
   },
   "allOf": [
@@ -50,6 +51,10 @@
     {
       "if": { "properties": { "diagram": { "properties": { "type": { "const": "gantt" } } } } },
       "then": { "required": ["gantt"] }
+    },
+    {
+      "if": { "properties": { "diagram": { "properties": { "type": { "const": "sitemap" } } } } },
+      "then": { "required": ["sitemap"] }
     },
     {
       "if": { "properties": { "diagram": { "properties": { "type": { "const": "architecture" } } } } },
@@ -106,6 +111,38 @@
           }
         }
       }
+    },
+    {
+      "if": { "properties": { "diagram": { "properties": { "type": { "const": "sequence" } } } } },
+      "then": {
+        "properties": {
+          "nodes": {
+            "minItems": 1,
+            "items": { "properties": { "kind": { "enum": ["actor", "service", "component", "external-service"] } } }
+          },
+          "presentation": { "properties": { "composition": { "enum": ["standard", "request-response", "authentication-refresh", "async-event", "exception-path"] } } }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "diagram": { "properties": { "type": { "const": "sitemap" } } } } },
+      "then": {
+        "properties": {
+          "nodes": {
+            "minItems": 1,
+            "items": { "properties": { "kind": { "enum": ["page", "section", "state", "external-service", "note"] } } }
+          },
+          "presentation": { "properties": { "composition": { "enum": ["conventional-tree", "product-sections", "hub-navigation", "user-journey"] } } }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "diagram": { "properties": { "type": { "const": "gantt" } } } } },
+      "then": {
+        "properties": {
+          "presentation": { "properties": { "composition": { "enum": ["phased-plan", "workstreams", "milestone-led"] } } }
+        }
+      }
     }
   ],
   "$defs": {
@@ -126,7 +163,7 @@
           "enum": [
             "actor", "input", "process", "service", "component", "external-service",
             "data-store", "state", "decision", "start", "end", "outcome", "page",
-            "task", "milestone", "note"
+            "task", "milestone", "section", "note"
           ]
         },
         "status": { "enum": ["default", "success", "warning", "danger", "deprecated"] },
@@ -148,7 +185,11 @@
         "metadata": {
           "type": "object",
           "additionalProperties": { "type": ["string", "number", "boolean"] }
-        }
+        },
+        "route": { "type": "string", "pattern": "^(?:/|https?://)[^\\s]*$", "maxLength": 300 },
+        "pageKind": { "enum": ["page", "screen", "section", "global-navigation", "external-destination"] },
+        "visibility": { "enum": ["public", "authenticated", "optional"] },
+        "lifecycle": { "enum": ["existing", "planned", "deprecated"] }
       }
     },
     "edge": {
@@ -228,13 +269,14 @@
       "additionalProperties": false,
       "required": ["messages"],
       "properties": {
+        "focalMessages": { "type": "array", "uniqueItems": true, "maxItems": 2, "items": { "$ref": "#/$defs/id" } },
         "messages": {
           "type": "array",
           "maxItems": 100,
           "items": {
             "type": "object",
             "additionalProperties": false,
-            "required": ["id", "from", "to", "label", "order"],
+            "required": ["id", "from", "to", "label", "order", "kind"],
             "properties": {
               "id": { "$ref": "#/$defs/id" },
               "from": { "$ref": "#/$defs/id" },
@@ -242,7 +284,70 @@
               "label": { "$ref": "#/$defs/nonEmptyString" },
               "order": { "type": "integer", "minimum": 1 },
               "kind": { "enum": ["sync", "async", "return", "event"] },
-              "optional": { "type": "boolean" }
+              "optional": { "type": "boolean" },
+              "guard": { "$ref": "#/$defs/nonEmptyString" },
+              "focal": { "type": "boolean" }
+            }
+          }
+        },
+        "activations": {
+          "type": "array",
+          "items": {
+            "type": "object", "additionalProperties": false,
+            "required": ["id", "participant", "startOrder", "endOrder"],
+            "properties": {
+              "id": { "$ref": "#/$defs/id" }, "participant": { "$ref": "#/$defs/id" },
+              "startOrder": { "type": "integer", "minimum": 1 }, "endOrder": { "type": "integer", "minimum": 1 }
+            }
+          }
+        },
+        "fragments": {
+          "type": "array", "maxItems": 20,
+          "items": {
+            "type": "object", "additionalProperties": false,
+            "required": ["id", "kind", "label", "startOrder", "endOrder"],
+            "properties": {
+              "id": { "$ref": "#/$defs/id" }, "kind": { "enum": ["alternative", "exception", "loop", "optional"] },
+              "label": { "$ref": "#/$defs/nonEmptyString" }, "guard": { "$ref": "#/$defs/nonEmptyString" },
+              "startOrder": { "type": "integer", "minimum": 1 }, "endOrder": { "type": "integer", "minimum": 1 }
+            }
+          }
+        },
+        "notes": {
+          "type": "array",
+          "items": {
+            "type": "object", "additionalProperties": false,
+            "required": ["id", "label", "participant", "order"],
+            "properties": {
+              "id": { "$ref": "#/$defs/id" }, "label": { "$ref": "#/$defs/nonEmptyString" },
+              "participant": { "$ref": "#/$defs/id" }, "order": { "type": "integer", "minimum": 1 }
+            }
+          }
+        }
+      }
+    },
+    "sitemapData": {
+      "type": "object", "additionalProperties": false, "required": ["root", "hierarchy"],
+      "properties": {
+        "root": { "$ref": "#/$defs/id" },
+        "hierarchy": {
+          "type": "array",
+          "items": {
+            "type": "object", "additionalProperties": false, "required": ["parent", "child", "order"],
+            "properties": {
+              "parent": { "$ref": "#/$defs/id" }, "child": { "$ref": "#/$defs/id" },
+              "order": { "type": "integer", "minimum": 0 }
+            }
+          }
+        },
+        "crossLinks": {
+          "type": "array",
+          "items": {
+            "type": "object", "additionalProperties": false,
+            "required": ["id", "from", "to", "label", "treatment"],
+            "properties": {
+              "id": { "$ref": "#/$defs/id" }, "from": { "$ref": "#/$defs/id" }, "to": { "$ref": "#/$defs/id" },
+              "label": { "$ref": "#/$defs/nonEmptyString" }, "treatment": { "enum": ["dashed", "dotted"] }
             }
           }
         }
@@ -251,25 +356,46 @@
     "ganttData": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["tasks"],
+      "required": ["planStart", "planEnd", "scale", "tasks"],
       "properties": {
         "dateFormat": { "const": "YYYY-MM-DD" },
+        "planStart": { "type": "string", "format": "date" },
+        "planEnd": { "type": "string", "format": "date" },
+        "scale": { "enum": ["week", "month", "quarter"] },
+        "dateAssumption": { "$ref": "#/$defs/nonEmptyString" },
         "tasks": {
           "type": "array",
           "maxItems": 100,
           "items": {
             "type": "object",
             "additionalProperties": false,
-            "required": ["id", "label", "start", "end"],
+            "required": ["id", "label", "start"],
+            "anyOf": [{ "required": ["end"] }, { "required": ["durationDays"] }],
             "properties": {
               "id": { "$ref": "#/$defs/id" },
               "label": { "$ref": "#/$defs/nonEmptyString" },
               "start": { "type": "string", "format": "date" },
               "end": { "type": "string", "format": "date" },
+              "durationDays": { "type": "integer", "minimum": 1 },
               "dependencies": { "type": "array", "uniqueItems": true, "items": { "$ref": "#/$defs/id" } },
               "workstream": { "$ref": "#/$defs/id" },
+              "phase": { "$ref": "#/$defs/id" },
               "milestone": { "type": "boolean" },
-              "status": { "enum": ["default", "success", "warning", "danger", "deprecated"] }
+              "status": { "enum": ["default", "success", "warning", "danger", "deprecated"] },
+              "progress": { "type": "number", "minimum": 0, "maximum": 100 },
+              "owner": { "type": "string", "maxLength": 120 },
+              "critical": { "type": "boolean" }
+            }
+          }
+        },
+        "workstreams": { "type": "array", "uniqueItems": true, "maxItems": 30, "items": { "$ref": "#/$defs/id" } },
+        "phases": {
+          "type": "array", "maxItems": 30,
+          "items": {
+            "type": "object", "additionalProperties": false, "required": ["id", "label", "start", "end"],
+            "properties": {
+              "id": { "$ref": "#/$defs/id" }, "label": { "$ref": "#/$defs/nonEmptyString" },
+              "start": { "type": "string", "format": "date" }, "end": { "type": "string", "format": "date" }
             }
           }
         }

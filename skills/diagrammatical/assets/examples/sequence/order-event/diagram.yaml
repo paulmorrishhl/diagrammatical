@@ -1,0 +1,26 @@
+schemaVersion: 1
+diagram: {id: order-event, title: Order event fan-out, type: sequence, audience: engineer, purpose: Explain asynchronous order publication and independent consumers, primaryMessage: One durable event decouples fulfilment and customer notification}
+nodes:
+  - {id: checkout, label: Checkout, kind: service}
+  - {id: broker, label: Event broker, kind: component, emphasis: primary}
+  - {id: fulfilment, label: Fulfilment worker, kind: service}
+  - {id: notifier, label: Notification worker, kind: service}
+edges: []
+groups: []
+sequence:
+  focalMessages: [publish-order]
+  messages:
+    - {id: publish-order, from: checkout, to: broker, label: Order placed event, order: 1, kind: async, focal: true}
+    - {id: broker-ack, from: broker, to: checkout, label: Accepted, order: 2, kind: return}
+    - {id: deliver-fulfilment, from: broker, to: fulfilment, label: Deliver order event, order: 3, kind: event}
+    - {id: create-shipment, from: fulfilment, to: fulfilment, label: Create shipment, order: 4, kind: async}
+    - {id: ack-fulfilment, from: fulfilment, to: broker, label: Acknowledge, order: 5, kind: return}
+    - {id: deliver-notification, from: broker, to: notifier, label: Deliver order event, order: 6, kind: event}
+    - {id: send-confirmation, from: notifier, to: notifier, label: Send confirmation, order: 7, kind: async}
+    - {id: ack-notification, from: notifier, to: broker, label: Acknowledge, order: 8, kind: return}
+presentation: {composition: async-event, direction: top-to-bottom, brand: editorial-blueprint, style: editorial, mode: light, detail: balanced, outputPreset: document-wide, focalNodes: [broker]}
+fidelity:
+  source: Representative order-event contract and consumer notes
+  collapsed: [Topic partitioning and consumer-group mechanics are collapsed into Event broker.]
+  omitted: [Dead-letter retry is omitted to keep the normal asynchronous interaction primary.]
+  assumptions: [Consumer acknowledgements occur after each side effect is accepted.]

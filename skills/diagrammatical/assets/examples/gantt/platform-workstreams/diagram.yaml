@@ -1,0 +1,25 @@
+schemaVersion: 1
+diagram: {id: platform-workstreams, title: Platform delivery workstreams, type: gantt, audience: engineer, purpose: "Coordinate parallel platform, data and adoption work", primaryMessage: Three workstreams progress in parallel before integration readiness}
+nodes: []
+edges: []
+groups: []
+gantt:
+  dateFormat: YYYY-MM-DD
+  planStart: 2026-11-02
+  planEnd: 2027-02-26
+  scale: month
+  workstreams: [platform, data, adoption]
+  tasks:
+    - {id: platform-foundation, label: Platform foundation, start: 2026-11-02, end: 2026-12-11, workstream: platform}
+    - {id: service-migration, label: Service migration, start: 2026-12-14, end: 2027-02-05, dependencies: [platform-foundation], workstream: platform, critical: true}
+    - {id: data-model, label: Canonical data model, start: 2026-11-09, end: 2026-12-18, workstream: data}
+    - {id: data-migration, label: Data migration, start: 2027-01-04, end: 2027-02-12, dependencies: [data-model], workstream: data}
+    - {id: operating-model, label: Operating model, start: 2026-12-01, end: 2027-01-15, workstream: adoption}
+    - {id: team-readiness, label: Team readiness, start: 2027-01-18, end: 2027-02-19, dependencies: [operating-model], workstream: adoption}
+    - {id: integration-ready, label: Integration ready, start: 2027-02-26, end: 2027-02-26, dependencies: [service-migration, data-migration, team-readiness], workstream: platform, milestone: true}
+presentation: {composition: workstreams, direction: left-to-right, brand: editorial-blueprint, style: technical, mode: dark, detail: detailed, outputPreset: document-wide, focalNodes: []}
+fidelity:
+  source: Representative platform programme workstream plan
+  collapsed: [Service-by-service migrations are collapsed into Service migration.]
+  omitted: [Business-as-usual operational tasks are omitted.]
+  assumptions: [Dates are inclusive and the named dependencies govern integration readiness.]

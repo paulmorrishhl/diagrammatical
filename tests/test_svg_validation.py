@@ -31,7 +31,7 @@ def test_accessible_svg_metadata_passes() -> None:
         (ACCESSIBLE_SVG.replace(' role="img"', ""), 'role="img"'),
         (ACCESSIBLE_SVG.replace("<title", "<metadata/><title", 1), "first child"),
         (ACCESSIBLE_SVG.replace("sample-desc", "missing-desc", 1), "missing SVG IDs"),
-        (ACCESSIBLE_SVG.replace("viewBox=\"0 0 400 240\"", "viewBox=\"0 0 0 240\""), "positive"),
+        (ACCESSIBLE_SVG.replace('viewBox="0 0 400 240"', 'viewBox="0 0 0 240"'), "positive"),
         (
             ACCESSIBLE_SVG.replace("</svg>", '<script id="sample-script">bad()</script></svg>'),
             "unsafe SVG element",
@@ -57,9 +57,7 @@ def test_invalid_or_unsafe_svg_is_rejected(svg: str, message: str) -> None:
 
 
 def test_duplicate_svg_ids_fail() -> None:
-    svg = ACCESSIBLE_SVG.replace(
-        "</svg>", '<g id="sample-title"><text>Duplicate</text></g></svg>'
-    )
+    svg = ACCESSIBLE_SVG.replace("</svg>", '<g id="sample-title"><text>Duplicate</text></g></svg>')
     result = validate_svg_text(svg, slug="sample")
     assert not result.valid
     assert "duplicate SVG ID 'sample-title'" in result.errors
@@ -81,6 +79,13 @@ def test_exception_path_requires_label_and_non_colour_cue() -> None:
     result = validate_svg_text(svg, slug="sample")
     assert not result.valid
     assert any("both data-path-label and data-path-cue" in error for error in result.errors)
+
+
+def test_sequence_async_and_site_cross_link_require_non_colour_cues() -> None:
+    async_svg = ACCESSIBLE_SVG.replace("</svg>", '<path data-message-kind="async"/></svg>')
+    assert any("data-message-cue" in error for error in validate_svg_text(async_svg).errors)
+    cross_svg = ACCESSIBLE_SVG.replace("</svg>", '<path data-link="cross"/></svg>')
+    assert any("data-link-label" in error for error in validate_svg_text(cross_svg).errors)
 
 
 @pytest.mark.parametrize(

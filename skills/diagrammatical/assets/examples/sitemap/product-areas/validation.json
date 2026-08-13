@@ -1,0 +1,49 @@
+{
+  "directory": "skills/diagrammatical/assets/examples/sitemap/product-areas",
+  "diagram_id": "product-areas",
+  "files": {
+    "source": "diagram.yaml",
+    "html": "product-areas.html",
+    "svg": "product-areas.svg",
+    "validation": "validation.json"
+  },
+  "checks": {
+    "schema": {
+      "schema": "diagram",
+      "source": "skills/diagrammatical/assets/examples/sitemap/product-areas/diagram.yaml",
+      "errors": [],
+      "warnings": [],
+      "valid": true
+    },
+    "htmlSafety": {
+      "kind": "html",
+      "source": "skills/diagrammatical/assets/examples/sitemap/product-areas/product-areas.html",
+      "errors": [],
+      "warnings": [],
+      "valid": true
+    },
+    "svg": {
+      "kind": "svg",
+      "source": "skills/diagrammatical/assets/examples/sitemap/product-areas/product-areas.svg",
+      "errors": [],
+      "warnings": [],
+      "valid": true
+    },
+    "extraction": {
+      "valid": true,
+      "errors": [],
+      "warnings": []
+    }
+  },
+  "errors": [],
+  "warnings": [],
+  "valid": true,
+  "visualReview": {
+    "status": "completed",
+    "findings": [
+      "Rendered at 1200×820 in Chromium and inspected at full resolution.",
+      "Three signed-in product areas remain visibly grouped beneath one authenticated root in dark mode.",
+      "Planned Reports uses text and dash treatment, and the dotted dashboard cross-link stays distinct from solid hierarchy links."
+    ]
+  }
+}

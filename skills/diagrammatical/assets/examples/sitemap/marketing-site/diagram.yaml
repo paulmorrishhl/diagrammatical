@@ -1,0 +1,35 @@
+schemaVersion: 1
+diagram: {id: marketing-site, title: Marketing website map, type: sitemap, audience: mixed, purpose: Show the public content hierarchy and primary conversion routes, primaryMessage: Product and resources lead visitors toward one clear contact destination}
+nodes:
+  - {id: home, label: Home, kind: page, route: /, pageKind: page, visibility: public, lifecycle: existing, emphasis: primary}
+  - {id: product, label: Product, kind: section, route: /product, pageKind: section, visibility: public, lifecycle: existing}
+  - {id: platform, label: Platform, kind: page, route: /product/platform, pageKind: page, visibility: public, lifecycle: existing}
+  - {id: integrations, label: Integrations, kind: page, route: /product/integrations, pageKind: page, visibility: public, lifecycle: existing}
+  - {id: resources, label: Resources, kind: section, route: /resources, pageKind: section, visibility: public, lifecycle: existing}
+  - {id: guides, label: Guides, kind: page, route: /resources/guides, pageKind: page, visibility: public, lifecycle: existing}
+  - {id: stories, label: Customer stories, kind: page, route: /resources/stories, pageKind: page, visibility: public, lifecycle: existing}
+  - {id: company, label: Company, kind: section, route: /company, pageKind: section, visibility: public, lifecycle: existing}
+  - {id: about, label: About, kind: page, route: /company/about, pageKind: page, visibility: public, lifecycle: existing}
+  - {id: contact, label: Contact sales, kind: page, route: /contact, pageKind: page, visibility: public, lifecycle: existing}
+edges: []
+groups: []
+sitemap:
+  root: home
+  hierarchy:
+    - {parent: home, child: product, order: 1}
+    - {parent: product, child: platform, order: 1}
+    - {parent: product, child: integrations, order: 2}
+    - {parent: home, child: resources, order: 2}
+    - {parent: resources, child: guides, order: 1}
+    - {parent: resources, child: stories, order: 2}
+    - {parent: home, child: company, order: 3}
+    - {parent: company, child: about, order: 1}
+    - {parent: home, child: contact, order: 4}
+  crossLinks:
+    - {id: stories-to-contact, from: stories, to: contact, label: Contact CTA, treatment: dashed}
+presentation: {composition: conventional-tree, direction: top-to-bottom, brand: editorial-blueprint, style: editorial, mode: light, detail: balanced, outputPreset: document-wide, focalNodes: [home, contact]}
+fidelity:
+  source: Representative static route manifest and navigation labels
+  collapsed: [Individual guide and customer-story slugs are collapsed into their listing pages.]
+  omitted: [Legal footer pages are omitted from this primary-navigation map.]
+  assumptions: [Contact sales is globally reachable from the header.]

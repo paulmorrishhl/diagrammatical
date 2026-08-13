@@ -1,0 +1,49 @@
+{
+  "directory": "skills/diagrammatical/assets/examples/sequence/catalogue-request",
+  "diagram_id": "catalogue-request",
+  "files": {
+    "source": "diagram.yaml",
+    "html": "catalogue-request.html",
+    "svg": "catalogue-request.svg",
+    "validation": "validation.json"
+  },
+  "checks": {
+    "schema": {
+      "schema": "diagram",
+      "source": "skills/diagrammatical/assets/examples/sequence/catalogue-request/diagram.yaml",
+      "errors": [],
+      "warnings": [],
+      "valid": true
+    },
+    "htmlSafety": {
+      "kind": "html",
+      "source": "skills/diagrammatical/assets/examples/sequence/catalogue-request/catalogue-request.html",
+      "errors": [],
+      "warnings": [],
+      "valid": true
+    },
+    "svg": {
+      "kind": "svg",
+      "source": "skills/diagrammatical/assets/examples/sequence/catalogue-request/catalogue-request.svg",
+      "errors": [],
+      "warnings": [],
+      "valid": true
+    },
+    "extraction": {
+      "valid": true,
+      "errors": [],
+      "warnings": []
+    }
+  },
+  "errors": [],
+  "warnings": [],
+  "valid": true,
+  "visualReview": {
+    "status": "completed",
+    "findings": [
+      "Rendered at 1200×820 in Chromium and inspected at full resolution.",
+      "Stable lifeline order, nested request/return pairing, and the API activation are clear; labels do not touch arrows or lifelines.",
+      "Solid filled requests and dashed open returns remain distinguishable without colour; no clipping or chronological ambiguity was observed."
+    ]
+  }
+}

@@ -10,8 +10,9 @@ This is the portable orchestration contract used by natural-language activation 
 
 ## 2. Model meaning
 
-- Select one supported diagram type from the structure of the information. Choose architecture for stable components, boundaries, and relationships; choose flowchart for ordered steps, decisions, outcomes, and exception paths. If an ambiguous request could fit either, use the purpose and dominant relationship shape, then state the choice.
-- Honour an explicit flowchart request unless it would misrepresent source with no process semantics; explain before recommending another type.
+- Select one supported diagram type from dominant relationship shape: structural components and relationships → architecture; decisions and branches → flowchart; chronological messages → sequence; parent/child pages or navigation → site map; dated tasks on a calendar → Gantt.
+- If two views are genuinely useful, recommend a primary and optional companion rather than combining incompatible visual grammars.
+- Honour an explicit type unless it would materially misrepresent the source; explain before recommending another type.
 - Build or update semantic `diagram.yaml` before rendered outputs.
 - Preserve stable IDs for concepts that remain unchanged.
 - Record collapsed, omitted, normalised, and assumed content in the fidelity ledger.

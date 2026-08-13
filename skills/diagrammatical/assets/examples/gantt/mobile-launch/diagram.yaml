@@ -1,0 +1,28 @@
+schemaVersion: 1
+diagram: {id: mobile-launch, title: Mobile launch plan, type: gantt, audience: mixed, purpose: Show the phased path from discovery to launch, primaryMessage: Build begins after discovery and converges on a single launch milestone}
+nodes: []
+edges: []
+groups: []
+gantt:
+  dateFormat: YYYY-MM-DD
+  planStart: 2026-09-01
+  planEnd: 2026-10-30
+  scale: week
+  workstreams: [product, engineering, release]
+  phases:
+    - {id: discovery, label: Discovery, start: 2026-09-01, end: 2026-09-11}
+    - {id: delivery, label: Delivery, start: 2026-09-14, end: 2026-10-16}
+    - {id: launch, label: Launch, start: 2026-10-19, end: 2026-10-30}
+  tasks:
+    - {id: research, label: User research, start: 2026-09-01, end: 2026-09-07, workstream: product, phase: discovery, status: success}
+    - {id: scope, label: Confirm scope, start: 2026-09-08, durationDays: 4, dependencies: [research], workstream: product, phase: discovery}
+    - {id: app-build, label: Build application, start: 2026-09-14, end: 2026-10-02, dependencies: [scope], workstream: engineering, phase: delivery, critical: true}
+    - {id: acceptance, label: Acceptance testing, start: 2026-10-05, end: 2026-10-16, dependencies: [app-build], workstream: release, phase: delivery}
+    - {id: store-review, label: Store review, start: 2026-10-19, end: 2026-10-27, dependencies: [acceptance], workstream: release, phase: launch}
+    - {id: public-launch, label: Public launch, start: 2026-10-30, end: 2026-10-30, dependencies: [store-review], workstream: release, phase: launch, milestone: true}
+presentation: {composition: phased-plan, direction: left-to-right, brand: editorial-blueprint, style: editorial, mode: light, detail: balanced, outputPreset: document-wide, focalNodes: []}
+fidelity:
+  source: Representative mobile delivery plan with confirmed calendar dates
+  collapsed: [Individual engineering stories are collapsed into Build application.]
+  omitted: [Routine stand-ups and reporting tasks are omitted.]
+  assumptions: [Dates are inclusive and use calendar days.]

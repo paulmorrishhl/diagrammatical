@@ -1,0 +1,49 @@
+{
+  "directory": "skills/diagrammatical/assets/examples/sequence/order-event",
+  "diagram_id": "order-event",
+  "files": {
+    "source": "diagram.yaml",
+    "html": "order-event.html",
+    "svg": "order-event.svg",
+    "validation": "validation.json"
+  },
+  "checks": {
+    "schema": {
+      "schema": "diagram",
+      "source": "skills/diagrammatical/assets/examples/sequence/order-event/diagram.yaml",
+      "errors": [],
+      "warnings": [],
+      "valid": true
+    },
+    "htmlSafety": {
+      "kind": "html",
+      "source": "skills/diagrammatical/assets/examples/sequence/order-event/order-event.html",
+      "errors": [],
+      "warnings": [],
+      "valid": true
+    },
+    "svg": {
+      "kind": "svg",
+      "source": "skills/diagrammatical/assets/examples/sequence/order-event/order-event.svg",
+      "errors": [],
+      "warnings": [],
+      "valid": true
+    },
+    "extraction": {
+      "valid": true,
+      "errors": [],
+      "warnings": []
+    }
+  },
+  "errors": [],
+  "warnings": [],
+  "valid": true,
+  "visualReview": {
+    "status": "completed",
+    "findings": [
+      "Rendered at 1200×820 in Chromium and inspected at full resolution.",
+      "Open asynchronous arrows, self-messages and dashed acknowledgements make publisher/broker/consumer responsibilities traceable.",
+      "Fan-out is materially different from request/response and remains clear without overlap, clipping or implied synchronous returns."
+    ]
+  }
+}
