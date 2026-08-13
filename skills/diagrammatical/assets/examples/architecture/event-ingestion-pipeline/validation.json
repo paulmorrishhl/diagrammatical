@@ -1,0 +1,49 @@
+{
+  "directory": "skills/diagrammatical/assets/examples/architecture/event-ingestion-pipeline",
+  "diagram_id": "event-ingestion-pipeline",
+  "files": {
+    "source": "diagram.yaml",
+    "html": "event-ingestion-pipeline.html",
+    "svg": "event-ingestion-pipeline.svg",
+    "validation": "validation.json"
+  },
+  "checks": {
+    "schema": {
+      "schema": "diagram",
+      "source": "skills/diagrammatical/assets/examples/architecture/event-ingestion-pipeline/diagram.yaml",
+      "errors": [],
+      "warnings": [],
+      "valid": true
+    },
+    "htmlSafety": {
+      "kind": "html",
+      "source": "skills/diagrammatical/assets/examples/architecture/event-ingestion-pipeline/event-ingestion-pipeline.html",
+      "errors": [],
+      "warnings": [],
+      "valid": true
+    },
+    "svg": {
+      "kind": "svg",
+      "source": "skills/diagrammatical/assets/examples/architecture/event-ingestion-pipeline/event-ingestion-pipeline.svg",
+      "errors": [],
+      "warnings": [],
+      "valid": true
+    },
+    "extraction": {
+      "valid": true,
+      "errors": [],
+      "warnings": []
+    }
+  },
+  "errors": [],
+  "warnings": [],
+  "valid": true,
+  "visualReview": {
+    "status": "completed",
+    "findings": [
+      "Rendered at 1200 by 720 in local Chromium and inspected at full resolution.",
+      "Primary left-to-right path, ownership boundaries, and focal durable stream read clearly.",
+      "A competing edge annotation was removed and the HTTPS label shortened after review; the final frame has no visible clipping or connector-label collision."
+    ]
+  }
+}

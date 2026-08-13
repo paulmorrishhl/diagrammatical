@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-marketplace.json",
+  "name": "diagrammatical",
+  "owner": {
+    "name": "Paul Morrish",
+    "url": "https://github.com/paulmorrishhl"
+  },
+  "description": "Purposeful, brandable diagram design for Claude Code.",
+  "plugins": [
+    {
+      "name": "diagrammatical",
+      "source": "./",
+      "description": "Create clear, polished diagrams from repositories and written source material.",
+      "version": "0.1.0",
+      "author": {
+        "name": "Paul Morrish"
+      },
+      "category": "development",
+      "tags": [
+        "diagrams",
+        "documentation",
+        "architecture"
+      ]
+    }
+  ]
+}
+

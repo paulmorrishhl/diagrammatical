@@ -1,0 +1,49 @@
+{
+  "directory": "skills/diagrammatical/assets/examples/architecture/care-coordination-domains",
+  "diagram_id": "care-coordination-domains",
+  "files": {
+    "source": "diagram.yaml",
+    "html": "care-coordination-domains.html",
+    "svg": "care-coordination-domains.svg",
+    "validation": "validation.json"
+  },
+  "checks": {
+    "schema": {
+      "schema": "diagram",
+      "source": "skills/diagrammatical/assets/examples/architecture/care-coordination-domains/diagram.yaml",
+      "errors": [],
+      "warnings": [],
+      "valid": true
+    },
+    "htmlSafety": {
+      "kind": "html",
+      "source": "skills/diagrammatical/assets/examples/architecture/care-coordination-domains/care-coordination-domains.html",
+      "errors": [],
+      "warnings": [],
+      "valid": true
+    },
+    "svg": {
+      "kind": "svg",
+      "source": "skills/diagrammatical/assets/examples/architecture/care-coordination-domains/care-coordination-domains.svg",
+      "errors": [],
+      "warnings": [],
+      "valid": true
+    },
+    "extraction": {
+      "valid": true,
+      "errors": [],
+      "warnings": []
+    }
+  },
+  "errors": [],
+  "warnings": [],
+  "valid": true,
+  "visualReview": {
+    "status": "completed",
+    "findings": [
+      "Rendered at 1200 by 780 in local Chromium and inspected at full resolution.",
+      "The three responsibility domains, focal care coordinator, actor/store shapes, and dashed external contract are distinguishable without colour alone.",
+      "The laboratory connector label was shortened after review; the final frame has no visible overlap, clipping, or ambiguous reading order."
+    ]
+  }
+}

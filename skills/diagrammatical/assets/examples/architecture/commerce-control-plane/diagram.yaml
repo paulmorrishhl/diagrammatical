@@ -1,0 +1,125 @@
+schemaVersion: 1
+diagram:
+  id: commerce-control-plane
+  title: Commerce control plane
+  description: A central commerce application coordinates channels, owned data, and fulfilment partners.
+  type: architecture
+  audience: engineer
+  purpose: Explain the commerce application's coordinating role and external boundaries
+  primaryMessage: Commerce Core owns orchestration while durable data and partner execution remain separate
+nodes:
+  - id: storefront
+    label: Storefront
+    kind: actor
+    detail: Customer channel
+    group: experience-channels
+  - id: operations-console
+    label: Operations console
+    kind: actor
+    detail: Internal channel
+    group: experience-channels
+  - id: commerce-core
+    label: Commerce Core
+    kind: service
+    detail: Orders, pricing, orchestration
+    emphasis: primary
+    group: owned-platform
+  - id: event-backbone
+    label: Event backbone
+    kind: component
+    detail: Async domain events
+    async: true
+    group: owned-platform
+  - id: catalogue-store
+    label: Catalogue store
+    kind: data-store
+    detail: Products and availability
+    group: data-plane
+  - id: order-store
+    label: Order store
+    kind: data-store
+    detail: Transactional order state
+    group: data-plane
+  - id: payment-provider
+    label: Payment provider
+    kind: external-service
+    detail: Authorise and capture
+  - id: fulfilment-partner
+    label: Fulfilment partner
+    kind: external-service
+    detail: Pick, pack, dispatch
+edges:
+  - id: storefront-commands
+    from: storefront
+    to: commerce-core
+    label: HTTPS commands
+    kind: action
+  - id: operations-commands
+    from: operations-console
+    to: commerce-core
+    label: Admin API
+    kind: action
+  - id: core-reads-catalogue
+    from: commerce-core
+    to: catalogue-store
+    label: Product reads
+    kind: data
+  - id: core-persists-orders
+    from: commerce-core
+    to: order-store
+    label: Order state
+    kind: data
+  - id: core-authorises-payment
+    from: commerce-core
+    to: payment-provider
+    label: Authorise / capture
+    kind: external
+  - id: core-publishes-events
+    from: commerce-core
+    to: event-backbone
+    label: Domain events
+    kind: event
+    async: true
+  - id: backbone-sends-fulfilment
+    from: event-backbone
+    to: fulfilment-partner
+    label: Fulfilment request
+    kind: external
+    async: true
+groups:
+  - id: experience-channels
+    label: Experience channels
+    kind: boundary
+    nodes: [storefront, operations-console]
+  - id: owned-platform
+    label: Owned commerce platform
+    kind: boundary
+    nodes: [commerce-core, event-backbone]
+  - id: data-plane
+    label: Owned data plane
+    kind: boundary
+    nodes: [catalogue-store, order-store]
+presentation:
+  composition: central-platform
+  direction: left-to-right
+  brand: editorial-blueprint
+  style: technical
+  mode: dark
+  detail: detailed
+  outputPreset: document-wide
+  focalNodes: [commerce-core]
+  constraints:
+    keepTogether:
+      - [commerce-core, event-backbone]
+      - [catalogue-store, order-store]
+    separate: [payment-provider, fulfilment-partner]
+    maxVisibleNodes: 9
+fidelity:
+  source: Representative modular-commerce repository fixture and service contracts
+  collapsed:
+    - Pricing, promotions, and order orchestration are collapsed into Commerce Core.
+    - Event topics and consumers are collapsed into Event backbone.
+  omitted:
+    - Search indexing is omitted because it does not change the control-plane message.
+  assumptions:
+    - Fulfilment is event-driven based on the asynchronous partner contract.

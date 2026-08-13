@@ -1,0 +1,110 @@
+<svg id="event-ingestion-pipeline-diagram" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 720" role="img" aria-labelledby="event-ingestion-pipeline-title event-ingestion-pipeline-desc">
+  <title id="event-ingestion-pipeline-title">Event ingestion pipeline</title>
+  <desc id="event-ingestion-pipeline-desc">Partner events pass through an owned gateway and intake service into a durable stream, which decouples processing from the analytics warehouse and operational monitoring.</desc>
+  <defs>
+    <style>
+      :root { --canvas:#f7f5ef; --surface:#ffffff; --surface-secondary:#f0eee8; --ink:#20242c; --ink-muted:#687083; --rule:#d8d4ca; --connector:#697386; --emphasis-primary:#315be8; --emphasis-primary-tint:#e7ecff; --emphasis-secondary:#19735e; --external:#2767b0; }
+      text { fill:var(--ink); font-family:Inter,Arial,sans-serif; }
+      .title { font-family:"Instrument Serif",Georgia,serif; font-size:42px; font-weight:400; }
+      .subtitle { fill:var(--ink-muted); font-size:16px; }
+      .eyebrow,.meta { font-family:"IBM Plex Mono",monospace; font-size:12px; letter-spacing:1px; }
+      .eyebrow { fill:var(--emphasis-primary); font-weight:600; }
+      .group-box { fill:var(--surface-secondary); fill-opacity:.55; stroke:var(--rule); stroke-width:1; stroke-dasharray:4 5; }
+      .group-label { fill:var(--ink-muted); font-family:"IBM Plex Mono",monospace; font-size:12px; letter-spacing:.8px; }
+      .node { fill:var(--surface); stroke:var(--rule); stroke-width:1.2; }
+      .node-focal { fill:var(--emphasis-primary-tint); stroke:var(--emphasis-primary); stroke-width:2; }
+      .node-label { font-size:15px; font-weight:650; }
+      .node-detail { fill:var(--ink-muted); font-size:12px; }
+      .service-rule { stroke:var(--emphasis-secondary); stroke-width:4; }
+      .connector { fill:none; stroke:var(--connector); stroke-width:2; }
+      .connector-primary { fill:none; stroke:var(--emphasis-primary); stroke-width:2.5; }
+      .connector-external { fill:none; stroke:var(--external); stroke-width:2; }
+      .connector-async { fill:none; stroke:var(--connector); stroke-width:2; stroke-dasharray:7 6; }
+      .edge-label { fill:var(--ink-muted); font-size:12px; }
+    </style>
+    <pattern id="event-ingestion-pipeline-paper" width="28" height="28" patternUnits="userSpaceOnUse">
+      <circle cx="4" cy="7" r=".5" fill="var(--ink)" opacity=".025"/>
+      <circle cx="19" cy="21" r=".45" fill="var(--ink)" opacity=".02"/>
+    </pattern>
+    <marker id="event-ingestion-pipeline-arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M0 0 L8 4 L0 8" fill="none" stroke="var(--connector)" stroke-width="1.5"/>
+    </marker>
+    <marker id="event-ingestion-pipeline-arrow-primary" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M0 0 L8 4 L0 8" fill="none" stroke="var(--emphasis-primary)" stroke-width="1.5"/>
+    </marker>
+    <marker id="event-ingestion-pipeline-arrow-external" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M0 0 L8 4 L0 8" fill="none" stroke="var(--external)" stroke-width="1.5"/>
+    </marker>
+  </defs>
+  <rect width="1200" height="720" fill="var(--canvas)"/>
+  <rect width="1200" height="720" fill="url(#event-ingestion-pipeline-paper)"/>
+  <text x="64" y="58" class="eyebrow">ARCHITECTURE / LINEAR PIPELINE</text>
+  <text x="64" y="111" class="title">Event ingestion pipeline</text>
+  <text x="64" y="143" class="subtitle">A durable event log keeps intake responsive while processing and insight evolve independently.</text>
+
+  <g id="event-ingestion-pipeline-ingestion-group" data-group-id="ingestion-platform">
+    <rect x="246" y="216" width="690" height="270" rx="8" class="group-box"/>
+    <text x="266" y="244" class="group-label">OWNED · INGESTION PLATFORM</text>
+  </g>
+  <g id="event-ingestion-pipeline-insight-group" data-group-id="insight-plane">
+    <rect x="952" y="216" width="202" height="420" rx="8" class="group-box"/>
+    <text x="972" y="244" class="group-label">INSIGHT + OPS</text>
+  </g>
+
+  <g id="event-ingestion-pipeline-connectors">
+    <path d="M202 344 H278" class="connector-external" marker-end="url(#event-ingestion-pipeline-arrow-external)"/>
+    <text x="216" y="329" class="edge-label">HTTPS</text>
+    <path d="M420 344 H468" class="connector" marker-end="url(#event-ingestion-pipeline-arrow)"/>
+    <path d="M610 344 H658" class="connector-primary" marker-end="url(#event-ingestion-pipeline-arrow-primary)"/>
+    <path d="M800 344 H848" class="connector-primary" marker-end="url(#event-ingestion-pipeline-arrow-primary)"/>
+    <path d="M934 344 H980" class="connector" marker-end="url(#event-ingestion-pipeline-arrow)"/>
+    <path d="M891 392 V514 H980" class="connector-async" marker-end="url(#event-ingestion-pipeline-arrow)"/>
+    <text x="897" y="454" class="edge-label">metrics + failures</text>
+  </g>
+
+  <g id="event-ingestion-pipeline-partners" data-node-id="partner-systems" data-kind="actor">
+    <path d="M76 292 H184 L202 344 L184 396 H76 L58 344 Z" class="node"/>
+    <text x="86" y="337" class="node-label">Partner systems</text>
+    <text x="86" y="362" class="node-detail">Event producers</text>
+  </g>
+  <g id="event-ingestion-pipeline-gateway" data-node-id="edge-gateway" data-kind="service">
+    <rect x="278" y="292" width="142" height="104" rx="6" class="node"/>
+    <path d="M280 299 H418" class="service-rule"/>
+    <text x="298" y="337" class="node-label">Edge gateway</text>
+    <text x="298" y="362" class="node-detail">Auth + rate limit</text>
+  </g>
+  <g id="event-ingestion-pipeline-intake" data-node-id="event-intake" data-kind="service">
+    <rect x="468" y="292" width="142" height="104" rx="6" class="node"/>
+    <path d="M470 299 H608" class="service-rule"/>
+    <text x="488" y="337" class="node-label">Event intake</text>
+    <text x="488" y="362" class="node-detail">Validate + normalise</text>
+  </g>
+  <g id="event-ingestion-pipeline-stream" data-node-id="durable-stream" data-kind="data-store" data-emphasis="primary">
+    <path d="M658 306 C658 286 800 286 800 306 V378 C800 398 658 398 658 378 Z" class="node-focal"/>
+    <path d="M658 306 C658 326 800 326 800 306" fill="none" stroke="var(--emphasis-primary)" stroke-width="1.5"/>
+    <text x="680" y="344" class="node-label">Durable stream</text>
+    <text x="680" y="369" class="node-detail">Replay boundary</text>
+  </g>
+  <g id="event-ingestion-pipeline-processor" data-node-id="stream-processor" data-kind="process">
+    <rect x="848" y="292" width="86" height="104" rx="6" class="node"/>
+    <path d="M850 299 H932" class="service-rule"/>
+    <text x="863" y="335" class="node-label">Stream</text>
+    <text x="863" y="355" class="node-label">processor</text>
+    <text x="863" y="378" class="node-detail">Enrich</text>
+  </g>
+  <g id="event-ingestion-pipeline-warehouse" data-node-id="analytics-warehouse" data-kind="data-store">
+    <path d="M980 306 C980 286 1126 286 1126 306 V378 C1126 398 980 398 980 378 Z" class="node"/>
+    <path d="M980 306 C980 326 1126 326 1126 306" fill="none" stroke="var(--rule)"/>
+    <text x="999" y="344" class="node-label">Analytics warehouse</text>
+    <text x="999" y="369" class="node-detail">Curated datasets</text>
+  </g>
+  <g id="event-ingestion-pipeline-monitoring" data-node-id="operations-monitoring" data-kind="service">
+    <rect x="980" y="514" width="146" height="88" rx="6" class="node"/>
+    <path d="M982 521 H1124" class="service-rule"/>
+    <text x="999" y="553" class="node-label">Ops monitoring</text>
+    <text x="999" y="578" class="node-detail">Lag · failures · rate</text>
+  </g>
+
+  <line x1="64" y1="668" x2="1136" y2="668" stroke="var(--rule)"/>
+  <text x="64" y="694" class="meta" fill="var(--ink-muted)">EDITORIAL BLUEPRINT · EDITORIAL · PRIMARY PATH IN COBALT · ASYNC SIDE EFFECT DASHED</text>
+</svg>

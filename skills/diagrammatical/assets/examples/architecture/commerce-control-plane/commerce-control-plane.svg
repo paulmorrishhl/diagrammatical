@@ -1,0 +1,120 @@
+<svg id="commerce-control-plane-diagram" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-labelledby="commerce-control-plane-title commerce-control-plane-desc">
+  <title id="commerce-control-plane-title">Commerce control plane</title>
+  <desc id="commerce-control-plane-desc">Storefront and operations channels use Commerce Core, which coordinates owned catalogue and order data, publishes domain events, and calls external payment and fulfilment providers.</desc>
+  <defs>
+    <style>
+      :root { --canvas:#171a21; --surface:#20242c; --surface-secondary:#292e38; --ink:#f4f1e9; --ink-muted:#bcc3d1; --rule:#4d5564; --connector:#aeb7c7; --emphasis-primary:#9cb2ff; --emphasis-primary-tint:#29355c; --emphasis-secondary:#72d3b7; --external:#8ac5fa; }
+      text { fill:var(--ink); font-family:Inter,Arial,sans-serif; }
+      .title { font-family:"Instrument Serif",Georgia,serif; font-size:42px; font-weight:400; }
+      .subtitle { fill:var(--ink-muted); font-size:16px; }
+      .eyebrow,.meta,.group-label { font-family:"IBM Plex Mono",monospace; font-size:12px; letter-spacing:1px; }
+      .eyebrow { fill:var(--emphasis-primary); font-weight:600; }
+      .group-box { fill:var(--surface-secondary); fill-opacity:.44; stroke:var(--rule); stroke-width:1.2; stroke-dasharray:4 5; }
+      .group-label { fill:var(--ink-muted); }
+      .node { fill:var(--surface); stroke:var(--rule); stroke-width:1.2; }
+      .node-focal { fill:var(--emphasis-primary-tint); stroke:var(--emphasis-primary); stroke-width:2; }
+      .node-external { fill:var(--surface); stroke:var(--external); stroke-width:1.6; }
+      .node-label { font-size:16px; font-weight:650; }
+      .node-detail { fill:var(--ink-muted); font-size:12px; }
+      .service-rule { stroke:var(--emphasis-secondary); stroke-width:4; }
+      .connector { fill:none; stroke:var(--connector); stroke-width:2; }
+      .connector-primary { fill:none; stroke:var(--emphasis-primary); stroke-width:2.5; }
+      .connector-external { fill:none; stroke:var(--external); stroke-width:2; }
+      .connector-async { fill:none; stroke:var(--connector); stroke-width:2; stroke-dasharray:7 6; }
+      .edge-label { fill:var(--ink-muted); font-family:"IBM Plex Mono",monospace; font-size:12px; }
+      .external-tag { fill:var(--external); font-family:"IBM Plex Mono",monospace; font-size:12px; letter-spacing:.8px; }
+    </style>
+    <marker id="commerce-control-plane-arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M0 0 L8 4 L0 8" fill="none" stroke="var(--connector)" stroke-width="1.5"/>
+    </marker>
+    <marker id="commerce-control-plane-arrow-primary" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M0 0 L8 4 L0 8" fill="none" stroke="var(--emphasis-primary)" stroke-width="1.5"/>
+    </marker>
+    <marker id="commerce-control-plane-arrow-external" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M0 0 L8 4 L0 8" fill="none" stroke="var(--external)" stroke-width="1.5"/>
+    </marker>
+  </defs>
+  <rect width="1200" height="800" fill="var(--canvas)"/>
+  <text x="60" y="54" class="eyebrow">ARCHITECTURE / CENTRAL PLATFORM / TECHNICAL</text>
+  <text x="60" y="107" class="title">Commerce control plane</text>
+  <text x="60" y="139" class="subtitle">Commerce Core coordinates channels and partners while data and asynchronous execution stay explicit.</text>
+
+  <g id="commerce-control-plane-channel-group" data-group-id="experience-channels">
+    <rect x="48" y="190" width="282" height="342" rx="8" class="group-box"/>
+    <text x="68" y="220" class="group-label">EXPERIENCE CHANNELS</text>
+  </g>
+  <g id="commerce-control-plane-platform-group" data-group-id="owned-platform">
+    <rect x="400" y="190" width="380" height="512" rx="8" class="group-box"/>
+    <text x="420" y="220" class="group-label">OWNED COMMERCE PLATFORM</text>
+  </g>
+  <g id="commerce-control-plane-data-group" data-group-id="data-plane">
+    <rect x="838" y="190" width="302" height="280" rx="8" class="group-box"/>
+    <text x="858" y="220" class="group-label">OWNED DATA PLANE</text>
+  </g>
+
+  <g id="commerce-control-plane-connectors">
+    <path d="M290 310 H448" class="connector-primary" marker-end="url(#commerce-control-plane-arrow-primary)"/>
+    <text x="323" y="294" class="edge-label">HTTPS commands</text>
+    <path d="M290 444 H360 V390 H448" class="connector" marker-end="url(#commerce-control-plane-arrow)"/>
+    <text x="310" y="428" class="edge-label">Admin API</text>
+    <path d="M732 306 H806 V284 H878" class="connector" marker-end="url(#commerce-control-plane-arrow)"/>
+    <text x="745" y="290" class="edge-label">product reads</text>
+    <path d="M732 360 H878" class="connector-primary" marker-end="url(#commerce-control-plane-arrow-primary)"/>
+    <text x="758" y="344" class="edge-label">order state</text>
+    <path d="M732 408 H804 V552 H858" class="connector-external" marker-end="url(#commerce-control-plane-arrow-external)"/>
+    <text x="716" y="492" class="edge-label">payment API</text>
+    <path d="M590 432 V566" class="connector-async" marker-end="url(#commerce-control-plane-arrow)"/>
+    <text x="604" y="505" class="edge-label">domain events</text>
+    <path d="M700 610 H790 V686 H858" class="connector-external" stroke-dasharray="7 6" marker-end="url(#commerce-control-plane-arrow-external)"/>
+    <text x="720" y="594" class="edge-label">fulfilment request</text>
+  </g>
+
+  <g id="commerce-control-plane-storefront" data-node-id="storefront" data-kind="actor">
+    <path d="M88 266 H270 L290 310 L270 354 H88 L68 310 Z" class="node"/>
+    <text x="102" y="304" class="node-label">Storefront</text>
+    <text x="102" y="329" class="node-detail">Customer channel</text>
+  </g>
+  <g id="commerce-control-plane-operations" data-node-id="operations-console" data-kind="actor">
+    <path d="M88 400 H270 L290 444 L270 488 H88 L68 444 Z" class="node"/>
+    <text x="102" y="438" class="node-label">Operations console</text>
+    <text x="102" y="463" class="node-detail">Internal channel</text>
+  </g>
+  <g id="commerce-control-plane-core" data-node-id="commerce-core" data-kind="service" data-emphasis="primary">
+    <rect x="448" y="270" width="284" height="162" rx="6" class="node-focal"/>
+    <path d="M450 278 H730" stroke="var(--emphasis-primary)" stroke-width="5"/>
+    <text x="480" y="328" class="node-label">Commerce Core</text>
+    <text x="480" y="356" class="node-detail">Orders · pricing · orchestration</text>
+    <line x1="480" y1="378" x2="700" y2="378" stroke="var(--rule)"/>
+    <text x="480" y="404" class="edge-label">HTTPS · transactional boundary</text>
+  </g>
+  <g id="commerce-control-plane-backbone" data-node-id="event-backbone" data-kind="component">
+    <rect x="480" y="566" width="220" height="88" rx="6" class="node" stroke-dasharray="6 5"/>
+    <text x="508" y="603" class="node-label">Event backbone</text>
+    <text x="508" y="628" class="node-detail">Async domain events</text>
+  </g>
+  <g id="commerce-control-plane-catalogue" data-node-id="catalogue-store" data-kind="data-store">
+    <path d="M878 254 C878 236 1110 236 1110 254 V314 C1110 332 878 332 878 314 Z" class="node"/>
+    <path d="M878 254 C878 272 1110 272 1110 254" fill="none" stroke="var(--rule)"/>
+    <text x="906" y="287" class="node-label">Catalogue store</text>
+    <text x="906" y="310" class="node-detail">Products + availability</text>
+  </g>
+  <g id="commerce-control-plane-orders" data-node-id="order-store" data-kind="data-store">
+    <path d="M878 344 C878 326 1110 326 1110 344 V404 C1110 422 878 422 878 404 Z" class="node"/>
+    <path d="M878 344 C878 362 1110 362 1110 344" fill="none" stroke="var(--rule)"/>
+    <text x="906" y="377" class="node-label">Order store</text>
+    <text x="906" y="400" class="node-detail">Transactional state</text>
+  </g>
+  <g id="commerce-control-plane-payment" data-node-id="payment-provider" data-kind="external-service">
+    <rect x="858" y="512" width="252" height="80" rx="6" class="node-external"/>
+    <text x="880" y="538" class="external-tag">EXTERNAL</text>
+    <text x="880" y="570" class="node-label">Payment provider</text>
+  </g>
+  <g id="commerce-control-plane-fulfilment" data-node-id="fulfilment-partner" data-kind="external-service">
+    <rect x="858" y="646" width="252" height="80" rx="6" class="node-external"/>
+    <text x="880" y="672" class="external-tag">EXTERNAL · ASYNC</text>
+    <text x="880" y="704" class="node-label">Fulfilment partner</text>
+  </g>
+
+  <line x1="60" y1="758" x2="1140" y2="758" stroke="var(--rule)"/>
+  <text x="60" y="783" class="meta" fill="var(--ink-muted)">EDITORIAL BLUEPRINT DARK · TECHNICAL · OWNERSHIP BOUNDARIES + CONTRACT LABELS</text>
+</svg>

@@ -1,0 +1,14 @@
+schemaVersion: 1
+id: editorial
+name: Editorial
+description: Report and article direction with selective annotation and a restrained focal hierarchy.
+density: generous
+titleScale: display
+visibleConcepts: reduced
+annotationTreatment: selective
+nodeTreatment: fine-border
+connectorLabels: selective
+technicalMetadata: minimal
+terminology: source-faithful
+focalHierarchy: restrained-strong
+decoration: minimal

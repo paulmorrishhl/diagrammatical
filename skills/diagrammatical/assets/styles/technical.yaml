@@ -1,0 +1,14 @@
+schemaVersion: 1
+id: technical
+name: Technical
+description: Compact engineering-documentation direction with boundaries, labelled relationships, and useful metadata.
+density: compact
+titleScale: standard
+visibleConcepts: detailed
+annotationTreatment: technical
+nodeTreatment: boundary-forward
+connectorLabels: frequent
+technicalMetadata: contextual
+terminology: technical
+focalHierarchy: structural
+decoration: minimal

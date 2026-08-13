@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://diagrammatical.dev/schemas/config.schema.json",
+  "title": "Diagrammatical project configuration",
+  "type": "object",
+  "required": ["schemaVersion"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "defaults": {
+      "type": "object",
+      "properties": {
+        "brand": { "$ref": "#/$defs/id" },
+        "style": { "enum": ["editorial", "technical", "executive", "clinical", "neutral"] },
+        "audience": { "enum": ["engineer", "mixed", "executive"] },
+        "mode": { "enum": ["light", "dark"] },
+        "detail": { "enum": ["minimal", "balanced", "detailed"] },
+        "outputPreset": { "enum": ["document-wide", "document-narrow", "slide", "square"] }
+      }
+    },
+    "output": {
+      "type": "object",
+      "properties": {
+        "directory": { "type": "string", "minLength": 1, "pattern": "^(?!/)(?!.*(?:^|/)[.][.](?:/|$)).+$" },
+        "html": { "type": "boolean" },
+        "svg": { "type": "boolean" },
+        "png": { "type": "boolean" }
+      }
+    },
+    "behaviour": {
+      "type": "object",
+      "properties": {
+        "askBeforeSimplifyingCriticalContent": { "type": "boolean" },
+        "reportFidelityLedger": { "type": "boolean" },
+        "generateAlternatives": { "type": "boolean" }
+      }
+    }
+  },
+  "$defs": {
+    "id": { "type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$", "maxLength": 80 }
+  }
+}

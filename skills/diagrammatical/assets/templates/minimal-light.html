@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Diagrammatical minimal light template</title>
+  <style>
+    :root {
+      --canvas: #f7f5ef; --surface: #ffffff; --surface-secondary: #f0eee8;
+      --ink: #20242c; --ink-muted: #687083; --rule: #d8d4ca;
+      --connector: #697386; --emphasis-primary: #315be8;
+      --emphasis-primary-tint: #e7ecff; --emphasis-secondary: #19735e;
+      --external: #2767b0; --success: #19735e; --warning: #b86514;
+      --danger: #b83a42; --deprecated: #9a6427;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--canvas); color: var(--ink); }
+    svg { display: block; width: 100%; height: auto; font-family: Inter, Arial, sans-serif; }
+    .title { font-family: "Instrument Serif", Georgia, serif; font-size: 40px; font-weight: 400; }
+    .subtitle { fill: var(--ink-muted); font-size: 15px; }
+    .node { fill: var(--surface); stroke: var(--rule); stroke-width: 1; }
+    .node-label { fill: var(--ink); font-size: 16px; font-weight: 600; }
+    .connector { fill: none; stroke: var(--connector); stroke-width: 2; }
+  </style>
+</head>
+<body>
+  <svg viewBox="0 0 1200 675" role="img" aria-labelledby="minimal-light-title minimal-light-desc">
+    <title id="minimal-light-title">Minimal light Diagrammatical template</title>
+    <desc id="minimal-light-desc">An accessible empty starting composition showing two connected semantic nodes.</desc>
+    <defs>
+      <marker id="minimal-light-arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+        <path d="M 0 0 L 8 4 L 0 8" fill="none" stroke="var(--connector)" stroke-width="1.5"/>
+      </marker>
+    </defs>
+    <rect width="1200" height="675" fill="var(--canvas)"/>
+    <text x="72" y="82" class="title">Diagram title</text>
+    <text x="72" y="112" class="subtitle">Purpose-led subtitle or primary message</text>
+    <path d="M 424 342 H 742" class="connector" marker-end="url(#minimal-light-arrow)"/>
+    <rect x="144" y="282" width="280" height="120" rx="6" class="node"/>
+    <text x="176" y="348" class="node-label">Source concept</text>
+    <rect x="744" y="282" width="312" height="120" rx="6" fill="var(--emphasis-primary-tint)" stroke="var(--emphasis-primary)"/>
+    <text x="776" y="348" class="node-label">Focal concept</text>
+  </svg>
+</body>
+</html>

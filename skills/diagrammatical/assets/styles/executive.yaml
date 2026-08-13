@@ -1,0 +1,14 @@
+schemaVersion: 1
+id: executive
+name: Executive
+description: Outcome-led leadership direction with fewer concepts and minimal implementation detail.
+density: generous
+titleScale: display
+visibleConcepts: minimal
+annotationTreatment: outcome-led
+nodeTreatment: plain-language
+connectorLabels: minimal
+technicalMetadata: hidden
+terminology: plain-language
+focalHierarchy: primary-message
+decoration: minimal

@@ -1,0 +1,15 @@
+schemaVersion: 1
+id: clinical
+name: Clinical
+description: High-legibility regulated-process direction with explicit state and responsibility distinctions.
+density: balanced
+titleScale: standard
+visibleConcepts: balanced
+annotationTreatment: responsibility-led
+nodeTreatment: high-legibility
+connectorLabels: explicit
+technicalMetadata: minimal
+terminology: source-faithful
+focalHierarchy: safety-led
+decoration: none
+accessibilityEmphasis: strong

@@ -1,0 +1,123 @@
+schemaVersion: 1
+diagram:
+  id: care-coordination-domains
+  title: Care coordination domains
+  description: Responsibility boundaries from patient intake through coordinated care and governed records.
+  type: architecture
+  audience: mixed
+  purpose: Clarify domain responsibility and the contracts that cross clinical system boundaries
+  primaryMessage: Care coordination mediates intake and records without erasing domain ownership
+nodes:
+  - id: patient
+    label: Patient
+    kind: actor
+    detail: Initiates and reviews care
+  - id: patient-portal
+    label: Patient portal
+    kind: service
+    detail: Intake and status
+    group: access-domain
+  - id: identity-service
+    label: Identity service
+    kind: service
+    detail: Identity and consent
+    group: access-domain
+  - id: care-coordinator
+    label: Care coordinator
+    kind: service
+    detail: Routes clinical work
+    emphasis: primary
+    group: care-domain
+  - id: clinician-workspace
+    label: Clinician workspace
+    kind: actor
+    detail: Reviews and acts
+    group: care-domain
+  - id: patient-record
+    label: Patient record
+    kind: data-store
+    detail: Governed clinical state
+    group: records-domain
+  - id: audit-service
+    label: Audit service
+    kind: service
+    detail: Immutable access trail
+    group: records-domain
+  - id: laboratory-network
+    label: Laboratory network
+    kind: external-service
+    detail: Results and acknowledgements
+edges:
+  - id: patient-uses-portal
+    from: patient
+    to: patient-portal
+    label: Intake and status
+    kind: action
+  - id: portal-verifies-identity
+    from: patient-portal
+    to: identity-service
+    label: Identity and consent
+    kind: action
+  - id: access-requests-care
+    from: identity-service
+    to: care-coordinator
+    label: Verified care request
+    kind: event
+  - id: coordinator-assigns-work
+    from: care-coordinator
+    to: clinician-workspace
+    label: Assigned clinical work
+    kind: action
+  - id: coordinator-updates-record
+    from: care-coordinator
+    to: patient-record
+    label: Governed record update
+    kind: data
+  - id: record-emits-audit
+    from: patient-record
+    to: audit-service
+    label: Access event
+    kind: event
+  - id: laboratory-sends-results
+    from: laboratory-network
+    to: care-coordinator
+    label: Signed result
+    kind: external
+groups:
+  - id: access-domain
+    label: Access and consent
+    kind: domain
+    nodes: [patient-portal, identity-service]
+  - id: care-domain
+    label: Care delivery
+    kind: domain
+    nodes: [care-coordinator, clinician-workspace]
+  - id: records-domain
+    label: Clinical records
+    kind: domain
+    nodes: [patient-record, audit-service]
+presentation:
+  composition: bounded-domains
+  direction: left-to-right
+  brand: editorial-blueprint
+  style: clinical
+  mode: light
+  detail: balanced
+  outputPreset: document-wide
+  focalNodes: [care-coordinator]
+  constraints:
+    keepTogether:
+      - [patient-portal, identity-service]
+      - [care-coordinator, clinician-workspace]
+      - [patient-record, audit-service]
+    separate: [laboratory-network]
+    maxVisibleNodes: 9
+fidelity:
+  source: Representative care-platform repository fixture and responsibility notes
+  collapsed:
+    - Appointment, triage, and task routing workflows are collapsed into Care coordinator.
+    - Record indexing and retention controls are collapsed into Patient record and Audit service.
+  omitted:
+    - Reporting and administrative capabilities are omitted from this care-responsibility view.
+  assumptions:
+    - Laboratory results enter through the care domain rather than writing directly to the record.

@@ -1,0 +1,252 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://diagrammatical.dev/schemas/diagram.schema.json",
+  "title": "Diagrammatical semantic diagram",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "diagram", "nodes", "edges", "presentation", "fidelity"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "diagram": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "title", "type", "audience", "purpose", "primaryMessage"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "title": { "$ref": "#/$defs/nonEmptyString" },
+        "description": { "type": "string", "maxLength": 1000 },
+        "type": { "enum": ["architecture", "flowchart", "sequence", "sitemap", "gantt"] },
+        "audience": { "enum": ["engineer", "mixed", "executive"] },
+        "purpose": { "$ref": "#/$defs/nonEmptyString" },
+        "primaryMessage": { "$ref": "#/$defs/nonEmptyString" }
+      }
+    },
+    "nodes": {
+      "type": "array",
+      "maxItems": 100,
+      "items": { "$ref": "#/$defs/node" }
+    },
+    "edges": {
+      "type": "array",
+      "maxItems": 200,
+      "items": { "$ref": "#/$defs/edge" }
+    },
+    "groups": {
+      "type": "array",
+      "maxItems": 30,
+      "default": [],
+      "items": { "$ref": "#/$defs/group" }
+    },
+    "presentation": { "$ref": "#/$defs/presentation" },
+    "fidelity": { "$ref": "#/$defs/fidelity" },
+    "sequence": { "$ref": "#/$defs/sequenceData" },
+    "gantt": { "$ref": "#/$defs/ganttData" }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "diagram": { "properties": { "type": { "const": "sequence" } } } } },
+      "then": { "required": ["sequence"] }
+    },
+    {
+      "if": { "properties": { "diagram": { "properties": { "type": { "const": "gantt" } } } } },
+      "then": { "required": ["gantt"] }
+    },
+    {
+      "if": { "properties": { "diagram": { "properties": { "type": { "const": "architecture" } } } } },
+      "then": {
+        "properties": {
+          "nodes": {
+            "minItems": 1,
+            "items": {
+              "properties": {
+                "kind": {
+                  "enum": [
+                    "actor", "input", "process", "service", "component",
+                    "external-service", "data-store", "state", "note"
+                  ]
+                }
+              }
+            }
+          },
+          "edges": { "minItems": 1 },
+          "presentation": {
+            "properties": {
+              "composition": {
+                "enum": [
+                  "linear-pipeline", "layered-stack", "central-platform",
+                  "hub-and-spoke", "bounded-domains", "current-future"
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+      "maxLength": 80
+    },
+    "nonEmptyString": { "type": "string", "minLength": 1, "maxLength": 500 },
+    "node": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "label", "kind"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "label": { "$ref": "#/$defs/nonEmptyString" },
+        "kind": {
+          "enum": [
+            "actor", "input", "process", "service", "component", "external-service",
+            "data-store", "state", "decision", "page", "task", "milestone", "note"
+          ]
+        },
+        "status": { "enum": ["default", "success", "warning", "danger", "deprecated"] },
+        "detail": { "type": "string", "maxLength": 1000 },
+        "emphasis": { "enum": ["none", "primary", "secondary"] },
+        "optional": { "type": "boolean" },
+        "async": { "type": "boolean" },
+        "group": { "$ref": "#/$defs/id" },
+        "positionHint": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "rank": { "type": "integer", "minimum": 0 },
+            "order": { "type": "integer", "minimum": 0 },
+            "near": { "$ref": "#/$defs/id" },
+            "side": { "enum": ["top", "right", "bottom", "left"] }
+          }
+        },
+        "metadata": {
+          "type": "object",
+          "additionalProperties": { "type": ["string", "number", "boolean"] }
+        }
+      }
+    },
+    "edge": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "from", "to", "kind"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "from": { "$ref": "#/$defs/id" },
+        "to": { "$ref": "#/$defs/id" },
+        "label": { "type": "string", "maxLength": 300 },
+        "kind": { "enum": ["default", "action", "event", "data", "dependency", "external", "message"] },
+        "direction": { "enum": ["forward", "reverse", "bidirectional", "none"] },
+        "optional": { "type": "boolean" },
+        "async": { "type": "boolean" },
+        "status": { "enum": ["default", "success", "warning", "danger", "deprecated"] }
+      }
+    },
+    "group": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "label", "nodes"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "label": { "$ref": "#/$defs/nonEmptyString" },
+        "kind": { "enum": ["boundary", "domain", "phase", "section", "workstream"] },
+        "nodes": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/id" }
+        },
+        "parent": { "$ref": "#/$defs/id" }
+      }
+    },
+    "presentation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["composition", "brand", "style", "mode", "detail", "outputPreset"],
+      "properties": {
+        "composition": { "$ref": "#/$defs/id" },
+        "direction": { "enum": ["left-to-right", "right-to-left", "top-to-bottom", "bottom-to-top"] },
+        "brand": { "$ref": "#/$defs/id" },
+        "style": { "enum": ["editorial", "technical", "executive", "clinical", "neutral"] },
+        "mode": { "enum": ["light", "dark"] },
+        "detail": { "enum": ["minimal", "balanced", "detailed"] },
+        "outputPreset": { "enum": ["document-wide", "document-narrow", "slide", "square"] },
+        "focalNodes": { "type": "array", "uniqueItems": true, "maxItems": 2, "items": { "$ref": "#/$defs/id" } },
+        "constraints": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "keepTogether": {
+              "type": "array",
+              "items": { "type": "array", "minItems": 2, "items": { "$ref": "#/$defs/id" } }
+            },
+            "separate": { "type": "array", "items": { "$ref": "#/$defs/id" } },
+            "maxVisibleNodes": { "type": "integer", "minimum": 1, "maximum": 100 }
+          }
+        },
+        "overrides": { "type": "object" }
+      }
+    },
+    "fidelity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source", "collapsed", "omitted", "assumptions"],
+      "properties": {
+        "source": { "$ref": "#/$defs/nonEmptyString" },
+        "collapsed": { "type": "array", "items": { "type": "string" } },
+        "omitted": { "type": "array", "items": { "type": "string" } },
+        "assumptions": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "sequenceData": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["messages"],
+      "properties": {
+        "messages": {
+          "type": "array",
+          "maxItems": 100,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["id", "from", "to", "label", "order"],
+            "properties": {
+              "id": { "$ref": "#/$defs/id" },
+              "from": { "$ref": "#/$defs/id" },
+              "to": { "$ref": "#/$defs/id" },
+              "label": { "$ref": "#/$defs/nonEmptyString" },
+              "order": { "type": "integer", "minimum": 1 },
+              "kind": { "enum": ["sync", "async", "return", "event"] },
+              "optional": { "type": "boolean" }
+            }
+          }
+        }
+      }
+    },
+    "ganttData": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["tasks"],
+      "properties": {
+        "dateFormat": { "const": "YYYY-MM-DD" },
+        "tasks": {
+          "type": "array",
+          "maxItems": 100,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["id", "label", "start", "end"],
+            "properties": {
+              "id": { "$ref": "#/$defs/id" },
+              "label": { "$ref": "#/$defs/nonEmptyString" },
+              "start": { "type": "string", "format": "date" },
+              "end": { "type": "string", "format": "date" },
+              "dependencies": { "type": "array", "uniqueItems": true, "items": { "$ref": "#/$defs/id" } },
+              "workstream": { "$ref": "#/$defs/id" },
+              "milestone": { "type": "boolean" },
+              "status": { "enum": ["default", "success", "warning", "danger", "deprecated"] }
+            }
+          }
+        }
+      }
+    }
+  }
+}

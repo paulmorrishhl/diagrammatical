@@ -1,0 +1,20 @@
+schemaVersion: 1
+
+defaults:
+  brand: editorial-blueprint
+  style: editorial
+  audience: mixed
+  mode: light
+  detail: balanced
+  outputPreset: document-wide
+
+output:
+  directory: diagrams
+  html: true
+  svg: true
+  png: false
+
+behaviour:
+  askBeforeSimplifyingCriticalContent: true
+  reportFidelityLedger: true
+  generateAlternatives: false

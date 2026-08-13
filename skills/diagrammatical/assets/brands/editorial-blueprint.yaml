@@ -1,0 +1,119 @@
+schemaVersion: 1
+id: editorial-blueprint
+name: Editorial Blueprint
+description: Warm editorial restraint with near-black structure, cobalt emphasis, and quiet technical precision.
+
+typography:
+  heading:
+    family: Instrument Serif
+    fallbacks: [Georgia, serif]
+    weight: 400
+  body:
+    family: Inter
+    fallbacks: [Arial, sans-serif]
+    weight: 400
+  label:
+    family: Inter
+    fallbacks: [Arial, sans-serif]
+    weight: 600
+  technical:
+    family: IBM Plex Mono
+    fallbacks: [monospace]
+    weight: 400
+
+logo:
+  source: null
+  placements: []
+
+shape:
+  cornerCharacter: small
+  radius: 6
+  nodePadding: 16
+  maxNodeWidth: 280
+
+stroke:
+  borderWidth: 1
+  ruleWidth: 1
+
+connectors:
+  weight: 2
+  curvature: orthogonal
+  arrowhead: line
+
+icons:
+  family: geometric-line
+  customDirectory: null
+
+density: generous
+
+accessibility:
+  normalTextContrast: 4.5
+  largeTextContrast: 3.0
+  allowDerivedColours: false
+  statusRequiresNonColourCue: true
+
+variants:
+  light:
+    palette:
+      warmPaper: "#F7F5EF"
+      white: "#FFFFFF"
+      paperGrey: "#F0EEE8"
+      graphite: "#20242C"
+      slate: "#687083"
+      hairline: "#D8D4CA"
+      connectorSlate: "#697386"
+      cobalt: "#315BE8"
+      cobaltTint: "#E7ECFF"
+      green: "#19735E"
+      blue: "#2767B0"
+      amber: "#B86514"
+      red: "#B83A42"
+      ochre: "#9A6427"
+    roles:
+      canvas: "#F7F5EF"
+      surface: "#FFFFFF"
+      surfaceSecondary: "#F0EEE8"
+      ink: "#20242C"
+      inkMuted: "#687083"
+      rule: "#D8D4CA"
+      connector: "#697386"
+      emphasisPrimary: "#315BE8"
+      emphasisPrimaryTint: "#E7ECFF"
+      emphasisSecondary: "#19735E"
+      external: "#2767B0"
+      success: "#19735E"
+      warning: "#B86514"
+      danger: "#B83A42"
+      deprecated: "#9A6427"
+  dark:
+    palette:
+      night: "#171A21"
+      graphite: "#20242C"
+      raisedGraphite: "#292E38"
+      paper: "#F4F1E9"
+      slate: "#BCC3D1"
+      hairline: "#4D5564"
+      connectorSlate: "#AEB7C7"
+      cobalt: "#9CB2FF"
+      cobaltTint: "#29355C"
+      green: "#72D3B7"
+      blue: "#8AC5FA"
+      amber: "#F1B36C"
+      red: "#FF9AA1"
+      ochre: "#E4B06D"
+    roles:
+      canvas: "#171A21"
+      surface: "#20242C"
+      surfaceSecondary: "#292E38"
+      ink: "#F4F1E9"
+      inkMuted: "#BCC3D1"
+      rule: "#4D5564"
+      connector: "#AEB7C7"
+      emphasisPrimary: "#9CB2FF"
+      emphasisPrimaryTint: "#29355C"
+      emphasisSecondary: "#72D3B7"
+      external: "#8AC5FA"
+      success: "#72D3B7"
+      warning: "#F1B36C"
+      danger: "#FF9AA1"
+      deprecated: "#E4B06D"

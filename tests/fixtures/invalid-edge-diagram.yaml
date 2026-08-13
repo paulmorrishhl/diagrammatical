@@ -1,0 +1,30 @@
+schemaVersion: 1
+diagram:
+  id: broken-reference
+  title: Broken reference
+  type: flowchart
+  audience: mixed
+  purpose: Demonstrate reference validation
+  primaryMessage: Invalid references must fail clearly
+nodes:
+  - id: known-node
+    label: Known node
+    kind: process
+edges:
+  - id: broken-edge
+    from: known-node
+    to: missing-node
+    kind: action
+groups: []
+presentation:
+  composition: linear
+  brand: editorial-blueprint
+  style: editorial
+  mode: light
+  detail: balanced
+  outputPreset: document-wide
+fidelity:
+  source: Test fixture
+  collapsed: []
+  omitted: []
+  assumptions: []

@@ -1,0 +1,15 @@
+services:
+  dispatch-api:
+    entrypoint: dispatch.api:app
+    depends_on: [postgres, work-queue]
+  dispatch-worker:
+    entrypoint: dispatch.worker:run
+    depends_on: [postgres, work-queue, carrier-api]
+managed:
+  postgres:
+    purpose: shipment state
+  work-queue:
+    purpose: durable asynchronous handoff
+external:
+  carrier-api:
+    purpose: shipment booking and tracking

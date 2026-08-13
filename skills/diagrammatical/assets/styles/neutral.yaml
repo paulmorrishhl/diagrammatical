@@ -1,0 +1,15 @@
+schemaVersion: 1
+id: neutral
+name: Neutral
+description: Low-expression direction for embedding within an unknown surrounding visual system.
+density: balanced
+titleScale: standard
+visibleConcepts: balanced
+annotationTreatment: minimal
+nodeTreatment: clean
+connectorLabels: selective
+technicalMetadata: contextual
+terminology: source-faithful
+focalHierarchy: subtle
+decoration: none
+systemFontsPermitted: true

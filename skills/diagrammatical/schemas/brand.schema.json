@@ -1,0 +1,141 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://diagrammatical.dev/schemas/brand.schema.json",
+  "title": "Diagrammatical brand",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "id", "name", "description", "typography", "shape", "stroke", "connectors", "icons", "density", "accessibility", "variants"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "id": { "$ref": "#/$defs/id" },
+    "name": { "$ref": "#/$defs/nonEmptyString" },
+    "description": { "$ref": "#/$defs/nonEmptyString" },
+    "typography": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["heading", "body", "label", "technical"],
+      "properties": {
+        "heading": { "$ref": "#/$defs/font" },
+        "body": { "$ref": "#/$defs/font" },
+        "label": { "$ref": "#/$defs/font" },
+        "technical": { "$ref": "#/$defs/font" }
+      }
+    },
+    "logo": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source", "placements"],
+      "properties": {
+        "source": { "type": ["string", "null"] },
+        "placements": { "type": "array", "uniqueItems": true, "items": { "enum": ["header-left", "header-right", "footer-left", "footer-right"] } }
+      }
+    },
+    "shape": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["cornerCharacter", "radius", "nodePadding", "maxNodeWidth"],
+      "properties": {
+        "cornerCharacter": { "enum": ["square", "small", "rounded"] },
+        "radius": { "$ref": "#/$defs/pixels" },
+        "nodePadding": { "$ref": "#/$defs/pixels" },
+        "maxNodeWidth": { "$ref": "#/$defs/pixels" }
+      }
+    },
+    "stroke": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["borderWidth", "ruleWidth"],
+      "properties": {
+        "borderWidth": { "$ref": "#/$defs/pixels" },
+        "ruleWidth": { "$ref": "#/$defs/pixels" }
+      }
+    },
+    "connectors": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["weight", "curvature", "arrowhead"],
+      "properties": {
+        "weight": { "$ref": "#/$defs/pixels" },
+        "curvature": { "enum": ["orthogonal", "subtle", "curved"] },
+        "arrowhead": { "enum": ["line", "triangle", "none"] }
+      }
+    },
+    "icons": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["family", "customDirectory"],
+      "properties": {
+        "family": { "type": "string", "minLength": 1 },
+        "customDirectory": { "type": ["string", "null"] }
+      }
+    },
+    "density": { "enum": ["generous", "balanced", "compact"] },
+    "accessibility": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["normalTextContrast", "largeTextContrast", "allowDerivedColours", "statusRequiresNonColourCue"],
+      "properties": {
+        "normalTextContrast": { "type": "number", "minimum": 4.5 },
+        "largeTextContrast": { "type": "number", "minimum": 3 },
+        "allowDerivedColours": { "type": "boolean" },
+        "statusRequiresNonColourCue": { "const": true }
+      }
+    },
+    "variants": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["light"],
+      "properties": {
+        "light": { "$ref": "#/$defs/variant" },
+        "dark": { "$ref": "#/$defs/variant" }
+      }
+    }
+  },
+  "$defs": {
+    "id": { "type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$", "maxLength": 80 },
+    "nonEmptyString": { "type": "string", "minLength": 1, "maxLength": 500 },
+    "pixels": { "type": "integer", "minimum": 0, "maximum": 1000 },
+    "font": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["family", "fallbacks", "weight"],
+      "properties": {
+        "family": { "type": "string", "minLength": 1 },
+        "fallbacks": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } },
+        "weight": { "type": "integer", "minimum": 100, "maximum": 900, "multipleOf": 100 }
+      }
+    },
+    "variant": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["palette", "roles"],
+      "properties": {
+        "palette": { "type": "object", "minProperties": 1, "additionalProperties": { "$ref": "#/$defs/colour" } },
+        "roles": { "$ref": "#/$defs/roles" }
+      }
+    },
+    "colour": { "type": "string", "pattern": "^#[0-9A-Fa-f]{6}$" },
+    "roles": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["canvas", "surface", "surfaceSecondary", "ink", "inkMuted", "rule", "connector", "emphasisPrimary", "emphasisPrimaryTint", "emphasisSecondary", "external", "success", "warning", "danger", "deprecated"],
+      "properties": {
+        "canvas": { "$ref": "#/$defs/colour" },
+        "surface": { "$ref": "#/$defs/colour" },
+        "surfaceSecondary": { "$ref": "#/$defs/colour" },
+        "ink": { "$ref": "#/$defs/colour" },
+        "inkMuted": { "$ref": "#/$defs/colour" },
+        "rule": { "$ref": "#/$defs/colour" },
+        "connector": { "$ref": "#/$defs/colour" },
+        "emphasisPrimary": { "$ref": "#/$defs/colour" },
+        "emphasisPrimaryTint": { "$ref": "#/$defs/colour" },
+        "emphasisSecondary": { "$ref": "#/$defs/colour" },
+        "external": { "$ref": "#/$defs/colour" },
+        "success": { "$ref": "#/$defs/colour" },
+        "warning": { "$ref": "#/$defs/colour" },
+        "danger": { "$ref": "#/$defs/colour" },
+        "deprecated": { "$ref": "#/$defs/colour" }
+      }
+    }
+  }
+}

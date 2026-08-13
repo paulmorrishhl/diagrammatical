@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
+  "name": "diagrammatical",
+  "displayName": "Diagrammatical",
+  "version": "0.1.0",
+  "description": "A specialist diagram designer for purposeful, brandable diagrams in Claude Code.",
+  "author": {
+    "name": "Paul Morrish",
+    "url": "https://github.com/paulmorrishhl"
+  },
+  "homepage": "https://github.com/paulmorrishhl/diagrammatical#readme",
+  "repository": "https://github.com/paulmorrishhl/diagrammatical",
+  "license": "MIT",
+  "keywords": [
+    "diagrams",
+    "architecture",
+    "svg",
+    "visualisation"
+  ],
+  "commands": "./commands/",
+  "skills": "./skills/"
+}
+

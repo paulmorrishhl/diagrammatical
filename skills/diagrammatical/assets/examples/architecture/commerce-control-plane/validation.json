@@ -1,0 +1,49 @@
+{
+  "directory": "skills/diagrammatical/assets/examples/architecture/commerce-control-plane",
+  "diagram_id": "commerce-control-plane",
+  "files": {
+    "source": "diagram.yaml",
+    "html": "commerce-control-plane.html",
+    "svg": "commerce-control-plane.svg",
+    "validation": "validation.json"
+  },
+  "checks": {
+    "schema": {
+      "schema": "diagram",
+      "source": "skills/diagrammatical/assets/examples/architecture/commerce-control-plane/diagram.yaml",
+      "errors": [],
+      "warnings": [],
+      "valid": true
+    },
+    "htmlSafety": {
+      "kind": "html",
+      "source": "skills/diagrammatical/assets/examples/architecture/commerce-control-plane/commerce-control-plane.html",
+      "errors": [],
+      "warnings": [],
+      "valid": true
+    },
+    "svg": {
+      "kind": "svg",
+      "source": "skills/diagrammatical/assets/examples/architecture/commerce-control-plane/commerce-control-plane.svg",
+      "errors": [],
+      "warnings": [],
+      "valid": true
+    },
+    "extraction": {
+      "valid": true,
+      "errors": [],
+      "warnings": []
+    }
+  },
+  "errors": [],
+  "warnings": [],
+  "valid": true,
+  "visualReview": {
+    "status": "completed",
+    "findings": [
+      "Rendered at 1200 by 800 in local Chromium and inspected at full resolution.",
+      "The central control plane, owned boundaries, data stores, and external partner cues remain distinct in dark mode.",
+      "The payment connector label was repositioned and shortened after review; the final frame has traceable routes and no visible text clipping."
+    ]
+  }
+}

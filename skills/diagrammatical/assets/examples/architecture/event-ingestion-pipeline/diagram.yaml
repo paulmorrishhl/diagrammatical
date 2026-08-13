@@ -1,0 +1,107 @@
+schemaVersion: 1
+diagram:
+  id: event-ingestion-pipeline
+  title: Event ingestion pipeline
+  description: How partner events become trusted analytical data and operational signals.
+  type: architecture
+  audience: mixed
+  purpose: Explain the primary event-to-insight path and its operational side effect
+  primaryMessage: One durable stream separates event intake from processing and downstream insight
+nodes:
+  - id: partner-systems
+    label: Partner systems
+    kind: actor
+    detail: Event producers
+  - id: edge-gateway
+    label: Edge gateway
+    kind: service
+    detail: Authenticate and rate-limit
+    group: ingestion-platform
+  - id: event-intake
+    label: Event intake
+    kind: service
+    detail: Validate and normalise
+    group: ingestion-platform
+  - id: durable-stream
+    label: Durable stream
+    kind: data-store
+    detail: Replayable event log
+    emphasis: primary
+    group: ingestion-platform
+  - id: stream-processor
+    label: Stream processor
+    kind: process
+    detail: Enrich and aggregate
+    group: ingestion-platform
+  - id: analytics-warehouse
+    label: Analytics warehouse
+    kind: data-store
+    detail: Curated datasets
+    group: insight-plane
+  - id: operations-monitoring
+    label: Operations monitoring
+    kind: service
+    detail: Lag, failures, throughput
+    group: insight-plane
+edges:
+  - id: partners-send-events
+    from: partner-systems
+    to: edge-gateway
+    label: HTTPS events
+    kind: external
+  - id: gateway-forwards
+    from: edge-gateway
+    to: event-intake
+    label: Accepted payloads
+    kind: data
+  - id: intake-publishes
+    from: event-intake
+    to: durable-stream
+    label: Normalised events
+    kind: event
+  - id: processor-consumes
+    from: durable-stream
+    to: stream-processor
+    label: Ordered partitions
+    kind: event
+  - id: processor-writes
+    from: stream-processor
+    to: analytics-warehouse
+    label: Curated records
+    kind: data
+  - id: processor-reports
+    from: stream-processor
+    to: operations-monitoring
+    label: Metrics and failures
+    kind: event
+    async: true
+groups:
+  - id: ingestion-platform
+    label: Ingestion platform
+    kind: boundary
+    nodes: [edge-gateway, event-intake, durable-stream, stream-processor]
+  - id: insight-plane
+    label: Insight and operations
+    kind: boundary
+    nodes: [analytics-warehouse, operations-monitoring]
+presentation:
+  composition: linear-pipeline
+  direction: left-to-right
+  brand: editorial-blueprint
+  style: editorial
+  mode: light
+  detail: balanced
+  outputPreset: document-wide
+  focalNodes: [durable-stream]
+  constraints:
+    keepTogether:
+      - [edge-gateway, event-intake, durable-stream, stream-processor]
+    maxVisibleNodes: 9
+fidelity:
+  source: Representative event-platform repository fixture and deployment notes
+  collapsed:
+    - Partner-specific protocol adapters are collapsed into Partner systems and Edge gateway.
+    - Schema registry and dead-letter handling are represented by Event intake and Operations monitoring.
+  omitted: []
+  assumptions:
+    - The durable stream is the replay boundary because processing consumes ordered partitions.

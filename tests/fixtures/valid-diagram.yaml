@@ -1,0 +1,54 @@
+schemaVersion: 1
+diagram:
+  id: patient-onboarding
+  title: Patient onboarding
+  description: How payment confirmation leads to portal registration
+  type: flowchart
+  audience: mixed
+  purpose: Explain the operational onboarding path
+  primaryMessage: Registration begins only after payment confirmation
+nodes:
+  - id: patient
+    label: Patient
+    kind: actor
+  - id: payment
+    label: Stripe payment
+    kind: external-service
+  - id: registration
+    label: Registration service
+    kind: process
+    emphasis: primary
+  - id: portal-account
+    label: Portal account
+    kind: state
+edges:
+  - id: patient-pays
+    from: patient
+    to: payment
+    label: Pays
+    kind: action
+  - id: payment-confirmed
+    from: payment
+    to: registration
+    label: Payment confirmed
+    kind: event
+  - id: account-created
+    from: registration
+    to: portal-account
+    label: Creates
+    kind: action
+groups: []
+presentation:
+  composition: linear
+  direction: left-to-right
+  brand: editorial-blueprint
+  style: editorial
+  mode: light
+  detail: balanced
+  outputPreset: document-wide
+  focalNodes: [registration]
+fidelity:
+  source: Repository inspection and user prompt
+  collapsed: []
+  omitted: []
+  assumptions: []
