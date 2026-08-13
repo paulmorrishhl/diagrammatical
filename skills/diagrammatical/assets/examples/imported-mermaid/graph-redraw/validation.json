@@ -1,0 +1,122 @@
+{
+  "valid": true,
+  "visualReview": {
+    "status": "completed",
+    "findings": [
+      "Rendered at 1200 by 720 in local Chromium and inspected at full resolution.",
+      "Primary left-to-right path, ownership boundaries, and focal durable stream read clearly.",
+      "A competing edge annotation was removed and the HTTPS label shortened after review; the final frame has no visible clipping or connector-label collision."
+    ]
+  },
+  "checks": [
+    {
+      "name": "schema",
+      "schema": "diagram",
+      "source": "skills/diagrammatical/assets/examples/imported-mermaid/graph-redraw/diagram.yaml",
+      "errors": [],
+      "warnings": [],
+      "valid": true
+    },
+    {
+      "name": "brand",
+      "valid": true,
+      "errors": [],
+      "warnings": [],
+      "contrastChecks": 18,
+      "adjustments": 0
+    },
+    {
+      "name": "htmlSafety",
+      "kind": "html",
+      "source": "skills/diagrammatical/assets/examples/imported-mermaid/graph-redraw/event-ingestion-pipeline.html",
+      "errors": [],
+      "warnings": [],
+      "valid": true
+    },
+    {
+      "name": "svg",
+      "kind": "svg",
+      "source": "skills/diagrammatical/assets/examples/imported-mermaid/graph-redraw/event-ingestion-pipeline.svg",
+      "errors": [],
+      "warnings": [],
+      "valid": true
+    },
+    {
+      "name": "extraction",
+      "valid": true,
+      "errors": [],
+      "warnings": []
+    }
+  ],
+  "warnings": [],
+  "errors": [],
+  "outputs": [
+    {
+      "kind": "source",
+      "path": "diagram.yaml",
+      "present": true
+    },
+    {
+      "kind": "html",
+      "path": "event-ingestion-pipeline.html",
+      "present": true
+    },
+    {
+      "kind": "svg",
+      "path": "event-ingestion-pipeline.svg",
+      "present": true
+    },
+    {
+      "kind": "validation",
+      "path": "validation.json",
+      "present": true
+    }
+  ],
+  "fidelity": {
+    "semantic": {
+      "source": "Representative event-platform repository fixture and deployment notes",
+      "collapsed": [
+        "Partner-specific protocol adapters are collapsed into Partner systems and Edge gateway.",
+        "Schema registry and dead-letter handling are represented by Event intake and Operations monitoring."
+      ],
+      "omitted": [],
+      "assumptions": [
+        "The durable stream is the replay boundary because processing consumes ordered partitions."
+      ]
+    },
+    "import": {
+      "source": "tests/fixtures/mermaid/redraw-graph.mmd",
+      "selectedBlock": 0,
+      "detectedGrammar": "graph",
+      "originalCount": {
+        "nodes": 7,
+        "edges": 6
+      },
+      "finalVisibleCount": {
+        "nodes": 7,
+        "edges": 6
+      },
+      "preserved": [
+        "client",
+        "API",
+        "durable store",
+        "edge boundary"
+      ],
+      "normalisedLabels": [],
+      "merged": [],
+      "collapsed": [],
+      "omitted": [],
+      "unsupported": [],
+      "assumptions": [],
+      "requestedTypeChange": "Mermaid graph was classified as architecture because component relationships dominate."
+    }
+  },
+  "directory": "skills/diagrammatical/assets/examples/imported-mermaid/graph-redraw",
+  "diagram_id": "event-ingestion-pipeline",
+  "files": {
+    "source": "diagram.yaml",
+    "html": "event-ingestion-pipeline.html",
+    "svg": "event-ingestion-pipeline.svg",
+    "validation": "validation.json"
+  }
+}

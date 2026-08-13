@@ -1,0 +1,88 @@
+schemaVersion: 1
+id: harbour-green
+name: Harbour Green
+description: Project-owned Diagrammatical identity for Harbour Green.
+typography:
+  heading:
+    family: Georgia
+    fallbacks:
+    - Arial
+    - sans-serif
+    weight: 600
+  body:
+    family: Arial
+    fallbacks:
+    - Arial
+    - sans-serif
+    weight: 400
+  label:
+    family: Arial
+    fallbacks:
+    - Arial
+    - sans-serif
+    weight: 600
+  technical:
+    family: IBM Plex Mono
+    fallbacks:
+    - monospace
+    weight: 400
+logo:
+  source: null
+  placements: []
+  maximumWidth: 96
+shape:
+  cornerCharacter: small
+  radius: 8
+  nodePadding: 16
+  maxNodeWidth: 280
+stroke:
+  borderWidth: 1
+  ruleWidth: 1
+connectors:
+  weight: 2
+  curvature: orthogonal
+  arrowhead: line
+icons:
+  family: geometric-line
+  customDirectory: null
+density: balanced
+accessibility:
+  normalTextContrast: 4.5
+  largeTextContrast: 3.0
+  allowDerivedColours: true
+  statusRequiresNonColourCue: true
+variants:
+  light:
+    palette:
+      canvas: '#FFF9F2'
+      surface: '#FFFFFF'
+      surfaceSecondary: '#F0EEE8'
+      ink: '#5E6E69'
+      inkMuted: '#5E6E69'
+      rule: '#D8D4CA'
+      connector: '#5E6E69'
+      emphasisPrimary: '#176B5B'
+      emphasisPrimaryTint: '#DFE5DD'
+      emphasisSecondary: '#A64B2A'
+      external: '#2767B0'
+      success: '#19735E'
+      warning: '#9A510E'
+      danger: '#B83A42'
+      deprecated: '#9A6427'
+    roles:
+      canvas: '#FFF9F2'
+      surface: '#FFFFFF'
+      surfaceSecondary: '#F0EEE8'
+      ink: '#5E6E69'
+      inkMuted: '#5E6E69'
+      rule: '#D8D4CA'
+      connector: '#5E6E69'
+      emphasisPrimary: '#176B5B'
+      emphasisPrimaryTint: '#DFE5DD'
+      emphasisSecondary: '#A64B2A'
+      external: '#2767B0'
+      success: '#19735E'
+      warning: '#9A510E'
+      danger: '#B83A42'
+      deprecated: '#9A6427'
+    generated: false

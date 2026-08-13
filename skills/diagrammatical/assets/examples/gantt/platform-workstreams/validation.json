@@ -1,4 +1,91 @@
 {
+  "valid": true,
+  "visualReview": {
+    "status": "completed",
+    "findings": [
+      "Rendered at 1200\u00d7820 in Chromium and inspected at full resolution.",
+      "Parallel Platform, Data and Adoption bands remain distinct in dark mode and converge clearly on the 26 February milestone.",
+      "Dependency dashes, month grid and critical service-migration emphasis remain readable without invented progress."
+    ]
+  },
+  "checks": [
+    {
+      "name": "schema",
+      "schema": "diagram",
+      "source": "skills/diagrammatical/assets/examples/gantt/platform-workstreams/diagram.yaml",
+      "errors": [],
+      "warnings": [],
+      "valid": true
+    },
+    {
+      "name": "brand",
+      "valid": true,
+      "errors": [],
+      "warnings": [],
+      "contrastChecks": 18,
+      "adjustments": 0
+    },
+    {
+      "name": "htmlSafety",
+      "kind": "html",
+      "source": "skills/diagrammatical/assets/examples/gantt/platform-workstreams/platform-workstreams.html",
+      "errors": [],
+      "warnings": [],
+      "valid": true
+    },
+    {
+      "name": "svg",
+      "kind": "svg",
+      "source": "skills/diagrammatical/assets/examples/gantt/platform-workstreams/platform-workstreams.svg",
+      "errors": [],
+      "warnings": [],
+      "valid": true
+    },
+    {
+      "name": "extraction",
+      "valid": true,
+      "errors": [],
+      "warnings": []
+    }
+  ],
+  "warnings": [],
+  "errors": [],
+  "outputs": [
+    {
+      "kind": "source",
+      "path": "diagram.yaml",
+      "present": true
+    },
+    {
+      "kind": "html",
+      "path": "platform-workstreams.html",
+      "present": true
+    },
+    {
+      "kind": "svg",
+      "path": "platform-workstreams.svg",
+      "present": true
+    },
+    {
+      "kind": "validation",
+      "path": "validation.json",
+      "present": true
+    }
+  ],
+  "fidelity": {
+    "semantic": {
+      "source": "Representative platform programme workstream plan",
+      "collapsed": [
+        "Service-by-service migrations are collapsed into Service migration."
+      ],
+      "omitted": [
+        "Business-as-usual operational tasks are omitted."
+      ],
+      "assumptions": [
+        "Dates are inclusive and the named dependencies govern integration readiness."
+      ]
+    }
+  },
   "directory": "skills/diagrammatical/assets/examples/gantt/platform-workstreams",
   "diagram_id": "platform-workstreams",
   "files": {
@@ -6,44 +93,5 @@
     "html": "platform-workstreams.html",
     "svg": "platform-workstreams.svg",
     "validation": "validation.json"
-  },
-  "checks": {
-    "schema": {
-      "schema": "diagram",
-      "source": "skills/diagrammatical/assets/examples/gantt/platform-workstreams/diagram.yaml",
-      "errors": [],
-      "warnings": [],
-      "valid": true
-    },
-    "htmlSafety": {
-      "kind": "html",
-      "source": "skills/diagrammatical/assets/examples/gantt/platform-workstreams/platform-workstreams.html",
-      "errors": [],
-      "warnings": [],
-      "valid": true
-    },
-    "svg": {
-      "kind": "svg",
-      "source": "skills/diagrammatical/assets/examples/gantt/platform-workstreams/platform-workstreams.svg",
-      "errors": [],
-      "warnings": [],
-      "valid": true
-    },
-    "extraction": {
-      "valid": true,
-      "errors": [],
-      "warnings": []
-    }
-  },
-  "errors": [],
-  "warnings": [],
-  "valid": true,
-  "visualReview": {
-    "status": "completed",
-    "findings": [
-      "Rendered at 1200×820 in Chromium and inspected at full resolution.",
-      "Parallel Platform, Data and Adoption bands remain distinct in dark mode and converge clearly on the 26 February milestone.",
-      "Dependency dashes, month grid and critical service-migration emphasis remain readable without invented progress."
-    ]
   }
 }

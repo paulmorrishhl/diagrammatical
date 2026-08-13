@@ -1,0 +1,257 @@
+{
+  "schemaVersion": 1,
+  "brand": "care-purple-dark",
+  "sources": [
+    {
+      "type": "manual",
+      "path": "conversation"
+    }
+  ],
+  "extracted": {
+    "colours": [
+      {
+        "name": "canvas",
+        "value": "#F8FAFC",
+        "source": "conversation",
+        "context": "manual",
+        "variant": "light"
+      },
+      {
+        "name": "surface",
+        "value": "#FFFFFF",
+        "source": "conversation",
+        "context": "manual",
+        "variant": "light"
+      },
+      {
+        "name": "ink",
+        "value": "#192033",
+        "source": "conversation",
+        "context": "manual",
+        "variant": "light"
+      },
+      {
+        "name": "muted-foreground",
+        "value": "#586174",
+        "source": "conversation",
+        "context": "manual",
+        "variant": "light"
+      },
+      {
+        "name": "primary",
+        "value": "#6758E8",
+        "source": "conversation",
+        "context": "manual",
+        "variant": "light"
+      },
+      {
+        "name": "secondary",
+        "value": "#237F70",
+        "source": "conversation",
+        "context": "manual",
+        "variant": "light"
+      },
+      {
+        "name": "success",
+        "value": "#198754",
+        "source": "conversation",
+        "context": "manual",
+        "variant": "light"
+      },
+      {
+        "name": "warning",
+        "value": "#9A510E",
+        "source": "conversation",
+        "context": "manual",
+        "variant": "light"
+      },
+      {
+        "name": "danger",
+        "value": "#B83A42",
+        "source": "conversation",
+        "context": "manual",
+        "variant": "light"
+      }
+    ],
+    "fonts": [
+      {
+        "name": "heading",
+        "family": "Sora",
+        "source": "conversation",
+        "context": "manual"
+      },
+      {
+        "name": "body",
+        "family": "Inter",
+        "source": "conversation",
+        "context": "manual"
+      },
+      {
+        "name": "label",
+        "family": "Inter",
+        "source": "conversation",
+        "context": "manual"
+      }
+    ],
+    "logos": [],
+    "shape": []
+  },
+  "mappings": [
+    {
+      "variant": "light",
+      "role": "canvas",
+      "sourceName": "canvas",
+      "sourceValue": "#F8FAFC",
+      "resolvedValue": "#F8FAFC",
+      "source": "conversation"
+    },
+    {
+      "variant": "light",
+      "role": "surface",
+      "sourceName": "surface",
+      "sourceValue": "#FFFFFF",
+      "resolvedValue": "#FFFFFF",
+      "source": "conversation"
+    },
+    {
+      "variant": "light",
+      "role": "ink",
+      "sourceName": "muted-foreground",
+      "sourceValue": "#586174",
+      "resolvedValue": "#586174",
+      "source": "conversation"
+    },
+    {
+      "variant": "light",
+      "role": "inkMuted",
+      "sourceName": "muted-foreground",
+      "sourceValue": "#586174",
+      "resolvedValue": "#586174",
+      "source": "conversation"
+    },
+    {
+      "variant": "light",
+      "role": "emphasisPrimary",
+      "sourceName": "primary",
+      "sourceValue": "#6758E8",
+      "resolvedValue": "#6758E8",
+      "source": "conversation"
+    },
+    {
+      "variant": "light",
+      "role": "emphasisSecondary",
+      "sourceName": "secondary",
+      "sourceValue": "#237F70",
+      "resolvedValue": "#237F70",
+      "source": "conversation"
+    },
+    {
+      "variant": "light",
+      "role": "success",
+      "sourceName": "success",
+      "sourceValue": "#198754",
+      "resolvedValue": "#198754",
+      "source": "conversation"
+    },
+    {
+      "variant": "light",
+      "role": "warning",
+      "sourceName": "warning",
+      "sourceValue": "#9A510E",
+      "resolvedValue": "#9A510E",
+      "source": "conversation"
+    },
+    {
+      "variant": "light",
+      "role": "danger",
+      "sourceName": "danger",
+      "sourceValue": "#B83A42",
+      "resolvedValue": "#B83A42",
+      "source": "conversation"
+    }
+  ],
+  "adjustments": [],
+  "fallbacks": [
+    {
+      "variant": "light",
+      "role": "surfaceSecondary",
+      "value": "#F0EEE8",
+      "reason": "no unambiguous source value"
+    },
+    {
+      "variant": "light",
+      "role": "rule",
+      "value": "#D8D4CA",
+      "reason": "no unambiguous source value"
+    },
+    {
+      "variant": "light",
+      "role": "connector",
+      "value": "#697386",
+      "reason": "no unambiguous source value"
+    },
+    {
+      "variant": "light",
+      "role": "emphasisPrimaryTint",
+      "value": "#E4E3F9",
+      "reason": "derived from primary accent and canvas"
+    },
+    {
+      "variant": "light",
+      "role": "external",
+      "value": "#2767B0",
+      "reason": "no unambiguous source value"
+    },
+    {
+      "variant": "light",
+      "role": "deprecated",
+      "value": "#9A6427",
+      "reason": "no unambiguous source value"
+    }
+  ],
+  "ambiguities": [],
+  "warnings": [
+    "dark variant was derived from accessible dark defaults and brand accents; approval is required before reuse"
+  ],
+  "missingAssets": [],
+  "contrast": [],
+  "policies": {
+    "maximumPrimaryFocalElements": 2,
+    "normalConnectors": "neutral",
+    "colourAlone": "prohibited"
+  },
+  "approvedAt": null,
+  "typography": {
+    "heading": {
+      "family": "Sora",
+      "weight": 600,
+      "fallbacks": [
+        "Arial",
+        "sans-serif"
+      ]
+    },
+    "body": {
+      "family": "Inter",
+      "weight": 400,
+      "fallbacks": [
+        "Arial",
+        "sans-serif"
+      ]
+    },
+    "label": {
+      "family": "Inter",
+      "weight": 600,
+      "fallbacks": [
+        "Arial",
+        "sans-serif"
+      ]
+    },
+    "technical": {
+      "family": "IBM Plex Mono",
+      "weight": 400,
+      "fallbacks": [
+        "monospace"
+      ]
+    }
+  }
+}

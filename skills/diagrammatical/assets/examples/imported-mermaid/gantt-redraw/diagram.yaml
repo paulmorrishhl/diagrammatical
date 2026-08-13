@@ -1,0 +1,24 @@
+schemaVersion: 1
+diagram: {id: release-gates, title: Release readiness gates, type: gantt, audience: executive, purpose: Show the dated evidence leading to three release commitments, primaryMessage: "Evidence, approval and rollout gates culminate in general availability"}
+nodes: []
+edges: []
+groups: []
+gantt:
+  dateFormat: YYYY-MM-DD
+  planStart: 2027-03-01
+  planEnd: 2027-06-30
+  scale: month
+  workstreams: [product, assurance, release]
+  tasks:
+    - {id: feature-complete-work, label: Complete priority features, start: 2027-03-01, end: 2027-04-02, workstream: product}
+    - {id: feature-complete, label: Feature complete, start: 2027-04-02, end: 2027-04-02, dependencies: [feature-complete-work], workstream: product, milestone: true}
+    - {id: assurance, label: Security and reliability evidence, start: 2027-04-05, end: 2027-05-14, dependencies: [feature-complete], workstream: assurance, critical: true}
+    - {id: release-approval, label: Release approval, start: 2027-05-21, end: 2027-05-21, dependencies: [assurance], workstream: assurance, milestone: true}
+    - {id: pilot-rollout, label: Pilot rollout, start: 2027-05-24, end: 2027-06-18, dependencies: [release-approval], workstream: release}
+    - {id: general-availability, label: General availability, start: 2027-06-30, end: 2027-06-30, dependencies: [pilot-rollout], workstream: release, milestone: true}
+presentation: {composition: milestone-led, direction: left-to-right, brand: editorial-blueprint, style: executive, mode: light, detail: minimal, outputPreset: document-wide, focalNodes: []}
+fidelity:
+  source: Representative release-governance plan with approved target dates
+  collapsed: [Individual assurance tests are collapsed into Security and reliability evidence.]
+  omitted: [Routine release communications are omitted.]
+  assumptions: [Dates are inclusive and milestone dates are fixed commitments.]

@@ -1,4 +1,91 @@
 {
+  "valid": true,
+  "visualReview": {
+    "status": "completed",
+    "findings": [
+      "Rendered at 1200\u00d7820 in Chromium and inspected at full resolution.",
+      "Open asynchronous arrows, self-messages and dashed acknowledgements make publisher/broker/consumer responsibilities traceable.",
+      "Fan-out is materially different from request/response and remains clear without overlap, clipping or implied synchronous returns."
+    ]
+  },
+  "checks": [
+    {
+      "name": "schema",
+      "schema": "diagram",
+      "source": "skills/diagrammatical/assets/examples/sequence/order-event/diagram.yaml",
+      "errors": [],
+      "warnings": [],
+      "valid": true
+    },
+    {
+      "name": "brand",
+      "valid": true,
+      "errors": [],
+      "warnings": [],
+      "contrastChecks": 18,
+      "adjustments": 0
+    },
+    {
+      "name": "htmlSafety",
+      "kind": "html",
+      "source": "skills/diagrammatical/assets/examples/sequence/order-event/order-event.html",
+      "errors": [],
+      "warnings": [],
+      "valid": true
+    },
+    {
+      "name": "svg",
+      "kind": "svg",
+      "source": "skills/diagrammatical/assets/examples/sequence/order-event/order-event.svg",
+      "errors": [],
+      "warnings": [],
+      "valid": true
+    },
+    {
+      "name": "extraction",
+      "valid": true,
+      "errors": [],
+      "warnings": []
+    }
+  ],
+  "warnings": [],
+  "errors": [],
+  "outputs": [
+    {
+      "kind": "source",
+      "path": "diagram.yaml",
+      "present": true
+    },
+    {
+      "kind": "html",
+      "path": "order-event.html",
+      "present": true
+    },
+    {
+      "kind": "svg",
+      "path": "order-event.svg",
+      "present": true
+    },
+    {
+      "kind": "validation",
+      "path": "validation.json",
+      "present": true
+    }
+  ],
+  "fidelity": {
+    "semantic": {
+      "source": "Representative order-event contract and consumer notes",
+      "collapsed": [
+        "Topic partitioning and consumer-group mechanics are collapsed into Event broker."
+      ],
+      "omitted": [
+        "Dead-letter retry is omitted to keep the normal asynchronous interaction primary."
+      ],
+      "assumptions": [
+        "Consumer acknowledgements occur after each side effect is accepted."
+      ]
+    }
+  },
   "directory": "skills/diagrammatical/assets/examples/sequence/order-event",
   "diagram_id": "order-event",
   "files": {
@@ -6,44 +93,5 @@
     "html": "order-event.html",
     "svg": "order-event.svg",
     "validation": "validation.json"
-  },
-  "checks": {
-    "schema": {
-      "schema": "diagram",
-      "source": "skills/diagrammatical/assets/examples/sequence/order-event/diagram.yaml",
-      "errors": [],
-      "warnings": [],
-      "valid": true
-    },
-    "htmlSafety": {
-      "kind": "html",
-      "source": "skills/diagrammatical/assets/examples/sequence/order-event/order-event.html",
-      "errors": [],
-      "warnings": [],
-      "valid": true
-    },
-    "svg": {
-      "kind": "svg",
-      "source": "skills/diagrammatical/assets/examples/sequence/order-event/order-event.svg",
-      "errors": [],
-      "warnings": [],
-      "valid": true
-    },
-    "extraction": {
-      "valid": true,
-      "errors": [],
-      "warnings": []
-    }
-  },
-  "errors": [],
-  "warnings": [],
-  "valid": true,
-  "visualReview": {
-    "status": "completed",
-    "findings": [
-      "Rendered at 1200×820 in Chromium and inspected at full resolution.",
-      "Open asynchronous arrows, self-messages and dashed acknowledgements make publisher/broker/consumer responsibilities traceable.",
-      "Fan-out is materially different from request/response and remains clear without overlap, clipping or implied synchronous returns."
-    ]
   }
 }

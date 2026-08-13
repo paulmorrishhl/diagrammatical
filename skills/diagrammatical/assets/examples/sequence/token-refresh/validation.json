@@ -1,4 +1,91 @@
 {
+  "valid": true,
+  "visualReview": {
+    "status": "completed",
+    "findings": [
+      "Rendered at 1200\u00d7820 in Chromium and inspected at full resolution.",
+      "The expired-token fragment is visibly bounded and guarded, with refresh and retry as the two focal messages.",
+      "Dark-mode labels, lifelines, returns and exception treatment are legible with no overlap or colour-only failure meaning."
+    ]
+  },
+  "checks": [
+    {
+      "name": "schema",
+      "schema": "diagram",
+      "source": "skills/diagrammatical/assets/examples/sequence/token-refresh/diagram.yaml",
+      "errors": [],
+      "warnings": [],
+      "valid": true
+    },
+    {
+      "name": "brand",
+      "valid": true,
+      "errors": [],
+      "warnings": [],
+      "contrastChecks": 18,
+      "adjustments": 0
+    },
+    {
+      "name": "htmlSafety",
+      "kind": "html",
+      "source": "skills/diagrammatical/assets/examples/sequence/token-refresh/token-refresh.html",
+      "errors": [],
+      "warnings": [],
+      "valid": true
+    },
+    {
+      "name": "svg",
+      "kind": "svg",
+      "source": "skills/diagrammatical/assets/examples/sequence/token-refresh/token-refresh.svg",
+      "errors": [],
+      "warnings": [],
+      "valid": true
+    },
+    {
+      "name": "extraction",
+      "valid": true,
+      "errors": [],
+      "warnings": []
+    }
+  ],
+  "warnings": [],
+  "errors": [],
+  "outputs": [
+    {
+      "kind": "source",
+      "path": "diagram.yaml",
+      "present": true
+    },
+    {
+      "kind": "html",
+      "path": "token-refresh.html",
+      "present": true
+    },
+    {
+      "kind": "svg",
+      "path": "token-refresh.svg",
+      "present": true
+    },
+    {
+      "kind": "validation",
+      "path": "validation.json",
+      "present": true
+    }
+  ],
+  "fidelity": {
+    "semantic": {
+      "source": "Representative OAuth-style session policy",
+      "collapsed": [
+        "Token signature and claim validation are collapsed into the protected request."
+      ],
+      "omitted": [
+        "Initial credential exchange and logout are outside this refresh-focused view."
+      ],
+      "assumptions": [
+        "The client retries at most once after a successful refresh."
+      ]
+    }
+  },
   "directory": "skills/diagrammatical/assets/examples/sequence/token-refresh",
   "diagram_id": "token-refresh",
   "files": {
@@ -6,44 +93,5 @@
     "html": "token-refresh.html",
     "svg": "token-refresh.svg",
     "validation": "validation.json"
-  },
-  "checks": {
-    "schema": {
-      "schema": "diagram",
-      "source": "skills/diagrammatical/assets/examples/sequence/token-refresh/diagram.yaml",
-      "errors": [],
-      "warnings": [],
-      "valid": true
-    },
-    "htmlSafety": {
-      "kind": "html",
-      "source": "skills/diagrammatical/assets/examples/sequence/token-refresh/token-refresh.html",
-      "errors": [],
-      "warnings": [],
-      "valid": true
-    },
-    "svg": {
-      "kind": "svg",
-      "source": "skills/diagrammatical/assets/examples/sequence/token-refresh/token-refresh.svg",
-      "errors": [],
-      "warnings": [],
-      "valid": true
-    },
-    "extraction": {
-      "valid": true,
-      "errors": [],
-      "warnings": []
-    }
-  },
-  "errors": [],
-  "warnings": [],
-  "valid": true,
-  "visualReview": {
-    "status": "completed",
-    "findings": [
-      "Rendered at 1200×820 in Chromium and inspected at full resolution.",
-      "The expired-token fragment is visibly bounded and guarded, with refresh and retry as the two focal messages.",
-      "Dark-mode labels, lifelines, returns and exception treatment are legible with no overlap or colour-only failure meaning."
-    ]
   }
 }

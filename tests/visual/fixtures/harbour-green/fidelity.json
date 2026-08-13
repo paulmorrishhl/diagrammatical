@@ -1,0 +1,255 @@
+{
+  "schemaVersion": 1,
+  "brand": "harbour-green",
+  "sources": [
+    {
+      "type": "manual",
+      "path": "conversation"
+    }
+  ],
+  "extracted": {
+    "colours": [
+      {
+        "name": "canvas",
+        "value": "#FFF9F2",
+        "source": "conversation",
+        "context": "manual",
+        "variant": "light"
+      },
+      {
+        "name": "surface",
+        "value": "#FFFFFF",
+        "source": "conversation",
+        "context": "manual",
+        "variant": "light"
+      },
+      {
+        "name": "ink",
+        "value": "#20302C",
+        "source": "conversation",
+        "context": "manual",
+        "variant": "light"
+      },
+      {
+        "name": "muted-foreground",
+        "value": "#5E6E69",
+        "source": "conversation",
+        "context": "manual",
+        "variant": "light"
+      },
+      {
+        "name": "primary",
+        "value": "#176B5B",
+        "source": "conversation",
+        "context": "manual",
+        "variant": "light"
+      },
+      {
+        "name": "secondary",
+        "value": "#A64B2A",
+        "source": "conversation",
+        "context": "manual",
+        "variant": "light"
+      },
+      {
+        "name": "success",
+        "value": "#19735E",
+        "source": "conversation",
+        "context": "manual",
+        "variant": "light"
+      },
+      {
+        "name": "warning",
+        "value": "#9A510E",
+        "source": "conversation",
+        "context": "manual",
+        "variant": "light"
+      },
+      {
+        "name": "danger",
+        "value": "#B83A42",
+        "source": "conversation",
+        "context": "manual",
+        "variant": "light"
+      }
+    ],
+    "fonts": [
+      {
+        "name": "heading",
+        "family": "Georgia",
+        "source": "conversation",
+        "context": "manual"
+      },
+      {
+        "name": "body",
+        "family": "Arial",
+        "source": "conversation",
+        "context": "manual"
+      },
+      {
+        "name": "label",
+        "family": "Arial",
+        "source": "conversation",
+        "context": "manual"
+      }
+    ],
+    "logos": [],
+    "shape": []
+  },
+  "mappings": [
+    {
+      "variant": "light",
+      "role": "canvas",
+      "sourceName": "canvas",
+      "sourceValue": "#FFF9F2",
+      "resolvedValue": "#FFF9F2",
+      "source": "conversation"
+    },
+    {
+      "variant": "light",
+      "role": "surface",
+      "sourceName": "surface",
+      "sourceValue": "#FFFFFF",
+      "resolvedValue": "#FFFFFF",
+      "source": "conversation"
+    },
+    {
+      "variant": "light",
+      "role": "ink",
+      "sourceName": "muted-foreground",
+      "sourceValue": "#5E6E69",
+      "resolvedValue": "#5E6E69",
+      "source": "conversation"
+    },
+    {
+      "variant": "light",
+      "role": "inkMuted",
+      "sourceName": "muted-foreground",
+      "sourceValue": "#5E6E69",
+      "resolvedValue": "#5E6E69",
+      "source": "conversation"
+    },
+    {
+      "variant": "light",
+      "role": "emphasisPrimary",
+      "sourceName": "primary",
+      "sourceValue": "#176B5B",
+      "resolvedValue": "#176B5B",
+      "source": "conversation"
+    },
+    {
+      "variant": "light",
+      "role": "emphasisSecondary",
+      "sourceName": "secondary",
+      "sourceValue": "#A64B2A",
+      "resolvedValue": "#A64B2A",
+      "source": "conversation"
+    },
+    {
+      "variant": "light",
+      "role": "success",
+      "sourceName": "success",
+      "sourceValue": "#19735E",
+      "resolvedValue": "#19735E",
+      "source": "conversation"
+    },
+    {
+      "variant": "light",
+      "role": "warning",
+      "sourceName": "warning",
+      "sourceValue": "#9A510E",
+      "resolvedValue": "#9A510E",
+      "source": "conversation"
+    },
+    {
+      "variant": "light",
+      "role": "danger",
+      "sourceName": "danger",
+      "sourceValue": "#B83A42",
+      "resolvedValue": "#B83A42",
+      "source": "conversation"
+    }
+  ],
+  "adjustments": [],
+  "fallbacks": [
+    {
+      "variant": "light",
+      "role": "surfaceSecondary",
+      "value": "#F0EEE8",
+      "reason": "no unambiguous source value"
+    },
+    {
+      "variant": "light",
+      "role": "rule",
+      "value": "#D8D4CA",
+      "reason": "no unambiguous source value"
+    },
+    {
+      "variant": "light",
+      "role": "connector",
+      "value": "#697386",
+      "reason": "no unambiguous source value"
+    },
+    {
+      "variant": "light",
+      "role": "emphasisPrimaryTint",
+      "value": "#DFE5DD",
+      "reason": "derived from primary accent and canvas"
+    },
+    {
+      "variant": "light",
+      "role": "external",
+      "value": "#2767B0",
+      "reason": "no unambiguous source value"
+    },
+    {
+      "variant": "light",
+      "role": "deprecated",
+      "value": "#9A6427",
+      "reason": "no unambiguous source value"
+    }
+  ],
+  "ambiguities": [],
+  "warnings": [],
+  "missingAssets": [],
+  "contrast": [],
+  "policies": {
+    "maximumPrimaryFocalElements": 2,
+    "normalConnectors": "neutral",
+    "colourAlone": "prohibited"
+  },
+  "approvedAt": null,
+  "typography": {
+    "heading": {
+      "family": "Georgia",
+      "weight": 600,
+      "fallbacks": [
+        "Arial",
+        "sans-serif"
+      ]
+    },
+    "body": {
+      "family": "Arial",
+      "weight": 400,
+      "fallbacks": [
+        "Arial",
+        "sans-serif"
+      ]
+    },
+    "label": {
+      "family": "Arial",
+      "weight": 600,
+      "fallbacks": [
+        "Arial",
+        "sans-serif"
+      ]
+    },
+    "technical": {
+      "family": "IBM Plex Mono",
+      "weight": 400,
+      "fallbacks": [
+        "monospace"
+      ]
+    }
+  }
+}

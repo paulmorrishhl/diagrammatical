@@ -1,0 +1,9 @@
+graph LR
+  partner[Partner systems] -->|HTTPS| gateway[Edge gateway]
+  subgraph ingestion[Owned ingestion platform]
+    gateway --> intake[Event intake]
+    intake --> stream[(Durable stream)]
+    stream --> processor[Stream processor]
+  end
+  processor --> warehouse[(Analytics warehouse)]
+  processor -->|metrics and failures| monitoring[Ops monitoring]

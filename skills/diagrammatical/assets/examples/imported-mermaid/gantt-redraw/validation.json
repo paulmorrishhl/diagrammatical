@@ -1,0 +1,121 @@
+{
+  "valid": true,
+  "visualReview": {
+    "status": "completed",
+    "findings": [
+      "Rendered at 1200\u00d7820 in Chromium and inspected at full resolution.",
+      "Three exact milestone diamonds lead the composition while supporting bars retain accurate month-scale positions.",
+      "The dependency chain is traceable, labels remain readable, and critical emphasis is limited to the evidence task."
+    ]
+  },
+  "checks": [
+    {
+      "name": "schema",
+      "schema": "diagram",
+      "source": "skills/diagrammatical/assets/examples/imported-mermaid/gantt-redraw/diagram.yaml",
+      "errors": [],
+      "warnings": [],
+      "valid": true
+    },
+    {
+      "name": "brand",
+      "valid": true,
+      "errors": [],
+      "warnings": [],
+      "contrastChecks": 18,
+      "adjustments": 0
+    },
+    {
+      "name": "htmlSafety",
+      "kind": "html",
+      "source": "skills/diagrammatical/assets/examples/imported-mermaid/gantt-redraw/release-gates.html",
+      "errors": [],
+      "warnings": [],
+      "valid": true
+    },
+    {
+      "name": "svg",
+      "kind": "svg",
+      "source": "skills/diagrammatical/assets/examples/imported-mermaid/gantt-redraw/release-gates.svg",
+      "errors": [],
+      "warnings": [],
+      "valid": true
+    },
+    {
+      "name": "extraction",
+      "valid": true,
+      "errors": [],
+      "warnings": []
+    }
+  ],
+  "warnings": [],
+  "errors": [],
+  "outputs": [
+    {
+      "kind": "source",
+      "path": "diagram.yaml",
+      "present": true
+    },
+    {
+      "kind": "html",
+      "path": "release-gates.html",
+      "present": true
+    },
+    {
+      "kind": "svg",
+      "path": "release-gates.svg",
+      "present": true
+    },
+    {
+      "kind": "validation",
+      "path": "validation.json",
+      "present": true
+    }
+  ],
+  "fidelity": {
+    "semantic": {
+      "source": "Representative release-governance plan with approved target dates",
+      "collapsed": [
+        "Individual assurance tests are collapsed into Security and reliability evidence."
+      ],
+      "omitted": [
+        "Routine release communications are omitted."
+      ],
+      "assumptions": [
+        "Dates are inclusive and milestone dates are fixed commitments."
+      ]
+    },
+    "import": {
+      "source": "tests/fixtures/mermaid/redraw-gantt.mmd",
+      "selectedBlock": 0,
+      "detectedGrammar": "gantt",
+      "originalCount": {
+        "tasks": 6
+      },
+      "finalVisibleCount": {
+        "tasks": 6
+      },
+      "preserved": [
+        "foundation",
+        "integration",
+        "launch milestone",
+        "dependency order"
+      ],
+      "normalisedLabels": [],
+      "merged": [],
+      "collapsed": [],
+      "omitted": [],
+      "unsupported": [],
+      "assumptions": [],
+      "requestedTypeChange": null
+    }
+  },
+  "directory": "skills/diagrammatical/assets/examples/imported-mermaid/gantt-redraw",
+  "diagram_id": "release-gates",
+  "files": {
+    "source": "diagram.yaml",
+    "html": "release-gates.html",
+    "svg": "release-gates.svg",
+    "validation": "validation.json"
+  }
+}

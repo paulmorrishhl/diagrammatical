@@ -1,0 +1,122 @@
+{
+  "valid": true,
+  "visualReview": {
+    "status": "completed",
+    "findings": [
+      "Rendered at 1200\u00d7820 in Chromium and inspected at full resolution.",
+      "The expired-token fragment is visibly bounded and guarded, with refresh and retry as the two focal messages.",
+      "Dark-mode labels, lifelines, returns and exception treatment are legible with no overlap or colour-only failure meaning."
+    ]
+  },
+  "checks": [
+    {
+      "name": "schema",
+      "schema": "diagram",
+      "source": "skills/diagrammatical/assets/examples/imported-mermaid/sequence-redraw/diagram.yaml",
+      "errors": [],
+      "warnings": [],
+      "valid": true
+    },
+    {
+      "name": "brand",
+      "valid": true,
+      "errors": [],
+      "warnings": [],
+      "contrastChecks": 18,
+      "adjustments": 0
+    },
+    {
+      "name": "htmlSafety",
+      "kind": "html",
+      "source": "skills/diagrammatical/assets/examples/imported-mermaid/sequence-redraw/token-refresh.html",
+      "errors": [],
+      "warnings": [],
+      "valid": true
+    },
+    {
+      "name": "svg",
+      "kind": "svg",
+      "source": "skills/diagrammatical/assets/examples/imported-mermaid/sequence-redraw/token-refresh.svg",
+      "errors": [],
+      "warnings": [],
+      "valid": true
+    },
+    {
+      "name": "extraction",
+      "valid": true,
+      "errors": [],
+      "warnings": []
+    }
+  ],
+  "warnings": [],
+  "errors": [],
+  "outputs": [
+    {
+      "kind": "source",
+      "path": "diagram.yaml",
+      "present": true
+    },
+    {
+      "kind": "html",
+      "path": "token-refresh.html",
+      "present": true
+    },
+    {
+      "kind": "svg",
+      "path": "token-refresh.svg",
+      "present": true
+    },
+    {
+      "kind": "validation",
+      "path": "validation.json",
+      "present": true
+    }
+  ],
+  "fidelity": {
+    "semantic": {
+      "source": "Representative OAuth-style session policy",
+      "collapsed": [
+        "Token signature and claim validation are collapsed into the protected request."
+      ],
+      "omitted": [
+        "Initial credential exchange and logout are outside this refresh-focused view."
+      ],
+      "assumptions": [
+        "The client retries at most once after a successful refresh."
+      ]
+    },
+    "import": {
+      "source": "tests/fixtures/mermaid/redraw-sequence.mmd",
+      "selectedBlock": 0,
+      "detectedGrammar": "sequenceDiagram",
+      "originalCount": {
+        "participants": 4,
+        "messages": 8
+      },
+      "finalVisibleCount": {
+        "participants": 4,
+        "messages": 8
+      },
+      "preserved": [
+        "sign-in",
+        "token issue",
+        "failure alternative"
+      ],
+      "normalisedLabels": [],
+      "merged": [],
+      "collapsed": [],
+      "omitted": [],
+      "unsupported": [],
+      "assumptions": [],
+      "requestedTypeChange": null
+    }
+  },
+  "directory": "skills/diagrammatical/assets/examples/imported-mermaid/sequence-redraw",
+  "diagram_id": "token-refresh",
+  "files": {
+    "source": "diagram.yaml",
+    "html": "token-refresh.html",
+    "svg": "token-refresh.svg",
+    "validation": "validation.json"
+  }
+}

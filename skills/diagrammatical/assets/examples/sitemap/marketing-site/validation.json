@@ -1,4 +1,91 @@
 {
+  "valid": true,
+  "visualReview": {
+    "status": "completed",
+    "findings": [
+      "Rendered at 1200\u00d7820 in Chromium and inspected at full resolution.",
+      "The root and three hierarchy levels read top-to-bottom with consistent sibling order.",
+      "The Customer stories to Contact sales cross-link is routed outside the tree with a dashed labelled cue; no branch tangles or clipping were observed."
+    ]
+  },
+  "checks": [
+    {
+      "name": "schema",
+      "schema": "diagram",
+      "source": "skills/diagrammatical/assets/examples/sitemap/marketing-site/diagram.yaml",
+      "errors": [],
+      "warnings": [],
+      "valid": true
+    },
+    {
+      "name": "brand",
+      "valid": true,
+      "errors": [],
+      "warnings": [],
+      "contrastChecks": 18,
+      "adjustments": 0
+    },
+    {
+      "name": "htmlSafety",
+      "kind": "html",
+      "source": "skills/diagrammatical/assets/examples/sitemap/marketing-site/marketing-site.html",
+      "errors": [],
+      "warnings": [],
+      "valid": true
+    },
+    {
+      "name": "svg",
+      "kind": "svg",
+      "source": "skills/diagrammatical/assets/examples/sitemap/marketing-site/marketing-site.svg",
+      "errors": [],
+      "warnings": [],
+      "valid": true
+    },
+    {
+      "name": "extraction",
+      "valid": true,
+      "errors": [],
+      "warnings": []
+    }
+  ],
+  "warnings": [],
+  "errors": [],
+  "outputs": [
+    {
+      "kind": "source",
+      "path": "diagram.yaml",
+      "present": true
+    },
+    {
+      "kind": "html",
+      "path": "marketing-site.html",
+      "present": true
+    },
+    {
+      "kind": "svg",
+      "path": "marketing-site.svg",
+      "present": true
+    },
+    {
+      "kind": "validation",
+      "path": "validation.json",
+      "present": true
+    }
+  ],
+  "fidelity": {
+    "semantic": {
+      "source": "Representative static route manifest and navigation labels",
+      "collapsed": [
+        "Individual guide and customer-story slugs are collapsed into their listing pages."
+      ],
+      "omitted": [
+        "Legal footer pages are omitted from this primary-navigation map."
+      ],
+      "assumptions": [
+        "Contact sales is globally reachable from the header."
+      ]
+    }
+  },
   "directory": "skills/diagrammatical/assets/examples/sitemap/marketing-site",
   "diagram_id": "marketing-site",
   "files": {
@@ -6,44 +93,5 @@
     "html": "marketing-site.html",
     "svg": "marketing-site.svg",
     "validation": "validation.json"
-  },
-  "checks": {
-    "schema": {
-      "schema": "diagram",
-      "source": "skills/diagrammatical/assets/examples/sitemap/marketing-site/diagram.yaml",
-      "errors": [],
-      "warnings": [],
-      "valid": true
-    },
-    "htmlSafety": {
-      "kind": "html",
-      "source": "skills/diagrammatical/assets/examples/sitemap/marketing-site/marketing-site.html",
-      "errors": [],
-      "warnings": [],
-      "valid": true
-    },
-    "svg": {
-      "kind": "svg",
-      "source": "skills/diagrammatical/assets/examples/sitemap/marketing-site/marketing-site.svg",
-      "errors": [],
-      "warnings": [],
-      "valid": true
-    },
-    "extraction": {
-      "valid": true,
-      "errors": [],
-      "warnings": []
-    }
-  },
-  "errors": [],
-  "warnings": [],
-  "valid": true,
-  "visualReview": {
-    "status": "completed",
-    "findings": [
-      "Rendered at 1200×820 in Chromium and inspected at full resolution.",
-      "The root and three hierarchy levels read top-to-bottom with consistent sibling order.",
-      "The Customer stories to Contact sales cross-link is routed outside the tree with a dashed labelled cue; no branch tangles or clipping were observed."
-    ]
   }
 }

@@ -1,0 +1,88 @@
+schemaVersion: 1
+id: care-purple
+name: Care Purple
+description: Project-owned Diagrammatical identity for Care Purple.
+typography:
+  heading:
+    family: Sora
+    fallbacks:
+    - Arial
+    - sans-serif
+    weight: 600
+  body:
+    family: Inter
+    fallbacks:
+    - Arial
+    - sans-serif
+    weight: 400
+  label:
+    family: Inter
+    fallbacks:
+    - Arial
+    - sans-serif
+    weight: 600
+  technical:
+    family: IBM Plex Mono
+    fallbacks:
+    - monospace
+    weight: 400
+logo:
+  source: null
+  placements: []
+  maximumWidth: 96
+shape:
+  cornerCharacter: small
+  radius: 8
+  nodePadding: 16
+  maxNodeWidth: 280
+stroke:
+  borderWidth: 1
+  ruleWidth: 1
+connectors:
+  weight: 2
+  curvature: orthogonal
+  arrowhead: line
+icons:
+  family: geometric-line
+  customDirectory: null
+density: balanced
+accessibility:
+  normalTextContrast: 4.5
+  largeTextContrast: 3.0
+  allowDerivedColours: true
+  statusRequiresNonColourCue: true
+variants:
+  light:
+    palette:
+      canvas: '#F8FAFC'
+      surface: '#FFFFFF'
+      surfaceSecondary: '#F0EEE8'
+      ink: '#586174'
+      inkMuted: '#586174'
+      rule: '#D8D4CA'
+      connector: '#586174'
+      emphasisPrimary: '#6758E8'
+      emphasisPrimaryTint: '#E4E3F9'
+      emphasisSecondary: '#237F70'
+      external: '#2767B0'
+      success: '#198754'
+      warning: '#9A510E'
+      danger: '#B83A42'
+      deprecated: '#9A6427'
+    roles:
+      canvas: '#F8FAFC'
+      surface: '#FFFFFF'
+      surfaceSecondary: '#F0EEE8'
+      ink: '#586174'
+      inkMuted: '#586174'
+      rule: '#D8D4CA'
+      connector: '#586174'
+      emphasisPrimary: '#6758E8'
+      emphasisPrimaryTint: '#E4E3F9'
+      emphasisSecondary: '#237F70'
+      external: '#2767B0'
+      success: '#198754'
+      warning: '#9A510E'
+      danger: '#B83A42'
+      deprecated: '#9A6427'
+    generated: false

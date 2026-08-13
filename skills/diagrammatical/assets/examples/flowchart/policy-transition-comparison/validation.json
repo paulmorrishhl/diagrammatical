@@ -1,42 +1,4 @@
 {
-  "directory": "skills/diagrammatical/assets/examples/flowchart/policy-transition-comparison",
-  "diagram_id": "policy-transition-comparison",
-  "files": {
-    "source": "diagram.yaml",
-    "html": "policy-transition-comparison.html",
-    "svg": "policy-transition-comparison.svg",
-    "validation": "validation.json"
-  },
-  "checks": {
-    "schema": {
-      "schema": "diagram",
-      "source": "skills/diagrammatical/assets/examples/flowchart/policy-transition-comparison/diagram.yaml",
-      "errors": [],
-      "warnings": [],
-      "valid": true
-    },
-    "htmlSafety": {
-      "kind": "html",
-      "source": "skills/diagrammatical/assets/examples/flowchart/policy-transition-comparison/policy-transition-comparison.html",
-      "errors": [],
-      "warnings": [],
-      "valid": true
-    },
-    "svg": {
-      "kind": "svg",
-      "source": "skills/diagrammatical/assets/examples/flowchart/policy-transition-comparison/policy-transition-comparison.svg",
-      "errors": [],
-      "warnings": [],
-      "valid": true
-    },
-    "extraction": {
-      "valid": true,
-      "errors": [],
-      "warnings": []
-    }
-  },
-  "errors": [],
-  "warnings": [],
   "valid": true,
   "visualReview": {
     "status": "completed",
@@ -45,5 +7,92 @@
       "Current and future stages align in two distinct lanes; the focal future risk screen and the policy divergence read immediately.",
       "Secondary outcomes were moved away from lane boundaries after the first review; the final frame has clear labelled branches, balanced whitespace, and no visible clipping or overlap."
     ]
+  },
+  "checks": [
+    {
+      "name": "schema",
+      "schema": "diagram",
+      "source": "skills/diagrammatical/assets/examples/flowchart/policy-transition-comparison/diagram.yaml",
+      "errors": [],
+      "warnings": [],
+      "valid": true
+    },
+    {
+      "name": "brand",
+      "valid": true,
+      "errors": [],
+      "warnings": [],
+      "contrastChecks": 18,
+      "adjustments": 0
+    },
+    {
+      "name": "htmlSafety",
+      "kind": "html",
+      "source": "skills/diagrammatical/assets/examples/flowchart/policy-transition-comparison/policy-transition-comparison.html",
+      "errors": [],
+      "warnings": [],
+      "valid": true
+    },
+    {
+      "name": "svg",
+      "kind": "svg",
+      "source": "skills/diagrammatical/assets/examples/flowchart/policy-transition-comparison/policy-transition-comparison.svg",
+      "errors": [],
+      "warnings": [],
+      "valid": true
+    },
+    {
+      "name": "extraction",
+      "valid": true,
+      "errors": [],
+      "warnings": []
+    }
+  ],
+  "warnings": [],
+  "errors": [],
+  "outputs": [
+    {
+      "kind": "source",
+      "path": "diagram.yaml",
+      "present": true
+    },
+    {
+      "kind": "html",
+      "path": "policy-transition-comparison.html",
+      "present": true
+    },
+    {
+      "kind": "svg",
+      "path": "policy-transition-comparison.svg",
+      "present": true
+    },
+    {
+      "kind": "validation",
+      "path": "validation.json",
+      "present": true
+    }
+  ],
+  "fidelity": {
+    "semantic": {
+      "source": "Representative current and proposed access-policy traces fixture",
+      "collapsed": [
+        "Reviewer assignment and evidence gathering are collapsed into Review every request.",
+        "Risk signals and thresholds are collapsed into Screen request risk."
+      ],
+      "omitted": [
+        "Post-decision audit logging is omitted because it is unchanged between policies."
+      ],
+      "assumptions": [
+        "Requests requiring future manual review continue into an existing downstream review process not shown here."
+      ]
+    }
+  },
+  "directory": "skills/diagrammatical/assets/examples/flowchart/policy-transition-comparison",
+  "diagram_id": "policy-transition-comparison",
+  "files": {
+    "source": "diagram.yaml",
+    "html": "policy-transition-comparison.html",
+    "svg": "policy-transition-comparison.svg",
+    "validation": "validation.json"
   }
 }

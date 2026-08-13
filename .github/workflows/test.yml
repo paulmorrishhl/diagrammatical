@@ -18,5 +18,7 @@ jobs:
           cache: pip
       - run: python -m pip install --upgrade pip
       - run: python -m pip install -e ".[dev]"
+      - run: python -m playwright install --with-deps chromium
       - run: ruff check .
       - run: python scripts/release_check.py
+      - run: python scripts/visual_regression.py

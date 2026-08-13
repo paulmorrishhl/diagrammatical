@@ -22,6 +22,12 @@ def main() -> int:
             for path in sorted(examples.iterdir())
             if path.is_dir()
         )
+    imported = ROOT / "skills/diagrammatical/assets/examples/imported-mermaid"
+    commands.extend(
+        [sys.executable, "skills/diagrammatical/scripts/self_check.py", str(path)]
+        for path in sorted(imported.iterdir())
+        if path.is_dir()
+    )
     for command in commands:
         result = subprocess.run(command, cwd=ROOT, check=False)
         if result.returncode:

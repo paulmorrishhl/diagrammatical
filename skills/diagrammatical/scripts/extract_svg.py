@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import json
 import re
 import sys
 from pathlib import Path
@@ -48,9 +49,7 @@ def extract_svg_text(html: str, *, selector: str | None = None) -> str:
     return svg
 
 
-def extract_svg_file(
-    html_path: Path, output_path: Path, *, selector: str | None = None
-) -> None:
+def extract_svg_file(html_path: Path, output_path: Path, *, selector: str | None = None) -> None:
     try:
         size = html_path.stat().st_size
     except OSError as exc:
@@ -73,17 +72,27 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("html", type=Path, help="self-contained HTML source")
     parser.add_argument("output", type=Path, help="standalone SVG destination")
     parser.add_argument("--selector", help="simple SVG ID selector when HTML has multiple SVGs")
+    parser.add_argument("--force", action="store_true", help="replace an existing output file")
+    parser.add_argument("--json", action="store_true", help="emit structured JSON")
     return parser
 
 
 def main() -> int:
     args = build_parser().parse_args()
     try:
+        if args.output.exists() and not args.force:
+            raise ValueError(f"output already exists: {args.output}; pass --force to replace it")
         extract_svg_file(args.html, args.output, selector=args.selector)
     except ValueError as exc:
-        print(f"SVG extraction failed: {exc}", file=sys.stderr)
+        if args.json:
+            print(json.dumps({"valid": False, "errors": [str(exc)], "output": str(args.output)}))
+        else:
+            print(f"SVG extraction failed: {exc}", file=sys.stderr)
         return 1
-    print(f"Extracted canonical SVG: {args.output}")
+    if args.json:
+        print(json.dumps({"valid": True, "errors": [], "output": str(args.output)}))
+    else:
+        print(f"Extracted canonical SVG: {args.output}")
     return 0
 
 

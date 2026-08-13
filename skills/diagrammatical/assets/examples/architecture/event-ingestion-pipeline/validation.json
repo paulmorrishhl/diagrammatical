@@ -1,42 +1,4 @@
 {
-  "directory": "skills/diagrammatical/assets/examples/architecture/event-ingestion-pipeline",
-  "diagram_id": "event-ingestion-pipeline",
-  "files": {
-    "source": "diagram.yaml",
-    "html": "event-ingestion-pipeline.html",
-    "svg": "event-ingestion-pipeline.svg",
-    "validation": "validation.json"
-  },
-  "checks": {
-    "schema": {
-      "schema": "diagram",
-      "source": "skills/diagrammatical/assets/examples/architecture/event-ingestion-pipeline/diagram.yaml",
-      "errors": [],
-      "warnings": [],
-      "valid": true
-    },
-    "htmlSafety": {
-      "kind": "html",
-      "source": "skills/diagrammatical/assets/examples/architecture/event-ingestion-pipeline/event-ingestion-pipeline.html",
-      "errors": [],
-      "warnings": [],
-      "valid": true
-    },
-    "svg": {
-      "kind": "svg",
-      "source": "skills/diagrammatical/assets/examples/architecture/event-ingestion-pipeline/event-ingestion-pipeline.svg",
-      "errors": [],
-      "warnings": [],
-      "valid": true
-    },
-    "extraction": {
-      "valid": true,
-      "errors": [],
-      "warnings": []
-    }
-  },
-  "errors": [],
-  "warnings": [],
   "valid": true,
   "visualReview": {
     "status": "completed",
@@ -45,5 +7,90 @@
       "Primary left-to-right path, ownership boundaries, and focal durable stream read clearly.",
       "A competing edge annotation was removed and the HTTPS label shortened after review; the final frame has no visible clipping or connector-label collision."
     ]
+  },
+  "checks": [
+    {
+      "name": "schema",
+      "schema": "diagram",
+      "source": "skills/diagrammatical/assets/examples/architecture/event-ingestion-pipeline/diagram.yaml",
+      "errors": [],
+      "warnings": [],
+      "valid": true
+    },
+    {
+      "name": "brand",
+      "valid": true,
+      "errors": [],
+      "warnings": [],
+      "contrastChecks": 18,
+      "adjustments": 0
+    },
+    {
+      "name": "htmlSafety",
+      "kind": "html",
+      "source": "skills/diagrammatical/assets/examples/architecture/event-ingestion-pipeline/event-ingestion-pipeline.html",
+      "errors": [],
+      "warnings": [],
+      "valid": true
+    },
+    {
+      "name": "svg",
+      "kind": "svg",
+      "source": "skills/diagrammatical/assets/examples/architecture/event-ingestion-pipeline/event-ingestion-pipeline.svg",
+      "errors": [],
+      "warnings": [],
+      "valid": true
+    },
+    {
+      "name": "extraction",
+      "valid": true,
+      "errors": [],
+      "warnings": []
+    }
+  ],
+  "warnings": [],
+  "errors": [],
+  "outputs": [
+    {
+      "kind": "source",
+      "path": "diagram.yaml",
+      "present": true
+    },
+    {
+      "kind": "html",
+      "path": "event-ingestion-pipeline.html",
+      "present": true
+    },
+    {
+      "kind": "svg",
+      "path": "event-ingestion-pipeline.svg",
+      "present": true
+    },
+    {
+      "kind": "validation",
+      "path": "validation.json",
+      "present": true
+    }
+  ],
+  "fidelity": {
+    "semantic": {
+      "source": "Representative event-platform repository fixture and deployment notes",
+      "collapsed": [
+        "Partner-specific protocol adapters are collapsed into Partner systems and Edge gateway.",
+        "Schema registry and dead-letter handling are represented by Event intake and Operations monitoring."
+      ],
+      "omitted": [],
+      "assumptions": [
+        "The durable stream is the replay boundary because processing consumes ordered partitions."
+      ]
+    }
+  },
+  "directory": "skills/diagrammatical/assets/examples/architecture/event-ingestion-pipeline",
+  "diagram_id": "event-ingestion-pipeline",
+  "files": {
+    "source": "diagram.yaml",
+    "html": "event-ingestion-pipeline.html",
+    "svg": "event-ingestion-pipeline.svg",
+    "validation": "validation.json"
   }
 }

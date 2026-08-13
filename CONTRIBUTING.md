@@ -8,7 +8,14 @@ Run the local checks before opening a pull request:
 ruff check .
 pytest
 python scripts/verify_package.py
+python scripts/release_check.py
+python scripts/visual_regression.py
 ```
 
-Consequential implementation decisions belong in `docs/decisions/`.
+Visual baselines are never accepted automatically. Render and inspect the changed source, then run
+`python scripts/visual_regression.py --update` deliberately and include the reviewed baseline.
 
+See `docs/contributing-diagram-types.md`, `docs/releasing.md`, `SECURITY.md` and
+`THIRD_PARTY_NOTICES.md` before changing public behavior or dependencies.
+
+Consequential implementation decisions belong in `docs/decisions/`.

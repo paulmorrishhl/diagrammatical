@@ -1,0 +1,129 @@
+schemaVersion: 1
+diagram:
+  id: document-validation-retry
+  title: Document validation and recovery
+  description: A successful validation spine with correction retry and service-exception recovery.
+  type: flowchart
+  audience: engineer
+  purpose: Show how a submitted document reaches publication or re-enters the process after a material failure
+  primaryMessage: Validation remains the control point while user correction and service recovery follow explicit paths
+nodes:
+  - id: begin-upload
+    label: Start
+    kind: start
+  - id: upload-document
+    label: Upload document
+    kind: input
+  - id: validate-document
+    label: Document valid?
+    kind: decision
+    emphasis: primary
+  - id: publish-record
+    label: Publish record
+    kind: process
+  - id: publication-complete
+    label: Record published
+    kind: end
+    status: success
+  - id: correct-document
+    label: Correct document
+    kind: process
+    status: warning
+  - id: manual-recovery
+    label: Manual recovery queue
+    kind: state
+    status: danger
+  - id: recovery-decision
+    label: Service recovered?
+    kind: decision
+edges:
+  - id: begin-to-upload
+    from: begin-upload
+    to: upload-document
+    kind: action
+    path: normal
+  - id: upload-to-validation
+    from: upload-document
+    to: validate-document
+    kind: action
+    path: normal
+  - id: valid-to-publish
+    from: validate-document
+    to: publish-record
+    label: Valid
+    kind: action
+    path: conditional
+  - id: invalid-to-correction
+    from: validate-document
+    to: correct-document
+    label: Invalid
+    kind: action
+    path: failure
+    status: warning
+  - id: service-error-to-recovery
+    from: validate-document
+    to: manual-recovery
+    label: Service error
+    kind: action
+    path: exception
+    status: danger
+  - id: correction-to-upload
+    from: correct-document
+    to: upload-document
+    label: Retry upload
+    kind: action
+    path: retry
+  - id: recovery-to-decision
+    from: manual-recovery
+    to: recovery-decision
+    kind: action
+    path: normal
+  - id: recovered-to-publish
+    from: recovery-decision
+    to: publish-record
+    label: Recovered
+    kind: action
+    path: conditional
+  - id: unresolved-to-recovery
+    from: recovery-decision
+    to: manual-recovery
+    label: Still unavailable
+    kind: action
+    path: retry
+  - id: publish-to-end
+    from: publish-record
+    to: publication-complete
+    kind: action
+    path: normal
+groups:
+  - id: successful-journey
+    label: Successful journey
+    kind: phase
+    nodes: [upload-document, validate-document, publish-record]
+  - id: recovery-lane
+    label: Recovery routes
+    kind: phase
+    nodes: [correct-document, manual-recovery, recovery-decision]
+presentation:
+  composition: exception-path
+  direction: left-to-right
+  brand: editorial-blueprint
+  style: technical
+  mode: dark
+  detail: detailed
+  outputPreset: document-wide
+  focalNodes: [validate-document]
+  constraints:
+    keepTogether:
+      - [upload-document, validate-document, publish-record]
+      - [manual-recovery, recovery-decision]
+    maxVisibleNodes: 10
+fidelity:
+  source: Representative document-service acceptance and recovery notes fixture
+  collapsed:
+    - Format, malware, and policy checks are collapsed into Document valid.
+    - Alerting and operator assignment are collapsed into Manual recovery queue.
+  omitted:
+    - Long-term failed-job retention is omitted from this runtime process view.
+  assumptions:
+    - A recovered validation service can resume at publication using the retained validated record.

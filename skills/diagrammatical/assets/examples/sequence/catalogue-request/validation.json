@@ -1,4 +1,91 @@
 {
+  "valid": true,
+  "visualReview": {
+    "status": "completed",
+    "findings": [
+      "Rendered at 1200\u00d7820 in Chromium and inspected at full resolution.",
+      "Stable lifeline order, nested request/return pairing, and the API activation are clear; labels do not touch arrows or lifelines.",
+      "Solid filled requests and dashed open returns remain distinguishable without colour; no clipping or chronological ambiguity was observed."
+    ]
+  },
+  "checks": [
+    {
+      "name": "schema",
+      "schema": "diagram",
+      "source": "skills/diagrammatical/assets/examples/sequence/catalogue-request/diagram.yaml",
+      "errors": [],
+      "warnings": [],
+      "valid": true
+    },
+    {
+      "name": "brand",
+      "valid": true,
+      "errors": [],
+      "warnings": [],
+      "contrastChecks": 18,
+      "adjustments": 0
+    },
+    {
+      "name": "htmlSafety",
+      "kind": "html",
+      "source": "skills/diagrammatical/assets/examples/sequence/catalogue-request/catalogue-request.html",
+      "errors": [],
+      "warnings": [],
+      "valid": true
+    },
+    {
+      "name": "svg",
+      "kind": "svg",
+      "source": "skills/diagrammatical/assets/examples/sequence/catalogue-request/catalogue-request.svg",
+      "errors": [],
+      "warnings": [],
+      "valid": true
+    },
+    {
+      "name": "extraction",
+      "valid": true,
+      "errors": [],
+      "warnings": []
+    }
+  ],
+  "warnings": [],
+  "errors": [],
+  "outputs": [
+    {
+      "kind": "source",
+      "path": "diagram.yaml",
+      "present": true
+    },
+    {
+      "kind": "html",
+      "path": "catalogue-request.html",
+      "present": true
+    },
+    {
+      "kind": "svg",
+      "path": "catalogue-request.svg",
+      "present": true
+    },
+    {
+      "kind": "validation",
+      "path": "validation.json",
+      "present": true
+    }
+  ],
+  "fidelity": {
+    "semantic": {
+      "source": "Representative storefront request trace",
+      "collapsed": [
+        "Serialization and cache-key construction are collapsed into the API messages."
+      ],
+      "omitted": [
+        "Observability calls are omitted from the primary request path."
+      ],
+      "assumptions": [
+        "A cache miss is shown because it exposes the catalogue dependency."
+      ]
+    }
+  },
   "directory": "skills/diagrammatical/assets/examples/sequence/catalogue-request",
   "diagram_id": "catalogue-request",
   "files": {
@@ -6,44 +93,5 @@
     "html": "catalogue-request.html",
     "svg": "catalogue-request.svg",
     "validation": "validation.json"
-  },
-  "checks": {
-    "schema": {
-      "schema": "diagram",
-      "source": "skills/diagrammatical/assets/examples/sequence/catalogue-request/diagram.yaml",
-      "errors": [],
-      "warnings": [],
-      "valid": true
-    },
-    "htmlSafety": {
-      "kind": "html",
-      "source": "skills/diagrammatical/assets/examples/sequence/catalogue-request/catalogue-request.html",
-      "errors": [],
-      "warnings": [],
-      "valid": true
-    },
-    "svg": {
-      "kind": "svg",
-      "source": "skills/diagrammatical/assets/examples/sequence/catalogue-request/catalogue-request.svg",
-      "errors": [],
-      "warnings": [],
-      "valid": true
-    },
-    "extraction": {
-      "valid": true,
-      "errors": [],
-      "warnings": []
-    }
-  },
-  "errors": [],
-  "warnings": [],
-  "valid": true,
-  "visualReview": {
-    "status": "completed",
-    "findings": [
-      "Rendered at 1200×820 in Chromium and inspected at full resolution.",
-      "Stable lifeline order, nested request/return pairing, and the API activation are clear; labels do not touch arrows or lifelines.",
-      "Solid filled requests and dashed open returns remain distinguishable without colour; no clipping or chronological ambiguity was observed."
-    ]
   }
 }

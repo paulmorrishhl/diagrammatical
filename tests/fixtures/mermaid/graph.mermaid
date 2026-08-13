@@ -1,0 +1,5 @@
+graph LR
+  subgraph edge[Edge services]
+    client[Web client] --> api[Public API]
+  end
+  api --> store[(Record store)]

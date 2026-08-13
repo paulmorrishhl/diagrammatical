@@ -1,0 +1,12 @@
+sequenceDiagram
+  actor User
+  participant App as Web application
+  participant API
+  User->>App: Sign in
+  App->>API: Exchange credentials
+  alt Valid credentials
+    API-->>App: Access token
+  else Invalid credentials
+    API-->>App: Rejection
+  end
+  Note right of App: Token is stored securely

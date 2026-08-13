@@ -1,0 +1,124 @@
+{
+  "valid": true,
+  "visualReview": {
+    "status": "completed",
+    "findings": [
+      "Rendered at 1200 by 800 in local Chromium and inspected at full resolution.",
+      "The upper success spine remains visually dominant while correction, service exception, and retry routes use different labelled dash patterns.",
+      "Both retry loops have visible arrowheads and exits; connector routes avoid nodes and labels, and the dark-mode frame showed no clipping or ambiguous branch attachment."
+    ]
+  },
+  "checks": [
+    {
+      "name": "schema",
+      "schema": "diagram",
+      "source": "skills/diagrammatical/assets/examples/imported-mermaid/flowchart-redraw/diagram.yaml",
+      "errors": [],
+      "warnings": [],
+      "valid": true
+    },
+    {
+      "name": "brand",
+      "valid": true,
+      "errors": [],
+      "warnings": [],
+      "contrastChecks": 18,
+      "adjustments": 0
+    },
+    {
+      "name": "htmlSafety",
+      "kind": "html",
+      "source": "skills/diagrammatical/assets/examples/imported-mermaid/flowchart-redraw/document-validation-retry.html",
+      "errors": [],
+      "warnings": [],
+      "valid": true
+    },
+    {
+      "name": "svg",
+      "kind": "svg",
+      "source": "skills/diagrammatical/assets/examples/imported-mermaid/flowchart-redraw/document-validation-retry.svg",
+      "errors": [],
+      "warnings": [],
+      "valid": true
+    },
+    {
+      "name": "extraction",
+      "valid": true,
+      "errors": [],
+      "warnings": []
+    }
+  ],
+  "warnings": [],
+  "errors": [],
+  "outputs": [
+    {
+      "kind": "source",
+      "path": "diagram.yaml",
+      "present": true
+    },
+    {
+      "kind": "html",
+      "path": "document-validation-retry.html",
+      "present": true
+    },
+    {
+      "kind": "svg",
+      "path": "document-validation-retry.svg",
+      "present": true
+    },
+    {
+      "kind": "validation",
+      "path": "validation.json",
+      "present": true
+    }
+  ],
+  "fidelity": {
+    "semantic": {
+      "source": "Representative document-service acceptance and recovery notes fixture",
+      "collapsed": [
+        "Format, malware, and policy checks are collapsed into Document valid.",
+        "Alerting and operator assignment are collapsed into Manual recovery queue."
+      ],
+      "omitted": [
+        "Long-term failed-job retention is omitted from this runtime process view."
+      ],
+      "assumptions": [
+        "A recovered validation service can resume at publication using the retained validated record."
+      ]
+    },
+    "import": {
+      "source": "tests/fixtures/mermaid/redraw-flowchart.mmd",
+      "selectedBlock": 0,
+      "detectedGrammar": "flowchart",
+      "originalCount": {
+        "nodes": 8,
+        "edges": 10
+      },
+      "finalVisibleCount": {
+        "nodes": 8,
+        "edges": 10
+      },
+      "preserved": [
+        "start",
+        "validation decision",
+        "success",
+        "rejection"
+      ],
+      "normalisedLabels": [],
+      "merged": [],
+      "collapsed": [],
+      "omitted": [],
+      "unsupported": [],
+      "assumptions": [],
+      "requestedTypeChange": null
+    }
+  },
+  "directory": "skills/diagrammatical/assets/examples/imported-mermaid/flowchart-redraw",
+  "diagram_id": "document-validation-retry",
+  "files": {
+    "source": "diagram.yaml",
+    "html": "document-validation-retry.html",
+    "svg": "document-validation-retry.svg",
+    "validation": "validation.json"
+  }
+}

@@ -1,0 +1,11 @@
+flowchart TD
+  start([Start]) --> upload[Upload document]
+  upload --> valid{Document valid?}
+  valid -->|Valid| publish[Publish record]
+  publish --> done([Record published])
+  valid -->|Invalid| correct[Correct document]
+  correct -->|Retry upload| upload
+  valid -->|Service error| recovery[Manual recovery queue]
+  recovery --> recovered{Service recovered?}
+  recovered -->|Recovered| publish
+  recovered -->|Still unavailable| recovery

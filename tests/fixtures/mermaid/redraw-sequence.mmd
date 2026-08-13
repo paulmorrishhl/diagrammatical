@@ -1,0 +1,15 @@
+sequenceDiagram
+  actor User
+  participant Client as Client app
+  participant API as Protected API
+  participant IDP as Identity provider
+  User->>Client: Open account
+  Client->>API: Request with access token
+  API-->>Client: 401 token expired
+  alt access token expired; refresh token valid
+    Client->>IDP: Refresh token
+    IDP-->>Client: New access token
+    Client->>API: Retry once
+  end
+  API-->>Client: Account data
+  Client-->>User: Show account

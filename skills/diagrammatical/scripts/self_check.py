@@ -6,7 +6,7 @@ from __future__ import annotations
 import argparse
 import json
 import sys
-from dataclasses import asdict, dataclass, field
+from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
@@ -30,24 +30,35 @@ class SelfCheckResult:
     checks: dict[str, dict[str, Any]] = field(default_factory=dict)
     errors: list[str] = field(default_factory=list)
     warnings: list[str] = field(default_factory=list)
+    visual_review: dict[str, Any] = field(
+        default_factory=lambda: {
+            "status": "not-performed",
+            "reason": "No browser or screenshot capability was available.",
+        }
+    )
+    fidelity: dict[str, Any] = field(default_factory=dict)
+    outputs: list[dict[str, Any]] = field(default_factory=list)
 
     @property
     def valid(self) -> bool:
         return not self.errors
 
     def to_dict(self) -> dict[str, Any]:
-        value = asdict(self)
-        value["valid"] = self.valid
-        value["visualReview"] = {
-            "status": "not-run",
-            "findings": ["Mechanical self-check does not constitute visual review."],
+        return {
+            "valid": self.valid,
+            "visualReview": self.visual_review,
+            "checks": [dict({"name": name}, **check) for name, check in self.checks.items()],
+            "warnings": self.warnings,
+            "errors": self.errors,
+            "outputs": self.outputs,
+            "fidelity": self.fidelity,
+            "directory": self.directory,
+            "diagram_id": self.diagram_id,
+            "files": self.files,
         }
-        return value
 
 
-def _record(
-    result: SelfCheckResult, name: str, check: Any, *, include_source: bool = True
-) -> None:
+def _record(result: SelfCheckResult, name: str, check: Any, *, include_source: bool = True) -> None:
     check_value = check.to_dict()
     if not include_source:
         check_value.pop("source", None)
@@ -56,7 +67,9 @@ def _record(
     result.warnings.extend(f"{name}: {warning}" for warning in check.warnings)
 
 
-def run_self_check(directory: Path, *, require_validation: bool = True) -> SelfCheckResult:
+def run_self_check(
+    directory: Path, *, require_validation: bool = True, png_requested: bool = False
+) -> SelfCheckResult:
     result = SelfCheckResult(directory=str(directory))
     source_path = directory / "diagram.yaml"
     if not source_path.is_file():
@@ -73,6 +86,11 @@ def run_self_check(directory: Path, *, require_validation: bool = True) -> SelfC
         result.errors.append("diagram.yaml does not contain a usable diagram.id")
         return result
     result.diagram_id = diagram_id
+    fidelity = document.get("fidelity")
+    if isinstance(fidelity, dict):
+        result.fidelity = {"semantic": fidelity}
+    else:
+        result.errors.append("diagram.yaml omits the fidelity ledger")
     html_path = directory / f"{diagram_id}.html"
     svg_path = directory / f"{diagram_id}.svg"
     validation_path = directory / "validation.json"
@@ -82,12 +100,70 @@ def run_self_check(directory: Path, *, require_validation: bool = True) -> SelfC
         "svg": svg_path.name,
         "validation": validation_path.name,
     }
+    result.outputs = [
+        {"kind": kind, "path": name, "present": (directory / name).is_file()}
+        for kind, name in result.files.items()
+    ]
 
     source_check = validate_document(document, "diagram", source=str(source_path))
     _record(result, "schema", source_check)
-    if metadata.get("type") not in {
-        "architecture", "flowchart", "sequence", "sitemap", "gantt"
-    }:
+
+    project_config = next(
+        (
+            parent / ".diagrammatical/config.yaml"
+            for parent in (directory, *directory.parents)
+            if (parent / ".diagrammatical/config.yaml").is_file()
+        ),
+        None,
+    )
+    if project_config:
+        try:
+            config_document = load_structured_file(project_config)
+        except ValueError as exc:
+            result.errors.append(f"configuration: {exc}")
+        else:
+            _record(
+                result,
+                "configuration",
+                validate_document(config_document, "config", source=str(project_config)),
+            )
+
+    presentation = document.get("presentation", {})
+    brand_id = presentation.get("brand") if isinstance(presentation, dict) else None
+    if isinstance(brand_id, str):
+        built_in = Path(__file__).resolve().parents[1] / "assets/brands" / f"{brand_id}.yaml"
+        custom = (
+            project_config.parent / "brands" / brand_id / "brand.yaml" if project_config else Path()
+        )
+        brand_path = built_in if built_in.is_file() else custom
+        if brand_path.is_file():
+            try:
+                brand_document = load_structured_file(brand_path)
+            except ValueError as exc:
+                result.errors.append(f"brand: {exc}")
+            else:
+                skill_root = Path(__file__).resolve().parents[1]
+                try:
+                    brand_source = str(brand_path.relative_to(skill_root))
+                except ValueError:
+                    brand_source = str(brand_path)
+                brand_check = validate_brand_document(
+                    brand_document,
+                    source=brand_source,
+                    brand_directory=brand_path.parent,
+                )
+                result.checks["brand"] = {
+                    "valid": brand_check.valid,
+                    "errors": brand_check.errors,
+                    "warnings": brand_check.warnings,
+                    "contrastChecks": len(brand_check.contrast),
+                    "adjustments": len(brand_check.adjustments),
+                }
+                result.errors.extend(f"brand: {error}" for error in brand_check.errors)
+                result.warnings.extend(
+                    f"brand: {warning}" for warning in brand_check.warnings
+                )
+    if metadata.get("type") not in {"architecture", "flowchart", "sequence", "sitemap", "gantt"}:
         result.errors.append(
             "self-check accepts architecture, flowchart, sequence, sitemap, and Gantt diagrams"
         )
@@ -120,22 +196,45 @@ def run_self_check(directory: Path, *, require_validation: bool = True) -> SelfC
         except (OSError, UnicodeError, ValueError) as exc:
             result.errors.append(f"extraction: {exc}")
 
-    if require_validation:
-        if not validation_path.is_file():
-            result.errors.append("missing validation.json")
-        else:
-            try:
-                saved = json.loads(validation_path.read_text(encoding="utf-8"))
-            except (OSError, UnicodeError, json.JSONDecodeError) as exc:
+    if validation_path.is_file():
+        try:
+            saved = json.loads(validation_path.read_text(encoding="utf-8"))
+        except (OSError, UnicodeError, json.JSONDecodeError) as exc:
+            if require_validation:
                 result.errors.append(f"invalid validation.json: {exc}")
-            else:
-                if saved.get("valid") is not True:
-                    result.errors.append("validation.json does not record a valid result")
+        else:
+            if require_validation and saved.get("valid") is not True:
+                result.errors.append("validation.json does not record a valid result")
+            review = saved.get("visualReview")
+            if isinstance(review, dict) and review.get("status") in {
+                "passed",
+                "completed",
+            }:
+                result.visual_review = review
+            imported = saved.get("importFidelity")
+            if not isinstance(imported, dict):
+                imported = (
+                    saved.get("fidelity", {}).get("import")
+                    if isinstance(saved.get("fidelity"), dict)
+                    else None
+                )
+            if isinstance(imported, dict):
+                result.fidelity["import"] = imported
+    elif require_validation:
+        result.errors.append("missing validation.json")
     png_files = sorted(path.name for path in directory.glob("*.png"))
-    if png_files:
-        result.errors.append(
-            "PNG must not be generated by default; found " + ", ".join(png_files)
-        )
+    if png_requested and not png_files:
+        result.errors.append("PNG was requested but no PNG output exists")
+    for name in png_files:
+        path = directory / name
+        try:
+            signature = path.read_bytes()[:8]
+        except OSError as exc:
+            result.errors.append(f"could not inspect PNG {name}: {exc}")
+            continue
+        if signature != b"\x89PNG\r\n\x1a\n":
+            result.errors.append(f"invalid PNG signature: {name}")
+        result.outputs.append({"kind": "png", "path": name, "present": True})
     return result
 
 
@@ -168,9 +267,10 @@ def run_calibration_self_check(directory: Path) -> SelfCheckResult:
         "html": html_path.name,
         "svg": svg_path.name,
     }
-    brand_check = validate_brand_document(
-        brand, source=str(brand_path), brand_directory=directory
-    )
+    result.outputs = [
+        {"kind": kind, "path": name, "present": True} for kind, name in result.files.items()
+    ]
+    brand_check = validate_brand_document(brand, source=str(brand_path), brand_directory=directory)
     result.checks["brand"] = brand_check.to_dict()
     result.errors.extend(f"brand: {error}" for error in brand_check.errors)
     result.warnings.extend(f"brand: {warning}" for warning in brand_check.warnings)
@@ -198,6 +298,7 @@ def run_calibration_self_check(directory: Path) -> SelfCheckResult:
     except (OSError, UnicodeError, json.JSONDecodeError) as exc:
         result.errors.append(f"invalid fidelity.json: {exc}")
     else:
+        result.fidelity = receipt
         if receipt.get("brand") != brand_id:
             result.errors.append("fidelity.json brand does not match brand.yaml id")
         if "sources" not in receipt or "mappings" not in receipt or "contrast" not in receipt:
@@ -220,6 +321,11 @@ def build_parser() -> argparse.ArgumentParser:
         help="write validation.json from current mechanical checks",
     )
     parser.add_argument("--json", action="store_true", help="also print structured JSON")
+    parser.add_argument(
+        "--png-requested",
+        action="store_true",
+        help="require and validate an explicitly requested PNG output",
+    )
     return parser
 
 
@@ -228,7 +334,11 @@ def main() -> int:
     result = (
         run_calibration_self_check(args.directory)
         if args.calibration
-        else run_self_check(args.directory, require_validation=not args.write_validation)
+        else run_self_check(
+            args.directory,
+            require_validation=not args.write_validation,
+            png_requested=args.png_requested,
+        )
     )
     payload = result.to_dict()
     if args.write_validation:

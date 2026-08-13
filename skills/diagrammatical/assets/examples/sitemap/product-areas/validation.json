@@ -1,4 +1,91 @@
 {
+  "valid": true,
+  "visualReview": {
+    "status": "completed",
+    "findings": [
+      "Rendered at 1200\u00d7820 in Chromium and inspected at full resolution.",
+      "Three signed-in product areas remain visibly grouped beneath one authenticated root in dark mode.",
+      "Planned Reports uses text and dash treatment, and the dotted dashboard cross-link stays distinct from solid hierarchy links."
+    ]
+  },
+  "checks": [
+    {
+      "name": "schema",
+      "schema": "diagram",
+      "source": "skills/diagrammatical/assets/examples/sitemap/product-areas/diagram.yaml",
+      "errors": [],
+      "warnings": [],
+      "valid": true
+    },
+    {
+      "name": "brand",
+      "valid": true,
+      "errors": [],
+      "warnings": [],
+      "contrastChecks": 18,
+      "adjustments": 0
+    },
+    {
+      "name": "htmlSafety",
+      "kind": "html",
+      "source": "skills/diagrammatical/assets/examples/sitemap/product-areas/product-areas.html",
+      "errors": [],
+      "warnings": [],
+      "valid": true
+    },
+    {
+      "name": "svg",
+      "kind": "svg",
+      "source": "skills/diagrammatical/assets/examples/sitemap/product-areas/product-areas.svg",
+      "errors": [],
+      "warnings": [],
+      "valid": true
+    },
+    {
+      "name": "extraction",
+      "valid": true,
+      "errors": [],
+      "warnings": []
+    }
+  ],
+  "warnings": [],
+  "errors": [],
+  "outputs": [
+    {
+      "kind": "source",
+      "path": "diagram.yaml",
+      "present": true
+    },
+    {
+      "kind": "html",
+      "path": "product-areas.html",
+      "present": true
+    },
+    {
+      "kind": "svg",
+      "path": "product-areas.svg",
+      "present": true
+    },
+    {
+      "kind": "validation",
+      "path": "validation.json",
+      "present": true
+    }
+  ],
+  "fidelity": {
+    "semantic": {
+      "source": "Representative React Router configuration and signed-in navigation",
+      "collapsed": [
+        "Dynamic project identifiers are collapsed into Projects."
+      ],
+      "omitted": [
+        "Modal-only routes and API endpoints are omitted."
+      ],
+      "assumptions": [
+        "Reports is planned and visible only to authenticated users."
+      ]
+    }
+  },
   "directory": "skills/diagrammatical/assets/examples/sitemap/product-areas",
   "diagram_id": "product-areas",
   "files": {
@@ -6,44 +93,5 @@
     "html": "product-areas.html",
     "svg": "product-areas.svg",
     "validation": "validation.json"
-  },
-  "checks": {
-    "schema": {
-      "schema": "diagram",
-      "source": "skills/diagrammatical/assets/examples/sitemap/product-areas/diagram.yaml",
-      "errors": [],
-      "warnings": [],
-      "valid": true
-    },
-    "htmlSafety": {
-      "kind": "html",
-      "source": "skills/diagrammatical/assets/examples/sitemap/product-areas/product-areas.html",
-      "errors": [],
-      "warnings": [],
-      "valid": true
-    },
-    "svg": {
-      "kind": "svg",
-      "source": "skills/diagrammatical/assets/examples/sitemap/product-areas/product-areas.svg",
-      "errors": [],
-      "warnings": [],
-      "valid": true
-    },
-    "extraction": {
-      "valid": true,
-      "errors": [],
-      "warnings": []
-    }
-  },
-  "errors": [],
-  "warnings": [],
-  "valid": true,
-  "visualReview": {
-    "status": "completed",
-    "findings": [
-      "Rendered at 1200×820 in Chromium and inspected at full resolution.",
-      "Three signed-in product areas remain visibly grouped beneath one authenticated root in dark mode.",
-      "Planned Reports uses text and dash treatment, and the dotted dashboard cross-link stays distinct from solid hierarchy links."
-    ]
   }
 }

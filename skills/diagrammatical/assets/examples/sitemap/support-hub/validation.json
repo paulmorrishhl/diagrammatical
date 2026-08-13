@@ -1,4 +1,91 @@
 {
+  "valid": true,
+  "visualReview": {
+    "status": "completed",
+    "findings": [
+      "Rendered, revised, rerendered at 1200\u00d7820, and inspected at full resolution.",
+      "The first render made child destinations look like peer spokes; the final composition explicitly shows root, section, then destination.",
+      "The dashed escalation from diagnostics to ticket is separate from hierarchy; final spacing and labels are clear with no overlap."
+    ]
+  },
+  "checks": [
+    {
+      "name": "schema",
+      "schema": "diagram",
+      "source": "skills/diagrammatical/assets/examples/sitemap/support-hub/diagram.yaml",
+      "errors": [],
+      "warnings": [],
+      "valid": true
+    },
+    {
+      "name": "brand",
+      "valid": true,
+      "errors": [],
+      "warnings": [],
+      "contrastChecks": 18,
+      "adjustments": 0
+    },
+    {
+      "name": "htmlSafety",
+      "kind": "html",
+      "source": "skills/diagrammatical/assets/examples/sitemap/support-hub/support-hub.html",
+      "errors": [],
+      "warnings": [],
+      "valid": true
+    },
+    {
+      "name": "svg",
+      "kind": "svg",
+      "source": "skills/diagrammatical/assets/examples/sitemap/support-hub/support-hub.svg",
+      "errors": [],
+      "warnings": [],
+      "valid": true
+    },
+    {
+      "name": "extraction",
+      "valid": true,
+      "errors": [],
+      "warnings": []
+    }
+  ],
+  "warnings": [],
+  "errors": [],
+  "outputs": [
+    {
+      "kind": "source",
+      "path": "diagram.yaml",
+      "present": true
+    },
+    {
+      "kind": "html",
+      "path": "support-hub.html",
+      "present": true
+    },
+    {
+      "kind": "svg",
+      "path": "support-hub.svg",
+      "present": true
+    },
+    {
+      "kind": "validation",
+      "path": "validation.json",
+      "present": true
+    }
+  ],
+  "fidelity": {
+    "semantic": {
+      "source": "Representative support navigation and escalation policy",
+      "collapsed": [
+        "Article categories are collapsed into Documentation."
+      ],
+      "omitted": [
+        "Community navigation is omitted from the primary assistance routes."
+      ],
+      "assumptions": [
+        "Submitting a ticket requires authentication."
+      ]
+    }
+  },
   "directory": "skills/diagrammatical/assets/examples/sitemap/support-hub",
   "diagram_id": "support-hub",
   "files": {
@@ -6,44 +93,5 @@
     "html": "support-hub.html",
     "svg": "support-hub.svg",
     "validation": "validation.json"
-  },
-  "checks": {
-    "schema": {
-      "schema": "diagram",
-      "source": "skills/diagrammatical/assets/examples/sitemap/support-hub/diagram.yaml",
-      "errors": [],
-      "warnings": [],
-      "valid": true
-    },
-    "htmlSafety": {
-      "kind": "html",
-      "source": "skills/diagrammatical/assets/examples/sitemap/support-hub/support-hub.html",
-      "errors": [],
-      "warnings": [],
-      "valid": true
-    },
-    "svg": {
-      "kind": "svg",
-      "source": "skills/diagrammatical/assets/examples/sitemap/support-hub/support-hub.svg",
-      "errors": [],
-      "warnings": [],
-      "valid": true
-    },
-    "extraction": {
-      "valid": true,
-      "errors": [],
-      "warnings": []
-    }
-  },
-  "errors": [],
-  "warnings": [],
-  "valid": true,
-  "visualReview": {
-    "status": "completed",
-    "findings": [
-      "Rendered, revised, rerendered at 1200×820, and inspected at full resolution.",
-      "The first render made child destinations look like peer spokes; the final composition explicitly shows root, section, then destination.",
-      "The dashed escalation from diagnostics to ticket is separate from hierarchy; final spacing and labels are clear with no overlap."
-    ]
   }
 }

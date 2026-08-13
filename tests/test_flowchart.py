@@ -294,7 +294,13 @@ def test_saved_reports_match_flowchart_examples(example_dir: Path) -> None:
     assert report["valid"] is True
     assert report["errors"] == []
     assert report["warnings"] == []
-    assert set(report["checks"]) == {"schema", "htmlSafety", "svg", "extraction"}
+    assert {check["name"] for check in report["checks"]} == {
+        "schema",
+        "brand",
+        "htmlSafety",
+        "svg",
+        "extraction",
+    }
     assert report["visualReview"]["status"] == "completed"
     assert len(report["visualReview"]["findings"]) >= 3
 

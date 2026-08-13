@@ -1,0 +1,6 @@
+flowchart TD
+  start([Request received]) --> valid{Is request valid?}
+  valid -->|Yes| process[Process request]
+  valid -->|No| reject[Reject with reason]
+  process --> done([Complete])
+  reject --> done

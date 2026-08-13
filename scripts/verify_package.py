@@ -74,6 +74,22 @@ MILESTONE_6_RESOURCES = (
     "docs/branding.md",
     "docs/configuration.md",
 )
+MILESTONE_7_RESOURCES = (
+    "skills/diagrammatical/references/import-mermaid.md",
+    "skills/diagrammatical/references/export.md",
+    "skills/diagrammatical/scripts/extract_mermaid.py",
+    "skills/diagrammatical/scripts/export_png.py",
+    "scripts/visual_regression.py",
+    "docs/diagram-source.md",
+    "docs/contributing-diagram-types.md",
+    "docs/mermaid-import.md",
+    "docs/export.md",
+    "docs/troubleshooting.md",
+    "docs/releasing.md",
+    "CHANGELOG.md",
+    "RELEASE_CHECKLIST.md",
+    "THIRD_PARTY_NOTICES.md",
+)
 
 
 def load_json(path: Path, errors: list[str]) -> dict[str, Any]:
@@ -182,6 +198,10 @@ def verify_repository(root: Path = ROOT) -> list[str]:
         if not (root / resource).is_file():
             errors.append(f"missing Milestone 6 resource: {resource}")
 
+    for resource in MILESTONE_7_RESOURCES:
+        if not (root / resource).is_file():
+            errors.append(f"missing Milestone 7 resource: {resource}")
+
     examples_root = root / "skills/diagrammatical/assets/examples/architecture"
     discovered_examples = (
         {path.name for path in examples_root.iterdir() if path.is_dir()}
@@ -264,6 +284,28 @@ def verify_repository(root: Path = ROOT) -> list[str]:
     )
     if project_configuration_in_plugin:
         errors.append("user-owned .diagrammatical configuration must not be stored in the plugin")
+
+    imported = {
+        "flowchart-redraw": "document-validation-retry",
+        "graph-redraw": "event-ingestion-pipeline",
+        "sequence-redraw": "token-refresh",
+        "gantt-redraw": "release-gates",
+    }
+    imported_root = root / "skills/diagrammatical/assets/examples/imported-mermaid"
+    for directory_name, slug in imported.items():
+        directory = imported_root / directory_name
+        expected = {"diagram.yaml", f"{slug}.html", f"{slug}.svg", "validation.json"}
+        found = {path.name for path in directory.iterdir()} if directory.is_dir() else set()
+        if found != expected:
+            errors.append(
+                f"imported Mermaid example {directory_name} must contain exactly: "
+                + ", ".join(sorted(expected))
+            )
+        else:
+            report = load_json(directory / "validation.json", errors)
+            fidelity = report.get("fidelity")
+            if not isinstance(fidelity, dict) or "import" not in fidelity:
+                errors.append(f"imported Mermaid example {directory_name} lacks an import ledger")
 
     return errors
 

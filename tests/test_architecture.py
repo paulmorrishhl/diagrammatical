@@ -18,9 +18,7 @@ EXAMPLE_DIRS = tuple(sorted(path for path in EXAMPLES.iterdir() if path.is_dir()
 
 @pytest.mark.parametrize("example_dir", EXAMPLE_DIRS, ids=lambda path: path.name)
 def test_architecture_semantic_sources_are_valid(example_dir: Path) -> None:
-    result = validate_document(
-        load_structured_file(example_dir / "diagram.yaml"), "diagram"
-    )
+    result = validate_document(load_structured_file(example_dir / "diagram.yaml"), "diagram")
     assert result.valid, result.errors
     assert result.warnings == []
 
@@ -82,16 +80,13 @@ def test_architecture_complexity_budgets_produce_actionable_warnings() -> None:
     result = validate_document(document, "diagram")
     assert result.valid, result.errors
     assert any(
-        "nodes count 10" in warning and "budget of 9" in warning
-        for warning in result.warnings
+        "nodes count 10" in warning and "budget of 9" in warning for warning in result.warnings
     )
     assert any(
-        "edges count 13" in warning and "budget of 12" in warning
-        for warning in result.warnings
+        "edges count 13" in warning and "budget of 12" in warning for warning in result.warnings
     )
     assert any(
-        "groups count 5" in warning and "budget of 4" in warning
-        for warning in result.warnings
+        "groups count 5" in warning and "budget of 4" in warning for warning in result.warnings
     )
     assert all("without silent omission" in warning for warning in result.warnings)
 
@@ -163,9 +158,9 @@ def test_examples_are_materially_different_and_exercise_art_directions() -> None
 
 
 def test_architecture_reference_integrates_every_art_direction_and_recipe() -> None:
-    reference = (
-        ROOT / "skills/diagrammatical/references/types/architecture.md"
-    ).read_text(encoding="utf-8")
+    reference = (ROOT / "skills/diagrammatical/references/types/architecture.md").read_text(
+        encoding="utf-8"
+    )
     for recipe in (
         "linear-pipeline",
         "layered-stack",
@@ -182,9 +177,9 @@ def test_architecture_reference_integrates_every_art_direction_and_recipe() -> N
 def test_natural_language_architecture_request_routes_to_complete_workflow() -> None:
     skill = (ROOT / "skills/diagrammatical/SKILL.md").read_text(encoding="utf-8")
     command = (ROOT / "commands/create.md").read_text(encoding="utf-8")
-    reference = (
-        ROOT / "skills/diagrammatical/references/types/architecture.md"
-    ).read_text(encoding="utf-8")
+    reference = (ROOT / "skills/diagrammatical/references/types/architecture.md").read_text(
+        encoding="utf-8"
+    )
     assert "Generate an architecture diagram of this repository" in skill
     assert "references/types/architecture.md" in skill
     assert "references/types/architecture.md" in command
@@ -225,7 +220,13 @@ def test_validation_reports_match_examples(example_dir: Path) -> None:
     assert report["valid"] is True
     assert report["errors"] == []
     assert report["warnings"] == []
-    assert set(report["checks"]) == {"schema", "htmlSafety", "svg", "extraction"}
+    assert {check["name"] for check in report["checks"]} == {
+        "schema",
+        "brand",
+        "htmlSafety",
+        "svg",
+        "extraction",
+    }
     assert report["visualReview"]["status"] == "completed"
     assert len(report["visualReview"]["findings"]) >= 2
 

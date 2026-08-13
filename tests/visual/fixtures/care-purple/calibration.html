@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Care Purple calibration sheet</title>
+  <style>
+    :root {
+      --canvas: #F8FAFC; --surface: #fff; --surface-secondary: #F0EEE8;
+      --ink: #586174; --ink-muted: #586174; --rule: #D8D4CA;
+      --connector: #586174; --emphasis-primary: #6758E8;
+      --emphasis-primary-tint: #E4E3F9; --emphasis-secondary: #237F70;
+      --external: #2767B0; --success: #198754; --warning: #9A510E;
+      --danger: #B83A42; --deprecated: #9A6427;
+    }
+    html, body { margin: 0; background: #dedbd2; }
+    svg { display: block; width: 1440px; height: 1900px; margin: 0 auto; background: var(--canvas); }
+    text { fill: var(--ink); font-family: Inter, Arial, sans-serif; }
+    .display { font-family: "Sora", Georgia, serif; font-size: 52px; font-weight: 400; }
+    .subtitle { fill: var(--ink-muted); font-size: 18px; }
+    .eyebrow, .meta { font-family: "IBM Plex Mono", monospace; font-size: 12px; letter-spacing: 1.3px; }
+    .eyebrow { fill: var(--emphasis-primary); font-weight: 600; }
+    .section { font-family: "Sora", Georgia, serif; font-size: 28px; }
+    .label { font-size: 15px; font-weight: 600; }
+    .small { fill: var(--ink-muted); font-size: 12px; }
+    .node { fill: var(--surface); stroke: var(--rule); stroke-width: 1; }
+    .focal { fill: var(--emphasis-primary-tint); stroke: var(--emphasis-primary); stroke-width: 2; }
+    .external-node { fill: var(--surface); stroke: var(--external); stroke-width: 1.5; }
+    .optional { fill: var(--surface); stroke: var(--connector); stroke-width: 1.5; stroke-dasharray: 6 5; }
+    .group { fill: none; stroke: var(--rule); stroke-width: 1; stroke-dasharray: 3 4; }
+    .connector { fill: none; stroke: var(--connector); stroke-width: 2; }
+    .connector-primary { fill: none; stroke: var(--emphasis-primary); stroke-width: 2.5; }
+    .connector-external { fill: none; stroke: var(--external); stroke-width: 2; }
+    .connector-dashed { fill: none; stroke: var(--connector); stroke-width: 2; stroke-dasharray: 7 6; }
+    .divider { stroke: var(--rule); }
+    .status-label { font-size: 13px; font-weight: 600; }
+    .dark-title { fill: #f4f1e9; font-family: "Sora", Georgia, serif; font-size: 26px; }
+    .dark-label { fill: #f4f1e9; font-size: 13px; font-weight: 600; }
+    .dark-small { fill: #bcc3d1; font-size: 11px; }
+  </style>
+</head>
+<body>
+<svg viewBox="0 0 1440 1900" role="img" aria-labelledby="care-purple-calibration-title care-purple-calibration-desc">
+  <title id="care-purple-calibration-title">Care Purple semantic role calibration sheet</title>
+  <desc id="care-purple-calibration-desc">A light and dark visual-system review sheet showing typography, semantic colours, node and connector roles, statuses, a small architecture composition, and a small flowchart composition.</desc>
+  <defs>
+    <pattern id="care-purple-calibration-paper" width="24" height="24" patternUnits="userSpaceOnUse">
+      <circle cx="3" cy="5" r="0.45" fill="#586174" opacity="0.035"/>
+      <circle cx="16" cy="17" r="0.4" fill="#586174" opacity="0.025"/>
+    </pattern>
+    <marker id="care-purple-calibration-arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M 0 0 L 8 4 L 0 8" fill="none" stroke="context-stroke" stroke-width="1.5"/>
+    </marker>
+  </defs>
+  <rect width="1440" height="1900" fill="var(--canvas)" data-semantic-role="canvas"/>
+  <rect width="1440" height="1900" fill="url(#care-purple-calibration-paper)"/>
+
+  <text x="80" y="72" class="eyebrow">DIAGRAMMATICAL / BRAND CALIBRATION 01</text>
+  <text x="80" y="136" class="display" data-calibration-role="page-title">Care Purple</text>
+  <text x="80" y="174" class="subtitle" data-calibration-role="subtitle">Project-owned Diagrammatical identity for Care Purple.</text>
+  <rect x="80" y="204" width="1280" height="58" rx="4" fill="var(--surface-secondary)" data-semantic-role="surfaceSecondary"/>
+  <text x="104" y="239" class="meta" data-calibration-role="annotation">ANNOTATION · Primary accent marks focus; shape, labels, and stroke carry meaning alongside colour.</text>
+
+  <text x="80" y="326" class="section">Semantic palette</text>
+  <g transform="translate(80 354)">
+    <g data-semantic-role="surface"><rect width="148" height="78" rx="4" fill="var(--surface)" stroke="var(--rule)"/><text x="14" y="48" class="small">surface</text></g>
+    <g transform="translate(160)" data-semantic-role="ink"><rect width="148" height="78" rx="4" fill="var(--ink)"/><text x="14" y="48" fill="#fff" class="small" style="fill:#fff">ink</text></g>
+    <g transform="translate(320)" data-semantic-role="inkMuted"><rect width="148" height="78" rx="4" fill="var(--ink-muted)"/><text x="14" y="48" fill="#fff" class="small" style="fill:#fff">inkMuted</text></g>
+    <g transform="translate(480)" data-semantic-role="rule"><rect width="148" height="78" rx="4" fill="var(--rule)"/><text x="14" y="48" class="small">rule</text></g>
+    <g transform="translate(640)" data-semantic-role="connector"><rect width="148" height="78" rx="4" fill="var(--connector)"/><text x="14" y="48" fill="#fff" class="small" style="fill:#fff">connector</text></g>
+    <g transform="translate(800)" data-semantic-role="emphasisPrimary"><rect width="148" height="78" rx="4" fill="var(--emphasis-primary)"/><text x="14" y="48" fill="#fff" class="small" style="fill:#fff">primary</text></g>
+    <g transform="translate(960)" data-semantic-role="emphasisPrimaryTint"><rect width="148" height="78" rx="4" fill="var(--emphasis-primary-tint)"/><text x="14" y="48" class="small">primaryTint</text></g>
+    <g transform="translate(1120)" data-semantic-role="emphasisSecondary"><rect width="160" height="78" rx="4" fill="var(--emphasis-secondary)"/><text x="14" y="48" fill="#fff" class="small" style="fill:#fff">secondary</text></g>
+  </g>
+
+  <text x="80" y="500" class="section">Node vocabulary</text>
+  <g transform="translate(80 530)">
+    <g data-calibration-role="standard-node"><rect width="232" height="104" rx="6" class="node"/><text x="20" y="42" class="label">Standard node</text><text x="20" y="68" class="small">Ordinary concept</text></g>
+    <g transform="translate(252)" data-calibration-role="focal-node"><rect width="232" height="104" rx="6" class="focal"/><text x="20" y="42" class="label">Focal node</text><text x="20" y="68" class="small">Primary emphasis</text></g>
+    <g transform="translate(504)" data-calibration-role="actor-input"><path d="M 20 0 H 212 L 232 52 L 212 104 H 20 L 0 52 Z" class="node"/><text x="28" y="48" class="label">Actor / input</text><text x="28" y="72" class="small">Originates action</text></g>
+    <g transform="translate(756)" data-calibration-role="process-service"><rect width="232" height="104" rx="6" class="node"/><path d="M 0 12 H 232" stroke="var(--emphasis-secondary)" stroke-width="4"/><text x="20" y="45" class="label">Process / service</text><text x="20" y="71" class="small">Performs work</text></g>
+    <g transform="translate(1008)" data-calibration-role="data-store-state"><path d="M 0 15 C 0 -5 232 -5 232 15 V 89 C 232 109 0 109 0 89 Z" class="node"/><path d="M 0 15 C 0 35 232 35 232 15" fill="none" stroke="var(--rule)"/><text x="20" y="61" class="label">Data store / state</text></g>
+  </g>
+  <g transform="translate(80 654)">
+    <g data-calibration-role="external-service" data-semantic-role="external"><rect width="232" height="104" rx="6" class="external-node"/><circle cx="30" cy="30" r="9" fill="none" stroke="var(--external)" stroke-width="2"/><path d="M 25 30 H 35 M 30 25 V 35" stroke="var(--external)"/><text x="20" y="69" class="label">External service</text></g>
+    <g transform="translate(252)" data-calibration-role="optional-async-node"><rect width="232" height="104" rx="6" class="optional"/><text x="20" y="42" class="label">Optional / async</text><text x="20" y="68" class="small">Dashed boundary + label</text></g>
+    <g transform="translate(504)" data-calibration-role="group-boundary"><rect width="484" height="104" rx="6" class="group"/><text x="16" y="25" class="meta">GROUP BOUNDARY</text><rect x="22" y="44" width="126" height="42" rx="4" class="node"/><rect x="164" y="44" width="126" height="42" rx="4" class="node"/><rect x="306" y="44" width="156" height="42" rx="4" class="node"/></g>
+    <g transform="translate(1008)"><rect width="232" height="104" rx="6" fill="var(--surface-secondary)"/><text x="20" y="39" class="meta">TYPE SYSTEM</text><text x="20" y="65" class="small">Serif / Sans / Mono</text><text x="20" y="85" class="small">Display · label · metadata</text></g>
+  </g>
+
+  <line x1="80" y1="806" x2="1360" y2="806" class="divider"/>
+  <text x="80" y="866" class="section">Connector grammar</text>
+  <g transform="translate(80 900)">
+    <g data-calibration-role="default-connector"><path d="M 0 24 H 240" class="connector" marker-end="url(#care-purple-calibration-arrow)"/><text x="0" y="62" class="small">Default</text></g>
+    <g transform="translate(300)" data-calibration-role="primary-connector"><path d="M 0 24 H 240" class="connector-primary" marker-end="url(#care-purple-calibration-arrow)"/><text x="0" y="62" class="small">Primary</text></g>
+    <g transform="translate(600)" data-calibration-role="external-connector"><path d="M 0 24 H 240" class="connector-external" marker-end="url(#care-purple-calibration-arrow)"/><text x="0" y="62" class="small">External</text></g>
+    <g transform="translate(900)" data-calibration-role="dashed-connector"><path d="M 0 24 H 240" class="connector-dashed" marker-end="url(#care-purple-calibration-arrow)"/><text x="0" y="62" class="small">Dashed / optional</text></g>
+  </g>
+
+  <text x="80" y="1030" class="section">State treatments</text>
+  <g transform="translate(80 1060)">
+    <g data-calibration-role="success-state"><rect width="272" height="72" rx="5" class="node"/><circle cx="28" cy="36" r="10" fill="var(--success)" data-semantic-role="success"/><path d="M 23 36 L 27 40 L 34 31" fill="none" stroke="#fff" stroke-width="2"/><text x="50" y="42" class="status-label">Success · confirmed</text></g>
+    <g transform="translate(304)" data-calibration-role="warning-state"><rect width="272" height="72" rx="5" class="node"/><path d="M 28 23 L 40 47 H 16 Z" fill="var(--warning)" data-semantic-role="warning"/><text x="26" y="43" fill="#fff" style="fill:#fff;font-size:15px;font-weight:700">!</text><text x="52" y="42" class="status-label">Warning · review</text></g>
+    <g transform="translate(608)" data-calibration-role="danger-state"><rect width="272" height="72" rx="5" class="node"/><circle cx="28" cy="36" r="11" fill="var(--danger)" data-semantic-role="danger"/><path d="M 24 32 L 32 40 M 32 32 L 24 40" stroke="#fff" stroke-width="2"/><text x="50" y="42" class="status-label">Danger · blocked</text></g>
+    <g transform="translate(912)" data-calibration-role="deprecated-state"><rect width="272" height="72" rx="5" class="node"/><path d="M 18 28 H 38 M 18 36 H 38 M 18 44 H 38" stroke="var(--deprecated)" stroke-width="2" data-semantic-role="deprecated"/><text x="50" y="42" class="status-label" text-decoration="line-through">Deprecated · legacy</text></g>
+  </g>
+
+  <text x="80" y="1200" class="section">Composition checks</text>
+  <g transform="translate(80 1230)" data-calibration-role="architecture-composition">
+    <rect width="610" height="304" rx="6" fill="var(--surface)" stroke="var(--rule)"/>
+    <text x="24" y="34" class="meta">SMALL ARCHITECTURE COMPOSITION</text>
+    <rect x="30" y="92" width="140" height="70" rx="5" class="node"/><text x="50" y="133" class="label">Client</text>
+    <path d="M 170 127 H 256" class="connector-primary" marker-end="url(#care-purple-calibration-arrow)"/>
+    <rect x="258" y="74" width="166" height="106" rx="5" class="focal"/><text x="282" y="123" class="label">Platform</text><text x="282" y="147" class="small">Primary boundary</text>
+    <path d="M 424 104 H 474" class="connector" marker-end="url(#care-purple-calibration-arrow)"/><path d="M 424 150 H 474" class="connector-external" marker-end="url(#care-purple-calibration-arrow)"/>
+    <rect x="476" y="76" width="110" height="54" rx="5" class="node"/><text x="492" y="108" class="label">Data</text>
+    <rect x="476" y="146" width="110" height="54" rx="5" class="external-node"/><text x="492" y="178" class="label">Email</text>
+    <rect x="258" y="222" width="166" height="48" rx="5" class="optional"/><text x="282" y="251" class="small">Async worker</text>
+    <path d="M 341 180 V 220" class="connector-dashed" marker-end="url(#care-purple-calibration-arrow)"/>
+  </g>
+  <g transform="translate(750 1230)" data-calibration-role="flowchart-composition">
+    <rect width="610" height="304" rx="6" fill="var(--surface)" stroke="var(--rule)"/>
+    <text x="24" y="34" class="meta">SMALL FLOWCHART COMPOSITION</text>
+    <rect x="28" y="104" width="120" height="64" rx="5" class="node"/><text x="50" y="142" class="label">Receive</text>
+    <path d="M 148 136 H 220" class="connector" marker-end="url(#care-purple-calibration-arrow)"/>
+    <path d="M 274 82 L 330 136 L 274 190 L 218 136 Z" fill="var(--surface-secondary)" stroke="var(--rule)"/><text x="245" y="141" class="label">Valid?</text>
+    <path d="M 330 136 H 406" class="connector-primary" marker-end="url(#care-purple-calibration-arrow)"/><text x="350" y="122" class="small">Yes</text>
+    <rect x="408" y="104" width="162" height="64" rx="5" class="focal"/><text x="432" y="142" class="label">Continue</text>
+    <path d="M 274 190 V 238 H 406" class="connector-dashed" marker-end="url(#care-purple-calibration-arrow)"/><text x="292" y="226" class="small">No · explain</text>
+    <rect x="408" y="210" width="162" height="56" rx="5" class="node"/><text x="432" y="244" class="label">Correct input</text>
+  </g>
+
+  <text x="80" y="1610" class="section">Dark-mode status</text>
+<g transform="translate(80 1640)" data-calibration-role="dark-disclosure"><rect width="1280" height="196" rx="6" fill="var(--surface-secondary)"/><text x="28" y="60" class="label">No reusable dark variant is configured.</text><text x="28" y="94" class="small">Diagrammatical will not invert or save derived colours without approval.</text></g>
+  <text x="80" y="1872" class="meta">CARE PURPLE · Font availability was not verified; declared fallbacks remain active.</text>
+</svg>
+</body>
+</html>

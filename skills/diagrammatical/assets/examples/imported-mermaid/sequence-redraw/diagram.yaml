@@ -1,0 +1,28 @@
+schemaVersion: 1
+diagram: {id: token-refresh, title: Login and token refresh, type: sequence, audience: mixed, purpose: Explain normal API access and the expired-token recovery path, primaryMessage: The client refreshes an expired token once before retrying the protected request}
+nodes:
+  - {id: user, label: User, kind: actor}
+  - {id: client, label: Client app, kind: component, emphasis: primary}
+  - {id: api, label: Protected API, kind: service}
+  - {id: identity, label: Identity provider, kind: external-service}
+edges: []
+groups: []
+sequence:
+  focalMessages: [refresh-token, retry-request]
+  messages:
+    - {id: open-account, from: user, to: client, label: Open account, order: 1, kind: sync}
+    - {id: protected-request, from: client, to: api, label: Request with access token, order: 2, kind: sync}
+    - {id: token-expired, from: api, to: client, label: 401 token expired, order: 3, kind: return}
+    - {id: refresh-token, from: client, to: identity, label: Refresh token, order: 4, kind: sync, guard: Token expired, focal: true}
+    - {id: new-token, from: identity, to: client, label: New access token, order: 5, kind: return}
+    - {id: retry-request, from: client, to: api, label: Retry once, order: 6, kind: sync, focal: true}
+    - {id: account-data, from: api, to: client, label: Account data, order: 7, kind: return}
+    - {id: show-account, from: client, to: user, label: Show account, order: 8, kind: return}
+  fragments:
+    - {id: expired-token-path, kind: exception, label: Expired access token, guard: Access token expired and refresh token valid, startOrder: 3, endOrder: 6}
+presentation: {composition: authentication-refresh, direction: top-to-bottom, brand: editorial-blueprint, style: clinical, mode: dark, detail: balanced, outputPreset: document-wide, focalNodes: [client]}
+fidelity:
+  source: Representative OAuth-style session policy
+  collapsed: [Token signature and claim validation are collapsed into the protected request.]
+  omitted: [Initial credential exchange and logout are outside this refresh-focused view.]
+  assumptions: [The client retries at most once after a successful refresh.]

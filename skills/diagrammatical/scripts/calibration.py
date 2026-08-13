@@ -60,8 +60,28 @@ DEFAULT_DARK = {
 
 
 def _replace_colours(source: str, original: dict[str, str], resolved: dict[str, str]) -> str:
+    def css_name(role: str) -> str:
+        return re.sub(r"(?<!^)(?=[A-Z])", "-", role).lower()
+
     for role, old_value in original.items():
-        source = re.sub(re.escape(old_value), resolved[role], source, flags=re.IGNORECASE)
+        declaration = rf"(--{re.escape(css_name(role))}\s*:\s*){re.escape(old_value)}"
+        source = re.sub(
+            declaration,
+            lambda match, value=resolved[role]: match.group(1) + value,
+            source,
+            flags=re.IGNORECASE,
+        )
+
+    raw_roles: dict[str, str] = {}
+    for role, old_value in original.items():
+        raw_roles[old_value.lower()] = role
+    placeholders: dict[str, str] = {}
+    for index, (old_value, role) in enumerate(raw_roles.items()):
+        placeholder = f"__DIAGRAMMATICAL_COLOUR_{index}__"
+        source = re.sub(re.escape(old_value), placeholder, source, flags=re.IGNORECASE)
+        placeholders[placeholder] = resolved[role]
+    for placeholder, value in placeholders.items():
+        source = source.replace(placeholder, value)
     return source
 
 
@@ -116,8 +136,8 @@ def generate_calibration(
             '<rect width="1280" height="196" rx="6" fill="var(--surface-secondary)"/>'
             '<text x="28" y="60" class="label">No reusable dark variant is configured.</text>'
             '<text x="28" y="94" class="small">Diagrammatical will not invert or save '
-            'derived colours without approval.</text>'
-            '</g>',
+            "derived colours without approval.</text>"
+            "</g>",
             source,
             flags=re.DOTALL,
         )
