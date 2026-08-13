@@ -146,6 +146,7 @@
     }
   ],
   "$defs": {
+    "colour": { "type": "string", "pattern": "^#[0-9A-Fa-f]{6}$" },
     "id": {
       "type": "string",
       "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$",
@@ -250,7 +251,31 @@
             "maxVisibleNodes": { "type": "integer", "minimum": 1, "maximum": 100 }
           }
         },
-        "overrides": { "type": "object" }
+        "overrides": { "$ref": "#/$defs/presentationOverrides" }
+      }
+    },
+    "presentationOverrides": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "canvas": { "$ref": "#/$defs/colour" },
+        "surface": { "$ref": "#/$defs/colour" },
+        "surfaceSecondary": { "$ref": "#/$defs/colour" },
+        "ink": { "$ref": "#/$defs/colour" },
+        "inkMuted": { "$ref": "#/$defs/colour" },
+        "rule": { "$ref": "#/$defs/colour" },
+        "connector": { "$ref": "#/$defs/colour" },
+        "emphasisPrimary": { "$ref": "#/$defs/colour" },
+        "emphasisPrimaryTint": { "$ref": "#/$defs/colour" },
+        "emphasisSecondary": { "$ref": "#/$defs/colour" },
+        "external": { "$ref": "#/$defs/colour" },
+        "success": { "$ref": "#/$defs/colour" },
+        "warning": { "$ref": "#/$defs/colour" },
+        "danger": { "$ref": "#/$defs/colour" },
+        "deprecated": { "$ref": "#/$defs/colour" },
+        "connectorWidth": { "type": "number", "minimum": 0.5, "maximum": 8 },
+        "nodeRadius": { "type": "integer", "minimum": 0, "maximum": 40 },
+        "density": { "enum": ["generous", "balanced", "compact"] }
       }
     },
     "fidelity": {

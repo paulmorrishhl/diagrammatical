@@ -1,0 +1,31 @@
+:root {
+  --background: #fffaf3;
+  --surface: #ffffff;
+  --foreground: #25201d;
+  --muted-foreground: #655d58;
+  --primary: #9d3f24;
+  --secondary: #276b60;
+  --success: #247350;
+  --warning: #9a510e;
+  --danger: #ad3540;
+  --font-heading: Fraunces;
+  --font-body: Source Sans 3;
+  --radius-card: 6px;
+}
+
+.dark {
+  --background: #191512;
+  --surface: #25201d;
+  --foreground: #fff7ed;
+  --muted-foreground: #cbbfb4;
+  --primary: #f29b7d;
+  --secondary: #7ed2c1;
+  --success: #79d4aa;
+  --warning: #f4b66e;
+  --danger: #ff9fa7;
+}
+
+@theme {
+  --color-link: #2767b0;
+  --font-sans: Source Sans 3;
+}

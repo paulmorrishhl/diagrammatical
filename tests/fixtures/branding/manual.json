@@ -1,0 +1,18 @@
+{
+  "colours": {
+    "canvas": "#F8FAFC",
+    "surface": "#FFFFFF",
+    "ink": "#192033",
+    "muted-foreground": "#586174",
+    "primary": "#6758E8",
+    "secondary": "#237F70",
+    "success": "#198754",
+    "warning": "#9A510E",
+    "danger": "#B83A42"
+  },
+  "fonts": {
+    "heading": "Sora",
+    "body": "Inter",
+    "label": "Inter"
+  }
+}

@@ -7,7 +7,6 @@ import argparse
 import json
 import sys
 from collections.abc import Mapping, Sequence
-from copy import deepcopy
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
 from typing import Any
@@ -16,8 +15,10 @@ import yaml
 from jsonschema import Draft202012Validator, FormatChecker
 
 try:
+    from .config_resolution import resolve_configuration_with_provenance
     from .gantt_dates import inclusive_duration, parse_iso_date, resolve_end, select_scale
 except ImportError:
+    from config_resolution import resolve_configuration_with_provenance
     from gantt_dates import inclusive_duration, parse_iso_date, resolve_end, select_scale
 
 SKILL_ROOT = Path(__file__).resolve().parents[1]
@@ -876,16 +877,6 @@ def validate_document(
     return result
 
 
-def _deep_merge(base: dict[str, Any], overlay: Mapping[str, Any]) -> dict[str, Any]:
-    result = deepcopy(base)
-    for key, value in overlay.items():
-        if isinstance(value, Mapping) and isinstance(result.get(key), dict):
-            result[key] = _deep_merge(result[key], value)
-        else:
-            result[key] = deepcopy(value)
-    return result
-
-
 def resolve_configuration(
     *,
     safety: Mapping[str, Any],
@@ -898,11 +889,15 @@ def resolve_configuration(
 ) -> dict[str, Any]:
     """Resolve documented precedence while applying safety as a final immutable overlay."""
 
-    resolved: dict[str, Any] = {}
-    for layer in (diagram_type, art_direction, brand, project, diagram, output_preset):
-        if layer:
-            resolved = _deep_merge(resolved, layer)
-    return _deep_merge(resolved, safety)
+    return resolve_configuration_with_provenance(
+        safety=safety,
+        diagram_type=diagram_type,
+        art_direction=art_direction,
+        brand=brand,
+        project=project,
+        diagram=diagram,
+        output_preset=output_preset,
+    )["tokens"]
 
 
 def infer_schema(path: Path) -> str:

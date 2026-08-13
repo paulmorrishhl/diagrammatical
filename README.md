@@ -6,7 +6,10 @@ Diagrammatical is an installable specialist diagram designer. It is being built 
 
 ## Project status
 
-Milestone 3 adds the complete repository-to-architecture workflow, six intentional architecture compositions, safe HTML/SVG validation, standalone SVG extraction, structured self-checks, and three visually reviewed examples. Flowchart, sequence, site-map, and Gantt generation remain later milestones; see [IMPLEMENTATION_PLAN.md](IMPLEMENTATION_PLAN.md).
+Diagrammatical supports architecture, flowchart, sequence, site-map/tree, and Gantt diagrams through
+one shared workflow. Milestone 6 adds proposal-and-approval brand onboarding from manual values,
+existing packs, repository CSS, static Tailwind tokens, supported token JSON, and public websites
+using the active agent's available capabilities.
 
 The plugin currently ships Editorial, Technical, Executive, Clinical, and Neutral art directions, light and dark static base templates, and a rendered calibration sheet. Validate a diagram, brand, or project configuration with:
 
@@ -14,7 +17,7 @@ The plugin currently ships Editorial, Technical, Executive, Clinical, and Neutra
 python skills/diagrammatical/scripts/validate.py path/to/source.yaml --schema diagram --json
 ```
 
-Architecture output uses the default four-file structure:
+Diagram output uses the default four-file structure:
 
 ```text
 diagrams/<diagram-slug>/
@@ -24,9 +27,23 @@ diagrams/<diagram-slug>/
 └── validation.json
 ```
 
-The supported architecture compositions are `linear-pipeline`, `layered-stack`,
-`central-platform`, `hub-and-spoke`, `bounded-domains`, and `current-future`. PNG remains
-explicit-only.
+PNG remains explicit-only.
+
+## Project branding
+
+Ask:
+
+```text
+Configure Diagrammatical using the branding in this repository.
+```
+
+Or run `/diagrammatical:brand`. Diagrammatical proposes semantic mappings, checks contrast,
+generates a calibration preview, and requests approval before saving reusable files under
+`.diagrammatical/`. Brand identity remains independent from the five built-in art directions, and
+one diagram can safely override semantic presentation tokens without changing the shared brand.
+
+See [branding](docs/branding.md) and [configuration](docs/configuration.md) for manual, CSS,
+Tailwind, token JSON, website, dark-variant, calibration, and override guidance.
 
 ## Install in Claude Code
 

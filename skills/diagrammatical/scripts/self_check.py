@@ -13,10 +13,12 @@ from typing import Any
 try:
     from .extract_svg import extract_svg_text
     from .validate import load_structured_file, validate_document
+    from .validate_brand import validate_brand_document
     from .validate_svg import validate_html, validate_svg
 except ImportError:  # Direct script execution.
     from extract_svg import extract_svg_text
     from validate import load_structured_file, validate_document
+    from validate_brand import validate_brand_document
     from validate_svg import validate_html, validate_svg
 
 
@@ -137,9 +139,81 @@ def run_self_check(directory: Path, *, require_validation: bool = True) -> SelfC
     return result
 
 
+def run_calibration_self_check(directory: Path) -> SelfCheckResult:
+    """Run schema, contrast, HTML/SVG, extraction, receipt, and PNG checks for a brand."""
+
+    result = SelfCheckResult(directory=str(directory))
+    brand_path = directory / "brand.yaml"
+    receipt_path = directory / "fidelity.json"
+    html_path = directory / "calibration.html"
+    svg_path = directory / "calibration.svg"
+    for path in (brand_path, receipt_path, html_path, svg_path):
+        if not path.is_file():
+            result.errors.append(f"missing {path.name}")
+    if result.errors:
+        return result
+    try:
+        brand = load_structured_file(brand_path)
+    except ValueError as exc:
+        result.errors.append(str(exc))
+        return result
+    brand_id = brand.get("id")
+    if not isinstance(brand_id, str):
+        result.errors.append("brand.yaml does not contain a usable id")
+        return result
+    result.diagram_id = brand_id
+    result.files = {
+        "brand": brand_path.name,
+        "fidelity": receipt_path.name,
+        "html": html_path.name,
+        "svg": svg_path.name,
+    }
+    brand_check = validate_brand_document(
+        brand, source=str(brand_path), brand_directory=directory
+    )
+    result.checks["brand"] = brand_check.to_dict()
+    result.errors.extend(f"brand: {error}" for error in brand_check.errors)
+    result.warnings.extend(f"brand: {warning}" for warning in brand_check.warnings)
+    html_check = validate_html(html_path)
+    svg_check = validate_svg(svg_path, slug=brand_id)
+    _record(result, "htmlSafety", html_check)
+    _record(result, "svg", svg_check)
+    if html_check.valid and svg_check.valid:
+        try:
+            inline = extract_svg_text(html_path.read_text(encoding="utf-8")).strip()
+            standalone = svg_path.read_text(encoding="utf-8").strip()
+            same = inline == standalone
+        except (OSError, UnicodeError, ValueError) as exc:
+            result.errors.append(f"extraction: {exc}")
+        else:
+            result.checks["extraction"] = {
+                "valid": same,
+                "errors": [] if same else ["standalone SVG differs from inline SVG"],
+                "warnings": [],
+            }
+            if not same:
+                result.errors.append("extraction: standalone SVG differs from inline SVG")
+    try:
+        receipt = json.loads(receipt_path.read_text(encoding="utf-8"))
+    except (OSError, UnicodeError, json.JSONDecodeError) as exc:
+        result.errors.append(f"invalid fidelity.json: {exc}")
+    else:
+        if receipt.get("brand") != brand_id:
+            result.errors.append("fidelity.json brand does not match brand.yaml id")
+        if "sources" not in receipt or "mappings" not in receipt or "contrast" not in receipt:
+            result.errors.append("fidelity.json omits required source, mapping, or contrast data")
+    png_files = sorted(path.name for path in directory.glob("*.png"))
+    if png_files:
+        result.errors.append("calibration must not generate PNG: " + ", ".join(png_files))
+    return result
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("directory", type=Path, help="diagram deliverable directory")
+    parser.add_argument(
+        "--calibration", action="store_true", help="self-check a project-owned brand calibration"
+    )
     parser.add_argument(
         "--write-validation",
         action="store_true",
@@ -151,7 +225,11 @@ def build_parser() -> argparse.ArgumentParser:
 
 def main() -> int:
     args = build_parser().parse_args()
-    result = run_self_check(args.directory, require_validation=not args.write_validation)
+    result = (
+        run_calibration_self_check(args.directory)
+        if args.calibration
+        else run_self_check(args.directory, require_validation=not args.write_validation)
+    )
     payload = result.to_dict()
     if args.write_validation:
         validation_path = args.directory / "validation.json"

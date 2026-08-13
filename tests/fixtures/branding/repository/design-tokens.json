@@ -1,0 +1,14 @@
+{
+  "colour": {
+    "brand": {
+      "primary": { "$value": "#9D3F24" }
+    },
+    "cta": { "value": "{colour.brand.primary}" }
+  },
+  "typography": {
+    "heading": { "value": "Fraunces" }
+  },
+  "radius": {
+    "card": { "value": "6px" }
+  }
+}

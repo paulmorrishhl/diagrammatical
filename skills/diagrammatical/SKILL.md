@@ -20,6 +20,12 @@ Diagrammatical is a specialist information and visual-design workflow. Meaning c
 
 Read [references/workflow.md](references/workflow.md) before creating or revising a diagram. Load later type, branding, import, export, and validation references only when the requested workflow needs them.
 
+For brand setup or revision—including “Configure Diagrammatical using the branding in this
+repository” and website branding requests—read and follow
+[references/brand-onboarding.md](references/brand-onboarding.md) completely. Inferred mappings are
+proposals, not approvals. Generate and inspect calibration output before asking to persist a reusable
+brand, and keep every approved custom file under the user's project `.diagrammatical/` directory.
+
 For an architecture request—including “Generate an architecture diagram of this repository”—read and follow [references/types/architecture.md](references/types/architecture.md) completely.
 
 For a flowchart request—including “Create a flowchart for this process”—read and follow [references/types/flowchart.md](references/types/flowchart.md) completely.

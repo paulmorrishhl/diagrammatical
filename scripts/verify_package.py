@@ -63,6 +63,17 @@ MILESTONE_5_RESOURCES = (
     "skills/diagrammatical/references/types/gantt.md",
     "skills/diagrammatical/scripts/gantt_dates.py",
 )
+MILESTONE_6_RESOURCES = (
+    "skills/diagrammatical/references/brand-onboarding.md",
+    "skills/diagrammatical/scripts/inspect_brand.py",
+    "skills/diagrammatical/scripts/resolve_brand.py",
+    "skills/diagrammatical/scripts/config_resolution.py",
+    "skills/diagrammatical/scripts/validate_brand.py",
+    "skills/diagrammatical/scripts/calibration.py",
+    "skills/diagrammatical/scripts/brand_workflow.py",
+    "docs/branding.md",
+    "docs/configuration.md",
+)
 
 
 def load_json(path: Path, errors: list[str]) -> dict[str, Any]:
@@ -166,6 +177,10 @@ def verify_repository(root: Path = ROOT) -> list[str]:
     for resource in MILESTONE_5_RESOURCES:
         if not (root / resource).is_file():
             errors.append(f"missing Milestone 5 resource: {resource}")
+
+    for resource in MILESTONE_6_RESOURCES:
+        if not (root / resource).is_file():
+            errors.append(f"missing Milestone 6 resource: {resource}")
 
     examples_root = root / "skills/diagrammatical/assets/examples/architecture"
     discovered_examples = (

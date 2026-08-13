@@ -27,7 +27,9 @@
       "required": ["source", "placements"],
       "properties": {
         "source": { "type": ["string", "null"] },
-        "placements": { "type": "array", "uniqueItems": true, "items": { "enum": ["header-left", "header-right", "footer-left", "footer-right"] } }
+        "placements": { "type": "array", "uniqueItems": true, "items": { "enum": ["header-left", "header-right", "footer-left", "footer-right"] } },
+        "maximumWidth": { "$ref": "#/$defs/pixels" },
+        "attribution": { "type": ["string", "null"], "maxLength": 1000 }
       }
     },
     "shape": {
@@ -111,7 +113,19 @@
       "required": ["palette", "roles"],
       "properties": {
         "palette": { "type": "object", "minProperties": 1, "additionalProperties": { "$ref": "#/$defs/colour" } },
-        "roles": { "$ref": "#/$defs/roles" }
+        "roles": { "$ref": "#/$defs/roles" },
+        "generated": { "type": "boolean" },
+        "foregrounds": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "emphasisPrimary": { "$ref": "#/$defs/colour" },
+            "emphasisSecondary": { "$ref": "#/$defs/colour" },
+            "success": { "$ref": "#/$defs/colour" },
+            "warning": { "$ref": "#/$defs/colour" },
+            "danger": { "$ref": "#/$defs/colour" }
+          }
+        }
       }
     },
     "colour": { "type": "string", "pattern": "^#[0-9A-Fa-f]{6}$" },

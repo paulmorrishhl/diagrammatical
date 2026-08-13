@@ -32,9 +32,18 @@ Add full references and reviewed examples for the remaining types, type-specific
 
 Verification: validate sequence chronology, participants and fragments; validate site-map roots, hierarchy, routes and cross-links; validate Gantt ranges, dependencies, milestones, budgets and inclusive-date geometry; prove exact date-to-coordinate mappings for every checked-in Gantt bar; render and inspect nine materially different examples; rerun all architecture and flowchart self-checks; verify packaging and absence of PNG; install from an isolated local marketplace; and invoke each diagram type through the shared create command. Live invocation requires an authenticated Claude Code session.
 
-## Milestone 6 — Branding workflow (planned)
+## Milestone 6 — Branding workflow (implemented; live Claude invocation verification pending)
 
 Add manual and repository-source brand onboarding, CSS/Tailwind/token inspection, semantic mapping and contrast review, calibration approval, project-owned persistence, brand fidelity receipts, and one-off diagram overrides. Plugin installation files remain immutable.
+
+Verification: exercise manual values, valid existing packs, repository CSS with light/dark blocks,
+static Tailwind and CSS-first theme tokens, and supported nested token JSON; reject circular token
+references and unsafe SVG assets; validate semantic mapping, contrast adjustments, provenance,
+approval-gated persistence, replacement differences, and isolated diagram overrides; render and
+inspect materially different light-only and explicit-dark calibrations; reinstall from the local
+Claude marketplace and run installed helpers while proving the installed skill hash is unchanged.
+The available Claude CLI is not authenticated, so the final conversational `/diagrammatical:brand`
+model invocation must be repeated after `/login`.
 
 ## Milestone 7 — Import, export, and final quality (planned)
 
