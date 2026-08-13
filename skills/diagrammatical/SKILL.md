@@ -20,6 +20,8 @@ Diagrammatical is a specialist information and visual-design workflow. Meaning c
 
 Read [references/workflow.md](references/workflow.md) before creating or revising a diagram. Load later type, branding, import, export, and validation references only when the requested workflow needs them.
 
-For an architecture request—including “Generate an architecture diagram of this repository”—read and follow [references/types/architecture.md](references/types/architecture.md) completely. Architecture is the only diagram type with a complete generation workflow in the current milestone; do not improvise later type workflows from its rules.
+For an architecture request—including “Generate an architecture diagram of this repository”—read and follow [references/types/architecture.md](references/types/architecture.md) completely.
+
+For a flowchart request—including “Create a flowchart for this process”—read and follow [references/types/flowchart.md](references/types/flowchart.md) completely. Architecture and flowchart are the only diagram types with complete generation workflows in the current milestone; do not improvise sequence, site-map, or Gantt workflows from their rules.
 
 Built-in defaults live under `assets/`: `brands/editorial-blueprint.yaml` supplies semantic roles, `styles/` supplies independent art directions, and `templates/` supplies static light, dark, and calibration HTML/SVG. User-owned brands and configuration always remain under `.diagrammatical/` in the user's project.

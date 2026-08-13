@@ -6,8 +6,10 @@ from pathlib import Path
 
 from scripts.verify_package import (
     ARCHITECTURE_EXAMPLES,
+    FLOWCHART_EXAMPLES,
     MILESTONE_2_RESOURCES,
     MILESTONE_3_RESOURCES,
+    MILESTONE_4_RESOURCES,
     PUBLIC_COMMANDS,
     ROOT,
     verify_repository,
@@ -52,6 +54,15 @@ class PackageTests(unittest.TestCase):
         self.assertEqual(
             {path.name for path in examples.iterdir() if path.is_dir()},
             set(ARCHITECTURE_EXAMPLES),
+        )
+
+    def test_milestone_4_resources_and_examples_ship_inside_the_plugin(self) -> None:
+        for resource in MILESTONE_4_RESOURCES:
+            self.assertTrue((ROOT / resource).is_file(), resource)
+        examples = ROOT / "skills/diagrammatical/assets/examples/flowchart"
+        self.assertEqual(
+            {path.name for path in examples.iterdir() if path.is_dir()},
+            set(FLOWCHART_EXAMPLES),
         )
 
 

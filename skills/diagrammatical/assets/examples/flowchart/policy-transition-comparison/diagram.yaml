@@ -1,0 +1,133 @@
+schemaVersion: 1
+diagram:
+  id: policy-transition-comparison
+  title: Access review policy transition
+  description: A stage-aligned comparison of current manual review and future risk-led review.
+  type: flowchart
+  audience: executive
+  purpose: Compare how the future policy changes the review decision and its outcomes
+  primaryMessage: Risk screening moves routine approvals out of manual review while preserving an explicit review route
+nodes:
+  - id: current-start
+    label: Current start
+    kind: start
+    group: current-policy
+  - id: current-manual-review
+    label: Review every request
+    kind: process
+    group: current-policy
+  - id: current-approved
+    label: Reviewer approves?
+    kind: decision
+    group: current-policy
+  - id: current-access-granted
+    label: Access granted
+    kind: outcome
+    status: success
+    group: current-policy
+  - id: current-access-denied
+    label: Access denied
+    kind: outcome
+    status: danger
+    group: current-policy
+  - id: future-start
+    label: Future start
+    kind: start
+    group: future-policy
+  - id: future-risk-screen
+    label: Screen request risk
+    kind: process
+    emphasis: primary
+    group: future-policy
+  - id: future-low-risk
+    label: Low risk?
+    kind: decision
+    group: future-policy
+  - id: future-access-granted
+    label: Access granted automatically
+    kind: outcome
+    status: success
+    group: future-policy
+  - id: future-review-required
+    label: Manual review required
+    kind: outcome
+    status: warning
+    group: future-policy
+edges:
+  - id: current-start-to-review
+    from: current-start
+    to: current-manual-review
+    kind: action
+    path: normal
+  - id: current-review-to-decision
+    from: current-manual-review
+    to: current-approved
+    kind: action
+    path: normal
+  - id: current-yes-to-granted
+    from: current-approved
+    to: current-access-granted
+    label: Approved
+    kind: action
+    path: conditional
+  - id: current-no-to-denied
+    from: current-approved
+    to: current-access-denied
+    label: Declined
+    kind: action
+    path: failure
+    status: danger
+  - id: future-start-to-screen
+    from: future-start
+    to: future-risk-screen
+    kind: action
+    path: normal
+  - id: future-screen-to-decision
+    from: future-risk-screen
+    to: future-low-risk
+    kind: action
+    path: normal
+  - id: future-low-risk-to-granted
+    from: future-low-risk
+    to: future-access-granted
+    label: Low risk
+    kind: action
+    path: conditional
+  - id: future-review-to-outcome
+    from: future-low-risk
+    to: future-review-required
+    label: Review needed
+    kind: action
+    path: conditional
+groups:
+  - id: current-policy
+    label: Current policy
+    kind: workstream
+    nodes: [current-start, current-manual-review, current-approved, current-access-granted, current-access-denied]
+  - id: future-policy
+    label: Future policy
+    kind: workstream
+    nodes: [future-start, future-risk-screen, future-low-risk, future-access-granted, future-review-required]
+presentation:
+  composition: paired-comparison
+  direction: left-to-right
+  brand: editorial-blueprint
+  style: executive
+  mode: light
+  detail: minimal
+  outputPreset: document-wide
+  focalNodes: [future-risk-screen]
+  constraints:
+    keepTogether:
+      - [current-start, current-manual-review, current-approved]
+      - [future-start, future-risk-screen, future-low-risk]
+    maxVisibleNodes: 10
+fidelity:
+  source: Representative current and proposed access-policy traces fixture
+  collapsed:
+    - Reviewer assignment and evidence gathering are collapsed into Review every request.
+    - Risk signals and thresholds are collapsed into Screen request risk.
+  omitted:
+    - Post-decision audit logging is omitted because it is unchanged between policies.
+  assumptions:
+    - Requests requiring future manual review continue into an existing downstream review process not shown here.

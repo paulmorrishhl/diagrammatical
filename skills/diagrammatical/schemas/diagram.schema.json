@@ -81,6 +81,31 @@
           }
         }
       }
+    },
+    {
+      "if": { "properties": { "diagram": { "properties": { "type": { "const": "flowchart" } } } } },
+      "then": {
+        "properties": {
+          "nodes": {
+            "minItems": 2,
+            "items": {
+              "properties": {
+                "kind": {
+                  "enum": ["start", "end", "outcome", "process", "decision", "state", "note", "input"]
+                }
+              }
+            }
+          },
+          "edges": { "minItems": 1 },
+          "presentation": {
+            "properties": {
+              "composition": {
+                "enum": ["linear", "decision-spine", "branching", "exception-path", "paired-comparison"]
+              }
+            }
+          }
+        }
+      }
     }
   ],
   "$defs": {
@@ -100,7 +125,8 @@
         "kind": {
           "enum": [
             "actor", "input", "process", "service", "component", "external-service",
-            "data-store", "state", "decision", "page", "task", "milestone", "note"
+            "data-store", "state", "decision", "start", "end", "outcome", "page",
+            "task", "milestone", "note"
           ]
         },
         "status": { "enum": ["default", "success", "warning", "danger", "deprecated"] },
@@ -135,6 +161,7 @@
         "to": { "$ref": "#/$defs/id" },
         "label": { "type": "string", "maxLength": 300 },
         "kind": { "enum": ["default", "action", "event", "data", "dependency", "external", "message"] },
+        "path": { "enum": ["normal", "conditional", "failure", "exception", "optional", "retry"] },
         "direction": { "enum": ["forward", "reverse", "bidirectional", "none"] },
         "optional": { "type": "boolean" },
         "async": { "type": "boolean" },

@@ -10,7 +10,8 @@ This is the portable orchestration contract used by natural-language activation 
 
 ## 2. Model meaning
 
-- Select one supported diagram type from the structure of the information.
+- Select one supported diagram type from the structure of the information. Choose architecture for stable components, boundaries, and relationships; choose flowchart for ordered steps, decisions, outcomes, and exception paths. If an ambiguous request could fit either, use the purpose and dominant relationship shape, then state the choice.
+- Honour an explicit flowchart request unless it would misrepresent source with no process semantics; explain before recommending another type.
 - Build or update semantic `diagram.yaml` before rendered outputs.
 - Preserve stable IDs for concepts that remain unchanged.
 - Record collapsed, omitted, normalised, and assumed content in the fidelity ledger.
@@ -29,7 +30,7 @@ This is the portable orchestration contract used by natural-language activation 
 
 ## 5. Check quality
 
-- Run schema, reference-integrity, safety, accessibility, and SVG checks that exist for the current milestone.
+- Run schema, graph/reference-integrity, safety, accessibility, and SVG checks that exist for the current milestone.
 - Validate YAML/JSON with `scripts/validate.py`; select the diagram, brand, or config schema explicitly when the filename is ambiguous.
 - Inspect a rendered preview when the environment supports it and revise visible defects.
 - Never claim visual review occurred when only source or geometry checks ran.

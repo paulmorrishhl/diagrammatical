@@ -74,6 +74,15 @@ def test_status_requires_non_colour_cue() -> None:
     assert any("colour is not the only carrier" in error for error in result.errors)
 
 
+def test_exception_path_requires_label_and_non_colour_cue() -> None:
+    svg = ACCESSIBLE_SVG.replace(
+        "</svg>", '<path data-path="exception" data-path-label="Service error"/></svg>'
+    )
+    result = validate_svg_text(svg, slug="sample")
+    assert not result.valid
+    assert any("both data-path-label and data-path-cue" in error for error in result.errors)
+
+
 @pytest.mark.parametrize(
     "unsafe",
     (

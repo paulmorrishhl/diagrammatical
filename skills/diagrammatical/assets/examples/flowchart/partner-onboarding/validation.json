@@ -1,0 +1,49 @@
+{
+  "directory": "skills/diagrammatical/assets/examples/flowchart/partner-onboarding",
+  "diagram_id": "partner-onboarding",
+  "files": {
+    "source": "diagram.yaml",
+    "html": "partner-onboarding.html",
+    "svg": "partner-onboarding.svg",
+    "validation": "validation.json"
+  },
+  "checks": {
+    "schema": {
+      "schema": "diagram",
+      "source": "skills/diagrammatical/assets/examples/flowchart/partner-onboarding/diagram.yaml",
+      "errors": [],
+      "warnings": [],
+      "valid": true
+    },
+    "htmlSafety": {
+      "kind": "html",
+      "source": "skills/diagrammatical/assets/examples/flowchart/partner-onboarding/partner-onboarding.html",
+      "errors": [],
+      "warnings": [],
+      "valid": true
+    },
+    "svg": {
+      "kind": "svg",
+      "source": "skills/diagrammatical/assets/examples/flowchart/partner-onboarding/partner-onboarding.svg",
+      "errors": [],
+      "warnings": [],
+      "valid": true
+    },
+    "extraction": {
+      "valid": true,
+      "errors": [],
+      "warnings": []
+    }
+  },
+  "errors": [],
+  "warnings": [],
+  "valid": true,
+  "visualReview": {
+    "status": "completed",
+    "findings": [
+      "Rendered at 1200 by 800 in local Chromium and inspected at full resolution.",
+      "The left-to-right decision spine is dominant; Complete, Missing details, Approved, and Declined labels are individually traceable.",
+      "Start, active, returned, and declined treatments remain distinguishable by shape and text without relying on colour; no overlap, clipping, or unreadable decision text was observed."
+    ]
+  }
+}

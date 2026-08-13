@@ -25,7 +25,7 @@ SCHEMA_FILES = {
 MAX_SOURCE_BYTES = 1_000_000
 COMPLEXITY_CAPS = {
     "architecture": {"nodes": 9, "edges": 12, "groups": 4},
-    "flowchart": {"nodes": 10, "edges": 14, "groups": 2},
+    "flowchart": {"nodes": 10, "edges": 14},
     "sequence": {"nodes": 5, "edges": 12, "groups": 1},
     "sitemap": {"nodes": 16, "edges": 20, "groups": 4},
     "gantt": {"nodes": 12, "edges": 20, "groups": 4},
@@ -41,6 +41,17 @@ ARCHITECTURE_NODE_KINDS = {
     "state",
     "note",
 }
+FLOWCHART_NODE_KINDS = {
+    "start",
+    "end",
+    "outcome",
+    "process",
+    "decision",
+    "state",
+    "note",
+    "input",
+}
+FLOWCHART_TERMINAL_KINDS = {"end", "outcome"}
 
 
 class SourceLoadError(ValueError):
@@ -319,6 +330,156 @@ def _architecture_errors(document: Mapping[str, Any]) -> list[str]:
     return errors
 
 
+def _flowchart_checks(document: Mapping[str, Any]) -> tuple[list[str], list[str]]:
+    metadata = document.get("diagram", {})
+    if not isinstance(metadata, dict) or metadata.get("type") != "flowchart":
+        return [], []
+
+    errors: list[str] = []
+    warnings: list[str] = []
+    nodes = [node for node in document.get("nodes", []) if isinstance(node, dict)]
+    edges = [edge for edge in document.get("edges", []) if isinstance(edge, dict)]
+    node_by_id = {
+        node["id"]: node for node in nodes if isinstance(node.get("id"), str)
+    }
+    starts = [node_id for node_id, node in node_by_id.items() if node.get("kind") == "start"]
+    terminals = {
+        node_id
+        for node_id, node in node_by_id.items()
+        if node.get("kind") in FLOWCHART_TERMINAL_KINDS
+    }
+    adjacency: dict[str, list[str]] = {node_id: [] for node_id in node_by_id}
+    incoming: dict[str, int] = {node_id: 0 for node_id in node_by_id}
+    outgoing_edges: dict[str, list[dict[str, Any]]] = {
+        node_id: [] for node_id in node_by_id
+    }
+    for edge in edges:
+        source = edge.get("from")
+        target = edge.get("to")
+        if isinstance(source, str) and isinstance(target, str):
+            if source in adjacency and target in adjacency:
+                adjacency[source].append(target)
+                incoming[target] += 1
+                outgoing_edges[source].append(edge)
+        path_role = edge.get("path")
+        if path_role in {"failure", "exception"} and not str(edge.get("label", "")).strip():
+            errors.append(
+                f"flowchart {path_role} edge '{edge.get('id')}' needs a text label as a "
+                "non-colour path cue"
+            )
+
+    for node_id, node in node_by_id.items():
+        node_kind = node.get("kind")
+        if isinstance(node_kind, str) and node_kind not in FLOWCHART_NODE_KINDS:
+            errors.append(f"flowchart node '{node_id}' uses unsupported kind '{node_kind}'")
+        if node_kind == "decision":
+            branches = outgoing_edges[node_id]
+            if len(branches) < 2:
+                errors.append(
+                    f"flowchart decision '{node_id}' needs at least 2 outgoing paths; "
+                    f"found {len(branches)}"
+                )
+            for edge in branches:
+                if not str(edge.get("label", "")).strip():
+                    errors.append(
+                        f"flowchart decision '{node_id}' has unlabelled outgoing edge "
+                        f"'{edge.get('id')}'; every decision branch needs a plain-language label"
+                    )
+
+    if not starts:
+        errors.append("flowchart needs at least one node with kind 'start'")
+    if not terminals:
+        errors.append("flowchart needs at least one node with kind 'end' or 'outcome'")
+
+    def reachable_from(origin: str) -> set[str]:
+        reached: set[str] = set()
+        pending = [origin]
+        while pending:
+            current = pending.pop()
+            if current in reached:
+                continue
+            reached.add(current)
+            pending.extend(adjacency.get(current, []))
+        return reached
+
+    reached_from_starts: set[str] = set()
+    for start in starts:
+        reached = reachable_from(start)
+        reached_from_starts.update(reached)
+        if terminals and not reached.intersection(terminals):
+            errors.append(
+                f"flowchart start '{start}' has no reachable end or outcome node"
+            )
+
+    for node_id in sorted(node_by_id.keys() - reached_from_starts):
+        warnings.append(
+            f"flowchart node '{node_id}' is unreachable from every declared start"
+        )
+    for node_id in sorted(node_by_id):
+        if node_id not in starts and incoming[node_id] == 0:
+            warnings.append(
+                f"flowchart node '{node_id}' has no incoming path and is not a declared start"
+            )
+
+    cycle_nodes: set[str] = set()
+    visiting: set[str] = set()
+    visited: set[str] = set()
+
+    def find_cycles(node_id: str, trail: list[str]) -> None:
+        if node_id in visiting:
+            cycle_nodes.update(trail[trail.index(node_id) :])
+            return
+        if node_id in visited:
+            return
+        visiting.add(node_id)
+        trail.append(node_id)
+        for target in adjacency.get(node_id, []):
+            find_cycles(target, trail)
+        trail.pop()
+        visiting.remove(node_id)
+        visited.add(node_id)
+
+    for node_id in node_by_id:
+        find_cycles(node_id, [])
+    no_exit = sorted(
+        node_id
+        for node_id in cycle_nodes
+        if not reachable_from(node_id).intersection(terminals)
+    )
+    if no_exit:
+        warnings.append(
+            "flowchart contains a cycle with no represented exit to an end or outcome: "
+            + ", ".join(no_exit)
+        )
+
+    decision_count = sum(node.get("kind") == "decision" for node in nodes)
+    if decision_count > 4:
+        warnings.append(
+            f"flowchart decision count {decision_count} exceeds the default complexity budget "
+            "of 4; preserve every decision and split overview and detail flows rather than "
+            "shrinking labels or nodes"
+        )
+
+    presentation = document.get("presentation", {})
+    focal_ids = {
+        node["id"]
+        for node in nodes
+        if node.get("emphasis") == "primary" and isinstance(node.get("id"), str)
+    }
+    if isinstance(presentation, dict):
+        focal_ids.update(
+            node_id
+            for node_id in presentation.get("focalNodes", [])
+            if isinstance(node_id, str)
+        )
+    if len(focal_ids) > 2:
+        errors.append(
+            "flowchart diagrams allow at most 2 focal elements; found "
+            f"{len(focal_ids)} ({', '.join(sorted(focal_ids))})"
+        )
+    return errors, warnings
+
+
 def _complexity_warnings(document: Mapping[str, Any]) -> list[str]:
     metadata = document.get("diagram", {})
     diagram_type = metadata.get("type") if isinstance(metadata, dict) else None
@@ -331,7 +492,14 @@ def _complexity_warnings(document: Mapping[str, Any]) -> list[str]:
         if isinstance(value, list) and len(value) > cap:
             warnings.append(
                 f"{diagram_type} {collection} count {len(value)} exceeds the default complexity "
-                f"budget of {cap}; simplify explicitly or split the diagram without silent omission"
+                f"budget of {cap}; "
+                + (
+                    "preserve the successful path and material exceptions, then split overview "
+                    "and detail flows rather than shrinking labels or nodes; record every "
+                    "simplification in the fidelity ledger"
+                    if diagram_type == "flowchart"
+                    else "simplify explicitly or split the diagram without silent omission"
+                )
             )
     return warnings
 
@@ -369,6 +537,9 @@ def validate_document(
         result.errors.extend(_duplicate_id_errors(document))
         result.errors.extend(_reference_errors(document))
         result.errors.extend(_architecture_errors(document))
+        flowchart_errors, flowchart_warnings = _flowchart_checks(document)
+        result.errors.extend(flowchart_errors)
+        result.warnings.extend(flowchart_warnings)
         result.warnings.extend(_complexity_warnings(document))
     elif kind == "config":
         result.warnings.extend(_unknown_config_warnings(document, load_schema("config")))

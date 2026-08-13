@@ -20,9 +20,11 @@ Add the complete architecture reference, six composition recipes, complexity rul
 
 Verification: validate architecture semantics and budgets; run HTML/SVG safety, accessibility, extraction, and self-check coverage; inspect the linear-pipeline, central-platform, and bounded-domains examples in rendered Chromium output; verify the exact four-file deliverable set and absence of PNG; install from an isolated local marketplace; and invoke the create command against a representative repository. The isolated and normal Claude CLI profiles available during implementation were not authenticated, so the final live command invocation must be repeated in an authenticated Claude Code session.
 
-## Milestone 4 — Flowchart (planned)
+## Milestone 4 — Flowchart (implemented; live Claude invocation verification pending)
 
 Add the complete flowchart reference, five compositions, decision and exception semantics, accessible non-colour-only treatments, overflow/splitting guidance, and at least three reviewed examples.
+
+Verification: validate flowchart semantics and graph integrity; test all five compositions, decision branches, starts/outcomes, retry cycles, complexity and focal budgets, and exception non-colour cues; render and inspect three materially different examples; rerun every architecture self-check; verify the exact four-file deliverable set and absence of PNG; install from an isolated local marketplace; and invoke the shared create command against a representative process fixture. Live invocation requires an authenticated Claude Code session.
 
 ## Milestone 5 — Sequence, site map, and Gantt (planned)
 

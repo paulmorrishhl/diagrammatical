@@ -1,0 +1,49 @@
+{
+  "directory": "skills/diagrammatical/assets/examples/flowchart/document-validation-retry",
+  "diagram_id": "document-validation-retry",
+  "files": {
+    "source": "diagram.yaml",
+    "html": "document-validation-retry.html",
+    "svg": "document-validation-retry.svg",
+    "validation": "validation.json"
+  },
+  "checks": {
+    "schema": {
+      "schema": "diagram",
+      "source": "skills/diagrammatical/assets/examples/flowchart/document-validation-retry/diagram.yaml",
+      "errors": [],
+      "warnings": [],
+      "valid": true
+    },
+    "htmlSafety": {
+      "kind": "html",
+      "source": "skills/diagrammatical/assets/examples/flowchart/document-validation-retry/document-validation-retry.html",
+      "errors": [],
+      "warnings": [],
+      "valid": true
+    },
+    "svg": {
+      "kind": "svg",
+      "source": "skills/diagrammatical/assets/examples/flowchart/document-validation-retry/document-validation-retry.svg",
+      "errors": [],
+      "warnings": [],
+      "valid": true
+    },
+    "extraction": {
+      "valid": true,
+      "errors": [],
+      "warnings": []
+    }
+  },
+  "errors": [],
+  "warnings": [],
+  "valid": true,
+  "visualReview": {
+    "status": "completed",
+    "findings": [
+      "Rendered at 1200 by 800 in local Chromium and inspected at full resolution.",
+      "The upper success spine remains visually dominant while correction, service exception, and retry routes use different labelled dash patterns.",
+      "Both retry loops have visible arrowheads and exits; connector routes avoid nodes and labels, and the dark-mode frame showed no clipping or ambiguous branch attachment."
+    ]
+  }
+}

@@ -8,12 +8,19 @@ diagram:
   primaryMessage: Invalid references must fail clearly
 nodes:
   - id: known-node
-    label: Known node
-    kind: process
+    label: Start
+    kind: start
+  - id: declared-end
+    label: Complete
+    kind: end
 edges:
   - id: broken-edge
     from: known-node
     to: missing-node
+    kind: action
+  - id: valid-edge
+    from: known-node
+    to: declared-end
     kind: action
 groups: []
 presentation:

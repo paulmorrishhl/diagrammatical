@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>partner onboarding</title>
+  <style>* { box-sizing: border-box; } body { margin: 0; background: #f7f5ef; } svg { display: block; width: 100%; height: auto; }</style>
+</head>
+<body>
+<svg id="partner-onboarding-diagram" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 760" role="img" aria-labelledby="partner-onboarding-title partner-onboarding-desc">
+  <title id="partner-onboarding-title">Partner onboarding decision flow</title>
+  <desc id="partner-onboarding-desc">Reading left to right, an application starts with a submitted partner profile. Complete profiles follow the main path through risk review and approval to account activation and an active partner. Missing details lead to a returned application, while a declined risk decision leads to a declined outcome.</desc>
+  <defs>
+    <style>
+      :root { --canvas:#f7f5ef;--surface:#fff;--surface-secondary:#f0eee8;--ink:#20242c;--ink-muted:#687083;--rule:#d8d4ca;--connector:#697386;--emphasis-primary:#315be8;--emphasis-primary-tint:#e7ecff;--emphasis-secondary:#19735e;--external:#2767b0;--success:#19735e;--warning:#b86514;--danger:#b83a42;--deprecated:#9a6427 }
+      .title{font:400 38px Georgia,serif;fill:var(--ink)}.sub{font:15px Arial,sans-serif;fill:var(--ink-muted)}.phase{fill:var(--surface-secondary);stroke:var(--rule);stroke-width:1}.phase-label{font:600 13px Arial,sans-serif;fill:var(--ink-muted);letter-spacing:1px}.node{fill:var(--surface);stroke:var(--rule);stroke-width:1.5}.label{font:600 14px Arial,sans-serif;fill:var(--ink);text-anchor:middle}.small{font:13px Arial,sans-serif;fill:var(--ink-muted);text-anchor:middle}.edge{fill:none;stroke:var(--connector);stroke-width:2;marker-end:url(#partner-onboarding-arrow)}.branch{fill:none;stroke:var(--connector);stroke-width:2;marker-end:url(#partner-onboarding-arrow)}.failure{fill:none;stroke:var(--danger);stroke-width:2;stroke-dasharray:8 5;marker-end:url(#partner-onboarding-danger-arrow)}.edge-label{font:600 12px Arial,sans-serif;fill:var(--ink)}
+    </style>
+    <marker id="partner-onboarding-arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8" fill="none" stroke="var(--connector)" stroke-width="1.5"/></marker>
+    <marker id="partner-onboarding-danger-arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8" fill="none" stroke="var(--danger)" stroke-width="1.5"/></marker>
+  </defs>
+  <rect width="1200" height="760" fill="var(--canvas)"/>
+  <text x="62" y="66" class="title">Partner onboarding</text>
+  <text x="62" y="96" class="sub">The successful journey stays on the spine; returned and declined outcomes remain explicit.</text>
+  <rect x="142" y="160" width="382" height="318" rx="10" class="phase"/>
+  <text x="162" y="188" class="phase-label">APPLICATION</text>
+  <rect x="548" y="160" width="574" height="318" rx="10" class="phase"/>
+  <text x="568" y="188" class="phase-label">APPROVAL AND ACTIVATION</text>
+  <path d="M118 322H166" class="edge"/>
+  <path d="M326 322H373" class="edge"/>
+  <path d="M477 322H570" class="edge"/>
+  <path d="M728 322H773" class="edge"/>
+  <path d="M877 322H922" class="edge"/>
+  <path d="M1058 322H1092" class="edge"/>
+  <path d="M425 374V546" class="branch"/>
+  <path d="M825 374V546" class="failure" data-path="failure" data-path-label="Declined" data-path-cue="dashed connector"/>
+  <text x="493" y="309" class="edge-label">Complete</text>
+  <text x="438" y="456" class="edge-label">Missing details</text>
+  <text x="885" y="309" class="edge-label">Approved</text>
+  <text x="838" y="456" class="edge-label">Declined</text>
+  <g id="partner-onboarding-start"><circle cx="90" cy="322" r="28" fill="var(--ink)"/><text x="90" y="327" class="label" fill="var(--canvas)" style="fill:var(--canvas)">Start</text></g>
+  <g id="partner-onboarding-submit"><path d="M166 276H326V368H166L178 322Z" class="node"/><text x="246" y="317" class="label"><tspan x="246">Submit partner</tspan><tspan x="246" dy="20">profile</tspan></text></g>
+  <g id="partner-onboarding-complete"><path d="M425 270L477 322L425 374L373 322Z" fill="var(--surface)" stroke="var(--connector)" stroke-width="2"/><text x="425" y="317" class="label"><tspan x="425">Profile</tspan><tspan x="425" dy="19">complete?</tspan></text></g>
+  <g id="partner-onboarding-risk" data-emphasis="primary"><rect x="570" y="276" width="158" height="92" rx="6" fill="var(--emphasis-primary-tint)" stroke="var(--emphasis-primary)" stroke-width="2.5"/><text x="649" y="317" class="label"><tspan x="649">Review partner</tspan><tspan x="649" dy="20">risk</tspan></text></g>
+  <g id="partner-onboarding-approved"><path d="M825 270L877 322L825 374L773 322Z" fill="var(--surface)" stroke="var(--connector)" stroke-width="2"/><text x="825" y="317" class="label"><tspan x="825">Risk</tspan><tspan x="825" dy="19">approved?</tspan></text></g>
+  <g id="partner-onboarding-activate"><rect x="922" y="282" width="136" height="80" rx="6" class="node"/><text x="990" y="327" class="label">Activate account</text></g>
+  <g id="partner-onboarding-end" data-status="success" data-status-label="Partner active"><rect x="1092" y="286" width="92" height="72" rx="32" fill="var(--surface)" stroke="var(--success)" stroke-width="3"/><text x="1138" y="317" class="label"><tspan x="1138">Partner</tspan><tspan x="1138" dy="19">active</tspan></text></g>
+  <g id="partner-onboarding-returned" data-status="warning" data-status-label="Application returned"><path d="M345 546H505L493 626H357Z" fill="var(--surface)" stroke="var(--warning)" stroke-width="2"/><text x="425" y="581" class="label"><tspan x="425">Application</tspan><tspan x="425" dy="20">returned</tspan></text><text x="425" y="614" class="small">Needs details</text></g>
+  <g id="partner-onboarding-declined" data-status="danger" data-status-label="Application declined"><path d="M745 546H905L893 626H757Z" fill="var(--surface)" stroke="var(--danger)" stroke-width="2"/><text x="825" y="581" class="label"><tspan x="825">Application</tspan><tspan x="825" dy="20">declined</tspan></text><text x="825" y="614" class="small">Final outcome</text></g>
+  <text x="62" y="704" class="sub">Solid spine = expected path · labelled branches = domain outcomes · dashed route = failure</text>
+</svg>
+</body>
+</html>

@@ -1,0 +1,119 @@
+schemaVersion: 1
+diagram:
+  id: partner-onboarding
+  title: Partner onboarding
+  description: A decision-led journey from application to an activated or returned partner account.
+  type: flowchart
+  audience: mixed
+  purpose: Explain the main onboarding journey and the two points where an application can leave it
+  primaryMessage: Complete applications move through risk approval to activation; incomplete or rejected applications receive explicit outcomes
+nodes:
+  - id: begin-application
+    label: Start
+    kind: start
+  - id: submit-profile
+    label: Submit partner profile
+    kind: input
+  - id: profile-complete
+    label: Profile complete?
+    kind: decision
+  - id: risk-review
+    label: Review partner risk
+    kind: process
+    emphasis: primary
+  - id: risk-approved
+    label: Risk approved?
+    kind: decision
+  - id: activate-account
+    label: Activate account
+    kind: process
+  - id: onboarding-complete
+    label: Partner active
+    kind: end
+    status: success
+  - id: application-returned
+    label: Application returned
+    kind: outcome
+    status: warning
+  - id: application-declined
+    label: Application declined
+    kind: outcome
+    status: danger
+edges:
+  - id: begin-to-submit
+    from: begin-application
+    to: submit-profile
+    kind: action
+    path: normal
+  - id: submit-to-completeness
+    from: submit-profile
+    to: profile-complete
+    kind: action
+    path: normal
+  - id: complete-to-review
+    from: profile-complete
+    to: risk-review
+    label: Complete
+    kind: action
+    path: conditional
+  - id: incomplete-to-returned
+    from: profile-complete
+    to: application-returned
+    label: Missing details
+    kind: action
+    path: conditional
+  - id: review-to-approval
+    from: risk-review
+    to: risk-approved
+    kind: action
+    path: normal
+  - id: approved-to-activate
+    from: risk-approved
+    to: activate-account
+    label: Approved
+    kind: action
+    path: conditional
+  - id: declined-to-outcome
+    from: risk-approved
+    to: application-declined
+    label: Declined
+    kind: action
+    path: failure
+    status: danger
+  - id: activate-to-end
+    from: activate-account
+    to: onboarding-complete
+    kind: action
+    path: normal
+groups:
+  - id: application-phase
+    label: Application
+    kind: phase
+    nodes: [submit-profile, profile-complete]
+  - id: approval-phase
+    label: Approval and activation
+    kind: phase
+    nodes: [risk-review, risk-approved, activate-account]
+presentation:
+  composition: decision-spine
+  direction: left-to-right
+  brand: editorial-blueprint
+  style: editorial
+  mode: light
+  detail: balanced
+  outputPreset: document-wide
+  focalNodes: [risk-review]
+  constraints:
+    keepTogether:
+      - [submit-profile, profile-complete]
+      - [risk-review, risk-approved, activate-account]
+    maxVisibleNodes: 10
+fidelity:
+  source: Representative partner policy and onboarding checklist fixture
+  collapsed:
+    - Identity, tax, and commercial evidence are collapsed into Submit partner profile.
+    - Individual screening controls are collapsed into Review partner risk.
+  omitted:
+    - Post-activation training is omitted because the view ends at account activation.
+  assumptions:
+    - Incomplete applications are returned rather than permanently rejected.

@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>policy transition comparison</title>
+  <style>* { box-sizing: border-box; } body { margin: 0; background: #f7f5ef; } svg { display: block; width: 100%; height: auto; }</style>
+</head>
+<body>
+<svg id="policy-transition-comparison-diagram" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 780" role="img" aria-labelledby="policy-transition-comparison-title policy-transition-comparison-desc">
+  <title id="policy-transition-comparison-title">Current and future access review policy comparison</title>
+  <desc id="policy-transition-comparison-desc">Two aligned traces read left to right. In the current policy every request enters manual review before an approval decision grants or denies access. In the future policy a risk screen becomes the focal stage: low-risk requests gain access automatically, while other requests receive a clearly labelled manual-review outcome.</desc>
+  <defs>
+    <style>
+      :root { --canvas:#f7f5ef;--surface:#fff;--surface-secondary:#f0eee8;--ink:#20242c;--ink-muted:#687083;--rule:#d8d4ca;--connector:#697386;--emphasis-primary:#315be8;--emphasis-primary-tint:#e7ecff;--emphasis-secondary:#19735e;--external:#2767b0;--success:#19735e;--warning:#b86514;--danger:#b83a42;--deprecated:#9a6427 }
+      .title{font:400 38px Georgia,serif;fill:var(--ink)}.sub{font:15px Arial,sans-serif;fill:var(--ink-muted)}.lane{fill:var(--surface);stroke:var(--rule);stroke-width:1}.lane-future{fill:var(--emphasis-primary-tint);stroke:var(--emphasis-primary);stroke-width:1.5}.lane-label{font:600 13px Arial,sans-serif;fill:var(--ink-muted);letter-spacing:1px}.node{fill:var(--surface);stroke:var(--rule);stroke-width:1.5}.label{font:600 14px Arial,sans-serif;fill:var(--ink);text-anchor:middle}.detail{font:12px Arial,sans-serif;fill:var(--ink-muted);text-anchor:middle}.edge{fill:none;stroke:var(--connector);stroke-width:2;marker-end:url(#policy-transition-comparison-arrow)}.failure{fill:none;stroke:var(--danger);stroke-width:2;stroke-dasharray:8 5;marker-end:url(#policy-transition-comparison-danger-arrow)}.edge-label{font:600 12px Arial,sans-serif;fill:var(--ink)}
+    </style>
+    <marker id="policy-transition-comparison-arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8" fill="none" stroke="var(--connector)" stroke-width="1.5"/></marker>
+    <marker id="policy-transition-comparison-danger-arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8" fill="none" stroke="var(--danger)" stroke-width="1.5"/></marker>
+  </defs>
+  <rect width="1200" height="780" fill="var(--canvas)"/>
+  <text x="56" y="62" class="title">Access review policy transition</text>
+  <text x="56" y="92" class="sub">Comparable stages align; the future policy moves routine approval from people to a risk screen.</text>
+  <rect x="54" y="142" width="1092" height="240" rx="10" class="lane"/>
+  <text x="76" y="174" class="lane-label">CURRENT POLICY · EVERY REQUEST IS REVIEWED</text>
+  <rect x="54" y="426" width="1092" height="240" rx="10" class="lane-future"/>
+  <text x="76" y="458" class="lane-label">FUTURE POLICY · ROUTINE REQUESTS MOVE STRAIGHT THROUGH</text>
+  <path d="M126 274H212" class="edge"/>
+  <path d="M372 274H472" class="edge"/>
+  <path d="M576 250H724" class="edge"/>
+  <path d="M550 326V342H948V300" class="failure" data-path="failure" data-path-label="Declined" data-path-cue="dashed connector"/>
+  <text x="632" y="237" class="edge-label">Approved</text>
+  <text x="742" y="342" class="edge-label">Declined</text>
+  <path d="M126 558H212" class="edge"/>
+  <path d="M372 558H472" class="edge"/>
+  <path d="M576 534H724" class="edge"/>
+  <path d="M550 610V622H948V584" class="edge"/>
+  <text x="632" y="521" class="edge-label">Low risk</text>
+  <text x="720" y="626" class="edge-label">Review needed</text>
+  <g id="policy-transition-comparison-current-start"><circle cx="96" cy="274" r="30" fill="var(--ink)"/><text x="96" y="270" class="label" style="fill:var(--canvas)"><tspan x="96">Current</tspan><tspan x="96" dy="18">start</tspan></text></g>
+  <g id="policy-transition-comparison-current-review"><rect x="212" y="228" width="160" height="92" rx="6" class="node"/><text x="292" y="269" class="label"><tspan x="292">Review every</tspan><tspan x="292" dy="20">request</tspan></text><text x="292" y="305" class="detail">Manual stage</text></g>
+  <g id="policy-transition-comparison-current-decision"><path d="M524 222L576 274L524 326L472 274Z" fill="var(--surface)" stroke="var(--connector)" stroke-width="2"/><text x="524" y="269" class="label"><tspan x="524">Reviewer</tspan><tspan x="524" dy="19">approves?</tspan></text></g>
+  <g id="policy-transition-comparison-current-granted" data-status="success" data-status-label="Access granted"><rect x="724" y="238" width="160" height="72" rx="32" fill="var(--surface)" stroke="var(--success)" stroke-width="2.5"/><text x="804" y="279" class="label">Access granted</text></g>
+  <g id="policy-transition-comparison-current-denied" data-status="danger" data-status-label="Access denied"><path d="M884 300H1012L1024 332L1012 364H884L872 332Z" fill="var(--surface)" stroke="var(--danger)" stroke-width="2"/><text x="948" y="337" class="label">Access denied</text></g>
+  <g id="policy-transition-comparison-future-start"><circle cx="96" cy="558" r="30" fill="var(--ink)"/><text x="96" y="554" class="label" style="fill:var(--canvas)"><tspan x="96">Future</tspan><tspan x="96" dy="18">start</tspan></text></g>
+  <g id="policy-transition-comparison-future-screen" data-emphasis="primary"><rect x="212" y="512" width="160" height="92" rx="6" fill="var(--surface)" stroke="var(--emphasis-primary)" stroke-width="3"/><text x="292" y="553" class="label"><tspan x="292">Screen request</tspan><tspan x="292" dy="20">risk</tspan></text><text x="292" y="589" class="detail">New control point</text></g>
+  <g id="policy-transition-comparison-future-decision"><path d="M524 506L576 558L524 610L472 558Z" fill="var(--surface)" stroke="var(--emphasis-primary)" stroke-width="2"/><text x="524" y="553" class="label"><tspan x="524">Low</tspan><tspan x="524" dy="19">risk?</tspan></text></g>
+  <g id="policy-transition-comparison-future-granted" data-status="success" data-status-label="Access granted automatically"><rect x="724" y="522" width="196" height="72" rx="32" fill="var(--surface)" stroke="var(--success)" stroke-width="2.5"/><text x="822" y="553" class="label"><tspan x="822">Access granted</tspan><tspan x="822" dy="19">automatically</tspan></text></g>
+  <g id="policy-transition-comparison-future-review" data-status="warning" data-status-label="Manual review required"><path d="M872 584H1024L1012 648H884Z" fill="var(--surface)" stroke="var(--warning)" stroke-width="2"/><text x="948" y="613" class="label"><tspan x="948">Manual review</tspan><tspan x="948" dy="19">required</tspan></text></g>
+  <text x="56" y="726" class="sub">The aligned decisions expose the divergence: routine future requests bypass manual review.</text>
+</svg>
+</body>
+</html>

@@ -15,12 +15,13 @@ def main() -> int:
         [sys.executable, "scripts/verify_package.py"],
         [sys.executable, "-m", "pytest"],
     ]
-    examples = ROOT / "skills/diagrammatical/assets/examples/architecture"
-    commands.extend(
-        [sys.executable, "skills/diagrammatical/scripts/self_check.py", str(path)]
-        for path in sorted(examples.iterdir())
-        if path.is_dir()
-    )
+    for example_type in ("architecture", "flowchart"):
+        examples = ROOT / "skills/diagrammatical/assets/examples" / example_type
+        commands.extend(
+            [sys.executable, "skills/diagrammatical/scripts/self_check.py", str(path)]
+            for path in sorted(examples.iterdir())
+            if path.is_dir()
+        )
     for command in commands:
         result = subprocess.run(command, cwd=ROOT, check=False)
         if result.returncode:

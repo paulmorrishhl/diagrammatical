@@ -1,0 +1,49 @@
+{
+  "directory": "skills/diagrammatical/assets/examples/flowchart/policy-transition-comparison",
+  "diagram_id": "policy-transition-comparison",
+  "files": {
+    "source": "diagram.yaml",
+    "html": "policy-transition-comparison.html",
+    "svg": "policy-transition-comparison.svg",
+    "validation": "validation.json"
+  },
+  "checks": {
+    "schema": {
+      "schema": "diagram",
+      "source": "skills/diagrammatical/assets/examples/flowchart/policy-transition-comparison/diagram.yaml",
+      "errors": [],
+      "warnings": [],
+      "valid": true
+    },
+    "htmlSafety": {
+      "kind": "html",
+      "source": "skills/diagrammatical/assets/examples/flowchart/policy-transition-comparison/policy-transition-comparison.html",
+      "errors": [],
+      "warnings": [],
+      "valid": true
+    },
+    "svg": {
+      "kind": "svg",
+      "source": "skills/diagrammatical/assets/examples/flowchart/policy-transition-comparison/policy-transition-comparison.svg",
+      "errors": [],
+      "warnings": [],
+      "valid": true
+    },
+    "extraction": {
+      "valid": true,
+      "errors": [],
+      "warnings": []
+    }
+  },
+  "errors": [],
+  "warnings": [],
+  "valid": true,
+  "visualReview": {
+    "status": "completed",
+    "findings": [
+      "Rendered at 1200 by 800 in local Chromium, revised, rerendered, and inspected at full resolution.",
+      "Current and future stages align in two distinct lanes; the focal future risk screen and the policy divergence read immediately.",
+      "Secondary outcomes were moved away from lane boundaries after the first review; the final frame has clear labelled branches, balanced whitespace, and no visible clipping or overlap."
+    ]
+  }
+}

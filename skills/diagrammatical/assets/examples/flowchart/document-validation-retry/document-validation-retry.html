@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>document validation retry</title>
+  <style>* { box-sizing: border-box; } body { margin: 0; background: #f7f5ef; } svg { display: block; width: 100%; height: auto; }</style>
+</head>
+<body>
+<svg id="document-validation-retry-diagram" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-labelledby="document-validation-retry-title document-validation-retry-desc">
+  <title id="document-validation-retry-title">Document validation with retry and exception recovery</title>
+  <desc id="document-validation-retry-desc">Reading left to right, a document is uploaded and validated. Valid documents continue along the upper success path to publication. Invalid documents follow a dashed correction path and retry upload. A service error follows a separately labelled dotted path to manual recovery, which either resumes publication or loops with an explicit exit condition.</desc>
+  <defs>
+    <style>
+      :root { --canvas:#171a21;--surface:#20242c;--surface-secondary:#292e38;--ink:#f4f1e9;--ink-muted:#bcc3d1;--rule:#4d5564;--connector:#aeb7c7;--emphasis-primary:#9cb2ff;--emphasis-primary-tint:#29355c;--emphasis-secondary:#72d3b7;--external:#8ac5fa;--success:#72d3b7;--warning:#f1b36c;--danger:#ff9aa1;--deprecated:#e4b06d }
+      .title{font:400 36px Georgia,serif;fill:var(--ink)}.sub{font:15px Arial,sans-serif;fill:var(--ink-muted)}.lane{fill:var(--surface-secondary);stroke:var(--rule);stroke-width:1}.lane-label{font:600 13px Arial,sans-serif;fill:var(--ink-muted);letter-spacing:1px}.node{fill:var(--surface);stroke:var(--rule);stroke-width:1.5}.label{font:600 14px Arial,sans-serif;fill:var(--ink);text-anchor:middle}.detail{font:12px Arial,sans-serif;fill:var(--ink-muted);text-anchor:middle}.edge{fill:none;stroke:var(--connector);stroke-width:2;marker-end:url(#document-validation-retry-arrow)}.failure{fill:none;stroke:var(--warning);stroke-width:2;stroke-dasharray:8 5;marker-end:url(#document-validation-retry-warning-arrow)}.exception{fill:none;stroke:var(--danger);stroke-width:2.5;stroke-dasharray:2 7;marker-end:url(#document-validation-retry-danger-arrow)}.retry{fill:none;stroke:var(--external);stroke-width:2;stroke-dasharray:8 5;marker-end:url(#document-validation-retry-external-arrow)}.edge-label{font:600 12px Arial,sans-serif;fill:var(--ink)}
+    </style>
+    <marker id="document-validation-retry-arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8" fill="none" stroke="var(--connector)" stroke-width="1.5"/></marker>
+    <marker id="document-validation-retry-warning-arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8" fill="none" stroke="var(--warning)" stroke-width="1.5"/></marker>
+    <marker id="document-validation-retry-danger-arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8" fill="none" stroke="var(--danger)" stroke-width="1.5"/></marker>
+    <marker id="document-validation-retry-external-arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8" fill="none" stroke="var(--external)" stroke-width="1.5"/></marker>
+  </defs>
+  <rect width="1200" height="800" fill="var(--canvas)"/>
+  <text x="58" y="64" class="title">Document validation and recovery</text>
+  <text x="58" y="94" class="sub">Success remains continuous; correction and service recovery use labelled, patterned routes.</text>
+  <rect x="142" y="150" width="982" height="250" rx="10" class="lane"/>
+  <text x="162" y="178" class="lane-label">SUCCESSFUL JOURNEY</text>
+  <rect x="142" y="450" width="982" height="250" rx="10" class="lane"/>
+  <text x="162" y="478" class="lane-label">RECOVERY ROUTES</text>
+  <path d="M113 285H174" class="edge"/>
+  <path d="M334 285H410" class="edge"/>
+  <path d="M522 285H690" class="edge"/>
+  <path d="M842 285H994" class="edge"/>
+  <text x="600" y="272" class="edge-label">Valid</text>
+  <path d="M458 337V518H330" class="failure" data-path="failure" data-path-label="Invalid" data-path-cue="dashed connector"/>
+  <text x="469" y="433" class="edge-label">Invalid</text>
+  <path d="M498 329V448H600V518" class="exception" data-path="exception" data-path-label="Service error" data-path-cue="dotted connector"/>
+  <text x="518" y="437" class="edge-label">Service error</text>
+  <path d="M250 604H170V335H174" class="retry"/>
+  <text x="180" y="590" class="edge-label">Retry upload</text>
+  <path d="M740 564H802" class="edge"/>
+  <path d="M914 564H1050V335H842" class="edge"/>
+  <text x="968" y="550" class="edge-label">Recovered</text>
+  <path d="M858 616V662H670V610" class="retry"/>
+  <text x="744" y="650" class="edge-label">Still unavailable</text>
+  <g id="document-validation-retry-start"><circle cx="84" cy="285" r="29" fill="var(--ink)"/><text x="84" y="290" class="label" style="fill:var(--canvas)">Start</text></g>
+  <g id="document-validation-retry-upload"><path d="M174 239H334V331H174L186 285Z" class="node"/><text x="254" y="280" class="label"><tspan x="254">Upload</tspan><tspan x="254" dy="20">document</tspan></text></g>
+  <g id="document-validation-retry-decision" data-emphasis="primary"><path d="M466 229L522 285L466 341L410 285Z" fill="var(--emphasis-primary-tint)" stroke="var(--emphasis-primary)" stroke-width="2.5"/><text x="466" y="280" class="label"><tspan x="466">Document</tspan><tspan x="466" dy="19">valid?</tspan></text></g>
+  <g id="document-validation-retry-publish"><rect x="690" y="241" width="152" height="88" rx="6" class="node"/><text x="766" y="290" class="label">Publish record</text></g>
+  <g id="document-validation-retry-end" data-status="success" data-status-label="Record published"><rect x="994" y="249" width="154" height="72" rx="34" fill="var(--surface)" stroke="var(--success)" stroke-width="3"/><text x="1071" y="280" class="label"><tspan x="1071">Record</tspan><tspan x="1071" dy="19">published</tspan></text></g>
+  <g id="document-validation-retry-correct" data-status="warning" data-status-label="Correction required"><rect x="250" y="518" width="160" height="92" rx="6" fill="var(--surface)" stroke="var(--warning)" stroke-width="2"/><text x="330" y="559" class="label"><tspan x="330">Correct</tspan><tspan x="330" dy="20">document</tspan></text><text x="330" y="595" class="detail">User action</text></g>
+  <g id="document-validation-retry-manual" data-status="danger" data-status-label="Service exception recovery"><rect x="600" y="518" width="140" height="92" rx="0" fill="var(--surface)" stroke="var(--danger)" stroke-width="2" stroke-dasharray="4 3"/><text x="670" y="559" class="label"><tspan x="670">Manual recovery</tspan><tspan x="670" dy="20">queue</tspan></text><text x="670" y="595" class="detail">Exception</text></g>
+  <g id="document-validation-retry-recovered"><path d="M858 508L914 564L858 620L802 564Z" fill="var(--surface)" stroke="var(--connector)" stroke-width="2"/><text x="858" y="559" class="label"><tspan x="858">Service</tspan><tspan x="858" dy="19">recovered?</tspan></text></g>
+  <text x="58" y="752" class="sub">Solid = successful path · long dash = correction · dotted = service exception · blue dash = retry</text>
+</svg>
+</body>
+</html>

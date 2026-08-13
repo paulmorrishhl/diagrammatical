@@ -83,8 +83,10 @@ def run_self_check(directory: Path, *, require_validation: bool = True) -> SelfC
 
     source_check = validate_document(document, "diagram", source=str(source_path))
     _record(result, "schema", source_check)
-    if metadata.get("type") != "architecture":
-        result.errors.append("Milestone 3 self-check accepts architecture diagrams only")
+    if metadata.get("type") not in {"architecture", "flowchart"}:
+        result.errors.append(
+            "self-check currently accepts architecture and flowchart diagrams only"
+        )
 
     if html_path.is_file():
         html_check = validate_html(html_path)

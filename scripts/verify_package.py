@@ -42,11 +42,19 @@ ARCHITECTURE_EXAMPLES = (
     "commerce-control-plane",
     "care-coordination-domains",
 )
+FLOWCHART_EXAMPLES = (
+    "partner-onboarding",
+    "document-validation-retry",
+    "policy-transition-comparison",
+)
 MILESTONE_3_RESOURCES = (
     "skills/diagrammatical/references/types/architecture.md",
     "skills/diagrammatical/scripts/validate_svg.py",
     "skills/diagrammatical/scripts/extract_svg.py",
     "skills/diagrammatical/scripts/self_check.py",
+)
+MILESTONE_4_RESOURCES = (
+    "skills/diagrammatical/references/types/flowchart.md",
 )
 
 
@@ -144,6 +152,10 @@ def verify_repository(root: Path = ROOT) -> list[str]:
         if not (root / resource).is_file():
             errors.append(f"missing Milestone 3 resource: {resource}")
 
+    for resource in MILESTONE_4_RESOURCES:
+        if not (root / resource).is_file():
+            errors.append(f"missing Milestone 4 resource: {resource}")
+
     examples_root = root / "skills/diagrammatical/assets/examples/architecture"
     discovered_examples = {
         path.name for path in examples_root.iterdir() if path.is_dir()
@@ -166,6 +178,28 @@ def verify_repository(root: Path = ROOT) -> list[str]:
             if list(example_dir.glob("*.png")):
                 errors.append(f"architecture example {slug} must not include a default PNG")
 
+    flowchart_root = root / "skills/diagrammatical/assets/examples/flowchart"
+    discovered_flowcharts = {
+        path.name for path in flowchart_root.iterdir() if path.is_dir()
+    } if flowchart_root.is_dir() else set()
+    if discovered_flowcharts != set(FLOWCHART_EXAMPLES):
+        errors.append(
+            "flowchart examples must match the reviewed Milestone 4 set: "
+            + ", ".join(FLOWCHART_EXAMPLES)
+        )
+    for slug in FLOWCHART_EXAMPLES:
+        example_dir = flowchart_root / slug
+        expected = {"diagram.yaml", f"{slug}.html", f"{slug}.svg", "validation.json"}
+        if example_dir.is_dir():
+            found = {path.name for path in example_dir.iterdir() if path.is_file()}
+            if found != expected:
+                errors.append(
+                    f"flowchart example {slug} must contain exactly: "
+                    + ", ".join(sorted(expected))
+                )
+            if list(example_dir.glob("*.png")):
+                errors.append(f"flowchart example {slug} must not include a default PNG")
+
     project_configuration_in_plugin = list(
         (root / "skills/diagrammatical").rglob(".diagrammatical")
     )
@@ -184,7 +218,7 @@ def main() -> int:
         return 1
     print(
         "Package verification passed: manifests, commands, shared skill, schemas, and "
-        "visual-system resources and architecture examples are coherent."
+        "visual-system resources, architecture examples, and flowchart examples are coherent."
     )
     return 0
 

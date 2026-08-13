@@ -9,18 +9,18 @@ diagram:
   primaryMessage: Registration begins only after payment confirmation
 nodes:
   - id: patient
-    label: Patient
-    kind: actor
+    label: Start
+    kind: start
   - id: payment
     label: Stripe payment
-    kind: external-service
+    kind: input
   - id: registration
     label: Registration service
     kind: process
     emphasis: primary
   - id: portal-account
     label: Portal account
-    kind: state
+    kind: end
 edges:
   - id: patient-pays
     from: patient

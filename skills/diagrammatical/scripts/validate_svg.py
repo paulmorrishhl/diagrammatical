@@ -163,7 +163,6 @@ def validate_svg_text(
     title_ids: set[str] = set()
     desc_ids: set[str] = set()
     focal_count = 0
-    status_elements = 0
     for element in root.iter():
         tag = _local_name(element.tag)
         if tag in UNSAFE_ELEMENTS:
@@ -231,7 +230,6 @@ def validate_svg_text(
             focal_count += 1
         status = element.attrib.get("data-status")
         if status and status != "default":
-            status_elements += 1
             if not (
                 element.attrib.get("data-status-label")
                 or element.attrib.get("data-status-cue")
@@ -240,6 +238,15 @@ def validate_svg_text(
                     f"status '{status}' requires data-status-label or data-status-cue so "
                     "colour is not the only carrier of meaning"
                 )
+        path_role = element.attrib.get("data-path")
+        if path_role in {"failure", "exception"} and not (
+            element.attrib.get("data-path-label")
+            and element.attrib.get("data-path-cue")
+        ):
+            result.errors.append(
+                f"{path_role} path requires both data-path-label and data-path-cue so its "
+                "meaning is explicit and does not rely on colour"
+            )
 
     if labelled_by:
         missing = [reference for reference in labelled_by if reference not in ids]
@@ -260,10 +267,6 @@ def validate_svg_text(
         result.errors.append("SVG must contain a useful description of at least 20 characters")
     if focal_count > 2:
         result.errors.append(f"SVG contains {focal_count} primary focal elements; maximum is 2")
-    if status_elements and not any("status" in item for item in result.errors):
-        result.warnings.append(
-            f"reviewed {status_elements} status treatment(s) for non-colour cues"
-        )
     result.errors = list(dict.fromkeys(result.errors))
     result.warnings = list(dict.fromkeys(result.warnings))
     return result
