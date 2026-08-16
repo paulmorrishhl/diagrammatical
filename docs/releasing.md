@@ -8,5 +8,10 @@ Reviewed visual baselines are platform-sensitive and are captured on macOS/arm64
 regression jobs therefore use the matching `macos-15` runner family. A maintainer must inspect and
 explicitly update baselines locally; CI never accepts or rewrites changed screenshots.
 
+Visual regression compares decoded pixels rather than compressed PNG bytes. It tolerates only small
+cross-run rasterisation differences: at most 2% of pixels may differ by more than eight channel
+levels, and the mean normalised channel delta must remain at or below 0.5%. Dimension changes always
+fail. These thresholds still require explicit review and baseline updates for material changes.
+
 No release command in this repository pushes, tags, publishes or creates a GitHub release. Those
 external actions require explicit maintainer authorisation after every required v1 audit item passes.
