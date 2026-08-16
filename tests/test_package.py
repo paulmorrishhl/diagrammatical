@@ -32,6 +32,14 @@ class PackageTests(unittest.TestCase):
         create_command = (ROOT / "commands/create.md").read_text(encoding="utf-8")
         self.assertIn("skills/diagrammatical/SKILL.md", create_command)
         self.assertIn("communication purpose and audience", create_command)
+        self.assertIn("Do not read helper implementations", create_command)
+        self.assertIn("one automatic correction", create_command)
+
+    def test_validate_command_invokes_only_the_canonical_checker(self) -> None:
+        validate_command = (ROOT / "commands/validate.md").read_text(encoding="utf-8")
+        self.assertIn("invoke the canonical checker exactly once", validate_command)
+        self.assertIn("self_check.py", validate_command)
+        self.assertIn("Do not read helper implementations", validate_command)
 
     def test_manifest_versions_are_consistent(self) -> None:
         plugin = json.loads((ROOT / ".claude-plugin/plugin.json").read_text(encoding="utf-8"))

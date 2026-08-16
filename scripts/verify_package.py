@@ -79,6 +79,7 @@ MILESTONE_7_RESOURCES = (
     "skills/diagrammatical/references/export.md",
     "skills/diagrammatical/scripts/extract_mermaid.py",
     "skills/diagrammatical/scripts/export_png.py",
+    "skills/diagrammatical/scripts/workflow_trace.py",
     "scripts/visual_regression.py",
     "docs/diagram-source.md",
     "docs/contributing-diagram-types.md",

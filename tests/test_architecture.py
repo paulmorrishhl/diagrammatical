@@ -186,7 +186,8 @@ def test_natural_language_architecture_request_routes_to_complete_workflow() -> 
     for behavior in (
         "Read project orientation and dependency manifests",
         "audience, purpose, primary message",
-        "create it non-destructively",
+        "do not",
+        "create project configuration merely to persist built-in defaults",
         "diagram.yaml",
         "minimal-light.html",
         "extract_svg.py",

@@ -285,10 +285,10 @@ never assume plugin scripts are relative to that directory.
 1. Follow the repository inspection and communication-intent steps above.
 2. Select a composition with the table and recipe constraints; explain the choice in the semantic
    source, not with renderer-specific coordinates.
-3. If `.diagrammatical/config.yaml` is absent, create it non-destructively with the documented
-   Editorial Blueprint, Editorial, mixed-audience, light, balanced, document-wide defaults and
-   HTML/SVG enabled, PNG disabled. Never write project configuration or user branding into the
-   installed plugin.
+3. Resolve an existing `.diagrammatical/config.yaml` when present. When it is absent, use Editorial
+   Blueprint, Editorial, mixed-audience, light, balanced, document-wide defaults in memory; do not
+   create project configuration merely to persist built-in defaults. Never write project
+   configuration or user branding into the installed plugin.
 4. Author and validate `diagram.yaml` first:
 
    ```text
